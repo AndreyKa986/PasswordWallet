@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/lightBlack">
+
+    <View style="@style/View"/>
+
+    <EditText
+            android:id="@+id/logInUsername"
+            style="@style/EditText"
+            tools:text="username"/>
+
+    <EditText
+            android:id="@+id/logInPassword"
+            style="@style/EditText"
+            tools:text="password"/>
+
+    <Button
+            android:id="@+id/logIn"
+            style="@style/Button"
+            android:text="@string/log_in"/>
+
+    <Button
+            android:id="@+id/logInCreate"
+            style="@style/Button"
+            android:text="@string/create"/>
+
+    <View style="@style/View"/>
+</LinearLayout>
