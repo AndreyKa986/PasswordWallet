@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/lightBlack">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightBlack"
+    android:orientation="vertical">
 
-    <View style="@style/View"/>
-
-    <EditText
-            android:id="@+id/accountUsername"
-            style="@style/EditText"
-            tools:text="username"/>
+    <View style="@style/View" />
 
     <EditText
-            android:id="@+id/accountPassword"
-            style="@style/EditText"
-            tools:text="password"/>
+        android:id="@+id/accountUsername"
+        style="@style/EditText"
+        android:hint="@string/username"
+        android:imeOptions="actionNext"
+        android:inputType="text" />
 
     <EditText
-            android:id="@+id/accountConfirm"
-            style="@style/EditText"
-            tools:text="confirm password"/>
+        android:id="@+id/accountPassword"
+        style="@style/EditText"
+        android:hint="@string/password"
+        android:imeOptions="actionNext"
+        android:inputType="textPassword" />
 
-    <View style="@style/View"/>
+    <EditText
+        android:id="@+id/accountConfirm"
+        style="@style/EditText"
+        android:hint="@string/confirm_password"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword" />
+
+    <View style="@style/View" />
 
     <Button
-            android:id="@+id/accountSave"
-            style="@style/Button"
-            android:text="@string/save"/>
+        android:id="@+id/accountSave"
+        style="@style/Button"
+        android:text="@string/save" />
 </LinearLayout>

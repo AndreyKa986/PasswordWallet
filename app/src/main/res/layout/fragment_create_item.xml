@@ -1,38 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/lightBlack">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightBlack"
+    android:orientation="vertical">
 
-    <View style="@style/View"/>
-
-    <EditText
-            android:id="@+id/itemName"
-            style="@style/EditText"
-            tools:text="name"/>
+    <View style="@style/View" />
 
     <EditText
-            android:id="@+id/itemPassword"
-            style="@style/EditText"
-            tools:text="password"/>
+        android:id="@+id/itemName"
+        style="@style/EditText"
+        android:hint="@string/name"
+        android:imeOptions="actionNext"
+        android:inputType="text" />
 
     <EditText
-            android:id="@+id/itemConfirm"
-            style="@style/EditText"
-            tools:text="confirm password"/>
+        android:id="@+id/itemPassword"
+        style="@style/EditText"
+        android:hint="@string/password"
+        android:imeOptions="actionNext"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/itemConfirm"
+        style="@style/EditText"
+        android:hint="@string/confirm_password"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword" />
 
     <Button
-            android:id="@+id/itemCreate"
-            style="@style/Button"
-            android:text="@string/create"/>
+        android:id="@+id/itemCreate"
+        style="@style/Button"
+        android:text="@string/create" />
 
-    <View style="@style/View"/>
+    <View style="@style/View" />
 
     <Button
-            android:id="@+id/itemSave"
-            style="@style/Button"
-            android:text="@string/save"/>
+        android:id="@+id/itemSave"
+        style="@style/Button"
+        android:text="@string/save" />
 
 </LinearLayout>
