@@ -16,22 +16,17 @@ class DeleteItemFragment : Fragment() {
 
         private const val ID_KEY = "id_key"
 
-        fun getInstance(id: Long): CreateItemFragment {
-            val fragment = CreateItemFragment()
-            val bundle = Bundle()
-            bundle.putLong(ID_KEY, id)
-            fragment.arguments = bundle
-            return fragment
+        fun getInstance(id: Int): CreateItemFragment {
+            return CreateItemFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ID_KEY, id)
+                }
+            }
         }
     }
 
     private var listener: Listener? = null
-    private var id: Long = -1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        id = arguments?.getLong(ID_KEY, -1) ?: -1
-    }
+    private val id by lazy { arguments?.getInt(ID_KEY, -1) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_delete_item, container, false)
@@ -40,11 +35,11 @@ class DeleteItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         deleteNo.setOnClickListener {
-            listener?.onNoClick(id)
+            listener?.onNoClick(id!!)
         }
 
         deleteYes.setOnClickListener {
-            val item = ItemManager.getItemById(id.toInt())
+            val item = ItemManager.getItemById(id!!)
             ItemManager.deleteItem(item!!)
             listener?.onYesClick()
         }
@@ -63,7 +58,7 @@ class DeleteItemFragment : Fragment() {
     }
 
     interface Listener {
-        fun onNoClick(id: Long)
+        fun onNoClick(id: Int)
         fun onYesClick()
     }
 }

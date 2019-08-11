@@ -17,29 +17,24 @@ class ChangePasswordFragment : Fragment() {
 
         private const val ID_KEY = "id_key"
 
-        fun getInstance(id: Long): CreateItemFragment {
-            val fragment = CreateItemFragment()
-            val bundle = Bundle()
-            bundle.putLong(ID_KEY, id)
-            fragment.arguments = bundle
-            return fragment
+        fun getInstance(id: Int): CreateItemFragment {
+            return CreateItemFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ID_KEY, id)
+                }
+            }
         }
     }
 
     private var listener: Listener? = null
-    private var id: Long = -1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        id = arguments?.getLong(ID_KEY, -1) ?: -1
-    }
+    private val id by lazy { arguments?.getInt(ID_KEY, -1) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_change_password, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val item = ItemManager.getItemById(id.toInt())
+        val item = ItemManager.getItemById(id!!)
 
         changeName.text = item!!.name
 
@@ -48,8 +43,8 @@ class ChangePasswordFragment : Fragment() {
             val confirmP = changeConfirm.text.toString()
             if (password == confirmP) {
                 val name = item.name
-                ItemManager.updateItem(Item(name, password, id.toInt()))
-                listener?.onSaveClick(id.toInt())
+                ItemManager.updateItem(Item(name, password, id!!))
+                listener?.onSaveClick(id!!)
             }
         }
     }
