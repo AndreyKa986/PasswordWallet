@@ -1,4 +1,4 @@
-package by.letum8658.passwordwallet.ui
+package by.letum8658.passwordwallet.presenter
 
 import android.content.Context
 import android.os.Bundle
@@ -13,7 +13,21 @@ import kotlinx.android.synthetic.main.fragment_create_item.*
 
 class CreateItemFragment : Fragment() {
 
+    companion object {
+
+        private const val ID_KEY = "id_key"
+
+        fun getInstance(password: String): CreateItemFragment {
+            return CreateItemFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ID_KEY, password)
+                }
+            }
+        }
+    }
+
     private var listener: Listener? = null
+    private val password by lazy { arguments?.getString(ID_KEY, "defaultString") }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_create_item, container, false)
@@ -21,8 +35,13 @@ class CreateItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        if (password != null || password != "defaultString") {
+            itemPassword.setText(password)
+            itemConfirm.setText(password)
+        }
+
         itemCreate.setOnClickListener {
-            listener?.onCreateClick()
+            listener?.onCreatePasswordClick()
         }
 
         itemSave.setOnClickListener {
@@ -32,7 +51,7 @@ class CreateItemFragment : Fragment() {
             if (password == confirmP) {
                 val id = System.currentTimeMillis().toInt()
                 ItemManager.addNewItem(Item(name, password, id))
-                listener?.onSaveClick()
+                listener?.onSaveItemClick()
             }
         }
     }
@@ -50,7 +69,7 @@ class CreateItemFragment : Fragment() {
     }
 
     interface Listener {
-        fun onCreateClick()
-        fun onSaveClick()
+        fun onCreatePasswordClick()
+        fun onSaveItemClick()
     }
 }

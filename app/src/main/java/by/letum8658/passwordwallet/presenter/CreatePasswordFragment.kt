@@ -1,4 +1,4 @@
-package by.letum8658.passwordwallet.ui
+package by.letum8658.passwordwallet.presenter
 
 import android.content.Context
 import android.os.Bundle
@@ -11,21 +11,7 @@ import kotlinx.android.synthetic.main.fragment_auto_create_password.*
 
 class CreatePasswordFragment : Fragment() {
 
-    companion object {
-
-        private const val ID_KEY = "id_key"
-
-        fun getInstance(id: Int): CreatePasswordFragment {
-            return CreatePasswordFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ID_KEY, id)
-                }
-            }
-        }
-    }
-
     private var listener: Listener? = null
-    private val id by lazy { arguments?.getInt(ID_KEY, -1) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_auto_create_password, container, false)
@@ -39,7 +25,7 @@ class CreatePasswordFragment : Fragment() {
 
         autoSave.setOnClickListener {
             val password = autoPassword.text.toString()
-            listener?.onSaveClick(id!!, password)
+            listener?.onSavePasswordClick(password)
         }
     }
 
@@ -56,6 +42,6 @@ class CreatePasswordFragment : Fragment() {
     }
 
     interface Listener {
-        fun onSaveClick(id: Int, password: String)
+        fun onSavePasswordClick(password: String)
     }
 }

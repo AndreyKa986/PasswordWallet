@@ -1,4 +1,4 @@
-package by.letum8658.passwordwallet.ui
+package by.letum8658.passwordwallet.presenter
 
 import android.content.Context
 import android.os.Bundle
@@ -6,18 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.letum8658.passwordwallet.Item
 import by.letum8658.passwordwallet.ItemManager
 import by.letum8658.passwordwallet.R
-import kotlinx.android.synthetic.main.fragment_delete_item.*
+import kotlinx.android.synthetic.main.fragment_change_password.*
 
-class DeleteItemFragment : Fragment() {
+class ChangePasswordFragment : Fragment() {
 
     companion object {
 
         private const val ID_KEY = "id_key"
 
-        fun getInstance(id: Int): CreateItemFragment {
-            return CreateItemFragment().apply {
+        fun getInstance(id: Int): ChangePasswordFragment {
+            return ChangePasswordFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ID_KEY, id)
                 }
@@ -29,19 +30,22 @@ class DeleteItemFragment : Fragment() {
     private val id by lazy { arguments?.getInt(ID_KEY, -1) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_delete_item, container, false)
+        return inflater.inflate(R.layout.fragment_change_password, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val item = ItemManager.getItemById(id!!)
 
-        deleteNo.setOnClickListener {
-            listener?.onNoClick(id!!)
-        }
+        changeName.text = item!!.name
 
-        deleteYes.setOnClickListener {
-            val item = ItemManager.getItemById(id!!)
-            ItemManager.deleteItem(item!!)
-            listener?.onYesClick()
+        changeSave.setOnClickListener {
+            val password = changePassword.text.toString()
+            val confirmP = changeConfirm.text.toString()
+            if (password == confirmP) {
+                val name = item.name
+                ItemManager.updateItem(Item(name, password, id!!))
+                listener?.onSaveChangedClick(id!!)
+            }
         }
     }
 
@@ -58,7 +62,6 @@ class DeleteItemFragment : Fragment() {
     }
 
     interface Listener {
-        fun onNoClick(id: Int)
-        fun onYesClick()
+        fun onSaveChangedClick(id: Int)
     }
 }

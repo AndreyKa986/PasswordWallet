@@ -1,4 +1,4 @@
-package by.letum8658.passwordwallet.ui
+package by.letum8658.passwordwallet.presenter
 
 import android.content.Context
 import android.os.Bundle
@@ -31,7 +31,7 @@ class LogInFragment : Fragment() {
         }
 
         logInCreate.setOnClickListener {
-            listener?.onCreateClick()
+            listener?.onCreateAccountClick()
         }
     }
 
@@ -54,6 +54,6 @@ class LogInFragment : Fragment() {
 
     interface Listener {
         fun onLogInClick(username: String, password: String)
-        fun onCreateClick()
+        fun onCreateAccountClick()
     }
 }

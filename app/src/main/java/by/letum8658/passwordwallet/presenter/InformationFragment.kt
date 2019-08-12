@@ -1,4 +1,4 @@
-package by.letum8658.passwordwallet.ui
+package by.letum8658.passwordwallet.presenter
 
 import android.content.Context
 import android.os.Bundle
@@ -16,17 +16,17 @@ class InformationFragment : Fragment() {
 
         private const val ID_KEY = "id_key"
 
-        fun getInstance(id: Int): CreateItemFragment {
-            return CreateItemFragment().apply {
+        fun getInstance(id: Int): InformationFragment {
+            return InformationFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ID_KEY,id)
+                    putInt(ID_KEY, id)
                 }
             }
         }
     }
 
     private var listener: Listener? = null
-    private val id by lazy { arguments?.getInt(ID_KEY,-1) }
+    private val id by lazy { arguments?.getInt(ID_KEY, -1) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_item_information, container, false)
@@ -39,8 +39,7 @@ class InformationFragment : Fragment() {
         informationPassword.text = item.password
 
         informationDelete.setOnClickListener {
-            ItemManager.deleteItem(item)
-            listener?.onDeleteClick()
+            listener?.onDeleteClick(id!!)
         }
 
         informationChange.setOnClickListener {
@@ -65,7 +64,7 @@ class InformationFragment : Fragment() {
     }
 
     interface Listener {
-        fun onDeleteClick()
+        fun onDeleteClick(id: Int)
         fun onChangeClick(id: Int)
         fun onOkClick()
     }

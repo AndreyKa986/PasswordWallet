@@ -1,4 +1,4 @@
-package by.letum8658.passwordwallet.ui
+package by.letum8658.passwordwallet.presenter
 
 import android.content.Context
 import android.os.Bundle
@@ -20,7 +20,7 @@ class CreateAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         accountSave.setOnClickListener {
             if (isPasswordEqual()) {
-                listener?.onSaveClick(
+                listener?.onSaveAccountClick(
                     accountUsername.text.toString(),
                     accountPassword.text.toString()
                 )
@@ -47,6 +47,6 @@ class CreateAccountFragment : Fragment() {
     }
 
     interface Listener {
-        fun onSaveClick(username: String, password: String)
+        fun onSaveAccountClick(username: String, password: String)
     }
 }
