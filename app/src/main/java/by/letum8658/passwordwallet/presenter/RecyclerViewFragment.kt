@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.letum8658.passwordwallet.Adapter
 import by.letum8658.passwordwallet.Item
-import by.letum8658.passwordwallet.ItemManager
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_recyclerview_items.*
 
-class RecyclerViewFragment : Fragment(), Adapter.ClickListener {
+class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener {
 
+    private val presenter = RecyclerViewPresenter()
     private var listener: Listener? = null
     private lateinit var adapter: Adapter
 
@@ -28,11 +28,14 @@ class RecyclerViewFragment : Fragment(), Adapter.ClickListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        presenter.setView(this)
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        val database = ItemManager.getItemList()
+        val database = presenter.getDataBase()
         adapter = Adapter(database, this)
         recyclerView.adapter = adapter
 
@@ -53,7 +56,7 @@ class RecyclerViewFragment : Fragment(), Adapter.ClickListener {
         })
 
         FAB.setOnClickListener {
-            listener?.onFABClick()
+            presenter.fab()
         }
     }
 
@@ -62,8 +65,13 @@ class RecyclerViewFragment : Fragment(), Adapter.ClickListener {
     }
 
     private fun updateList() {
-        val text = search.text.toString()
-        adapter.itemListBySearch(ItemManager.getSearchList(text))
+        adapter.itemListBySearch(presenter.getSearchList())
+    }
+
+    override fun getSearchString() = search.text.toString()
+
+    override fun fab() {
+        listener?.onFABClick()
     }
 
     override fun onAttach(context: Context?) {

@@ -68,10 +68,10 @@ class Activity : FragmentActivity(),
             .commit()
     }
 
-    override fun onCreatePasswordClick() {
+    override fun onCreatePasswordClick(name: String) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, CreatePasswordFragment())
+            .replace(R.id.container, CreatePasswordFragment.getInstance(name))
             .commit()
     }
 
@@ -124,10 +124,10 @@ class Activity : FragmentActivity(),
             .commit()
     }
 
-    override fun onSavePasswordClick(password: String) {
+    override fun onSavePasswordClick(list: ArrayList<String>) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, CreateItemFragment.getInstance(password))
+            .replace(R.id.container, CreateItemFragment.getInstance(list))
             .commit()
     }
 }

@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.Item
-import by.letum8658.passwordwallet.ItemManager
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_change_password.*
 
-class ChangePasswordFragment : Fragment() {
+class ChangePasswordFragment : Fragment(), ChangePasswordView {
 
     companion object {
 
@@ -26,6 +25,7 @@ class ChangePasswordFragment : Fragment() {
         }
     }
 
+    private val presenter = ChangePasswordPresenter()
     private var listener: Listener? = null
     private val id by lazy { arguments?.getInt(ID_KEY, -1) }
 
@@ -34,19 +34,32 @@ class ChangePasswordFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val item = ItemManager.getItemById(id!!)
 
-        changeName.text = item!!.name
+        presenter.setView(this)
+
+        presenter.showItem(id!!)
 
         changeSave.setOnClickListener {
-            val password = changePassword.text.toString()
-            val confirmP = changeConfirm.text.toString()
-            if (password == confirmP) {
-                val name = item.name
-                ItemManager.updateItem(Item(name, password, id!!))
-                listener?.onSaveChangedClick(id!!)
-            }
+            presenter.saveItem(id!!)
         }
+    }
+
+    override fun setName(name: String) {
+        changeName.text = name
+    }
+
+    override fun getName(): String = changeName.text.toString()
+
+    override fun getPassword(): String = changePassword.text.toString()
+
+    override fun getConfirmPassword(): String = changeConfirm.text.toString()
+
+    override fun saveChange() {
+        listener?.onSaveChangedClick(id!!)
+    }
+
+    override fun showMessage() {
+        Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
     }
 
     override fun onAttach(context: Context?) {

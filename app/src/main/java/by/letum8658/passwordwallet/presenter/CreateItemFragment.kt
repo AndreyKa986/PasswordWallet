@@ -5,29 +5,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.Item
-import by.letum8658.passwordwallet.ItemManager
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_create_item.*
 
-class CreateItemFragment : Fragment() {
+class CreateItemFragment : Fragment(), CreateItemView {
 
     companion object {
 
         private const val ID_KEY = "id_key"
 
-        fun getInstance(password: String): CreateItemFragment {
+        fun getInstance(list: ArrayList<String>): CreateItemFragment {
             return CreateItemFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ID_KEY, password)
+                    putStringArrayList(ID_KEY, list)
                 }
             }
         }
     }
 
+    private val presenter = CreateItemPresenter()
     private var listener: Listener? = null
-    private val password by lazy { arguments?.getString(ID_KEY, "defaultString") }
+    private val list by lazy { arguments?.getStringArrayList(ID_KEY) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_create_item, container, false)
@@ -35,25 +35,47 @@ class CreateItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        if (password != null || password != "defaultString") {
-            itemPassword.setText(password)
-            itemConfirm.setText(password)
-        }
+        presenter.setView(this)
+
+        presenter.setData(list)
 
         itemCreate.setOnClickListener {
-            listener?.onCreatePasswordClick()
+            presenter.createPassword()
         }
 
         itemSave.setOnClickListener {
-            val name = itemName.text.toString()
-            val password = itemPassword.text.toString()
-            val confirmP = itemConfirm.text.toString()
-            if (password == confirmP) {
-                val id = System.currentTimeMillis().toInt()
-                ItemManager.addNewItem(Item(name, password, id))
-                listener?.onSaveItemClick()
-            }
+            presenter.saveItem()
         }
+    }
+
+    override fun setName(name: String) {
+        itemName.setText(name)
+    }
+
+    override fun setPassword(password: String) {
+        itemPassword.setText(password)
+    }
+
+    override fun setConfirmPassword(confirm: String) {
+        itemConfirm.setText(confirm)
+    }
+
+    override fun getName(): String = itemName.text.toString()
+
+    override fun getPassword(): String = itemPassword.text.toString()
+
+    override fun getConfirmPassword(): String = itemConfirm.text.toString()
+
+    override fun createPassword(name: String) {
+        listener?.onCreatePasswordClick(name)
+    }
+
+    override fun saveItem() {
+        listener?.onSaveItemClick()
+    }
+
+    override fun showMessage() {
+        Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
     }
 
     override fun onAttach(context: Context?) {
@@ -69,7 +91,7 @@ class CreateItemFragment : Fragment() {
     }
 
     interface Listener {
-        fun onCreatePasswordClick()
+        fun onCreatePasswordClick(name: String)
         fun onSaveItemClick()
     }
 }

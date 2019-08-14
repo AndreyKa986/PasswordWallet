@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.ItemManager
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_item_information.*
 
-class InformationFragment : Fragment() {
+class InformationFragment : Fragment(), InformationView {
 
     companion object {
 
@@ -25,6 +24,7 @@ class InformationFragment : Fragment() {
         }
     }
 
+    private val presenter = InformationPresenter()
     private var listener: Listener? = null
     private val id by lazy { arguments?.getInt(ID_KEY, -1) }
 
@@ -33,22 +33,42 @@ class InformationFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val item = ItemManager.getItemById(id!!)
 
-        informationName.text = item!!.name
-        informationPassword.text = item.password
+        presenter.setView(this)
+
+        presenter.showData(id!!)
 
         informationDelete.setOnClickListener {
-            listener?.onDeleteClick(id!!)
+            presenter.delete()
         }
 
         informationChange.setOnClickListener {
-            listener?.onChangeClick(id!!)
+            presenter.change()
         }
 
         informationOK.setOnClickListener {
-            listener?.onOkClick()
+            presenter.ok()
         }
+    }
+
+    override fun setName(name: String) {
+        informationName.text = name
+    }
+
+    override fun setPassword(password: String) {
+        informationPassword.text = password
+    }
+
+    override fun delete() {
+        listener?.onDeleteClick(id!!)
+    }
+
+    override fun change() {
+        listener?.onChangeClick(id!!)
+    }
+
+    override fun ok() {
+        listener?.onOkClick()
     }
 
     override fun onAttach(context: Context?) {

@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.ItemManager
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_delete_item.*
 
-class DeleteItemFragment : Fragment() {
+class DeleteItemFragment : Fragment(), DeleteItemView {
 
     companion object {
 
@@ -25,6 +24,7 @@ class DeleteItemFragment : Fragment() {
         }
     }
 
+    private val presenter = DeleteItemPresenter()
     private var listener: Listener? = null
     private val id by lazy { arguments?.getInt(ID_KEY, -1) }
 
@@ -34,15 +34,23 @@ class DeleteItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        presenter.setView(this)
+
         deleteNo.setOnClickListener {
-            listener?.onNoClick(id!!)
+            presenter.no()
         }
 
         deleteYes.setOnClickListener {
-            val item = ItemManager.getItemById(id!!)
-            ItemManager.deleteItem(item!!)
-            listener?.onYesClick()
+            presenter.yes(id!!)
         }
+    }
+
+    override fun no() {
+        listener?.onNoClick(id!!)
+    }
+
+    override fun yes() {
+        listener?.onYesClick()
     }
 
     override fun onAttach(context: Context?) {

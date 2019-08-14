@@ -15,4 +15,5 @@
     <string name="confirm_password">CONFIRM PASSWORD</string>
     <string name="name">NAME</string>
     <string name="new_password">NEW PASSWORD</string>
+    <string name="password_not">Passwords do not match</string>
 </resources>

@@ -10,34 +10,51 @@ import by.letum8658.passwordwallet.AppPrefManager
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
-class LogInFragment : Fragment() {
+class LogInFragment : Fragment(), LogInView {
 
+    private val presenter = LogInPresenter()
     private var listener: Listener? = null
-    private lateinit var prefsManager: AppPrefManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_log_in, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        prefsManager = AppPrefManager(context!!)
-        logInUsername.setText(prefsManager.getName())
+
+        presenter.setView(this)
+
+        presenter.setName()
 
         logIn.setOnClickListener {
-            listener?.onLogInClick(
-                logInUsername.text.toString(),
-                logInPassword.text.toString()
-            )
+            presenter.logIn()
         }
 
         logInCreate.setOnClickListener {
-            listener?.onCreateAccountClick()
+            presenter.create()
         }
+    }
+
+    override fun getPrefsManager(): AppPrefManager = AppPrefManager(context!!)
+
+    override fun setName(name: String) {
+        logInUsername.setText(name)
+    }
+
+    override fun getName(): String = logInUsername.text.toString()
+
+    override fun getPassword(): String = logInPassword.text.toString()
+
+    override fun logIn(name: String, password: String) {
+        listener?.onLogInClick(name, password)
+    }
+
+    override fun create() {
+        listener?.onCreateAccountClick()
     }
 
     override fun onStop() {
         super.onStop()
-        prefsManager.saveName(logInUsername.text.toString())
+        presenter.saveName()
     }
 
     override fun onAttach(context: Context?) {

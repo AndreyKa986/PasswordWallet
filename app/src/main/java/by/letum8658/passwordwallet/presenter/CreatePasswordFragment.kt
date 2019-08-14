@@ -9,9 +9,24 @@ import androidx.fragment.app.Fragment
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_auto_create_password.*
 
-class CreatePasswordFragment : Fragment() {
+class CreatePasswordFragment : Fragment(), CreatePasswordView {
 
+    companion object {
+
+        private const val ID_KEY = "id_key"
+
+        fun getInstance(name: String): CreatePasswordFragment {
+            return CreatePasswordFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ID_KEY, name)
+                }
+            }
+        }
+    }
+
+    private val presenter = CreatePasswordPresenter()
     private var listener: Listener? = null
+    private val name by lazy { arguments?.getString(ID_KEY, "Name") }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_auto_create_password, container, false)
@@ -19,14 +34,25 @@ class CreatePasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        presenter.setView(this)
+
         autoCreate.setOnClickListener {
-            autoPassword.setText(R.string.password)
+            presenter.createPassword()
         }
 
         autoSave.setOnClickListener {
-            val password = autoPassword.text.toString()
-            listener?.onSavePasswordClick(password)
+            presenter.savePassword(name!!)
         }
+    }
+
+    override fun setPassword(password: String) {
+        autoPassword.setText(password)
+    }
+
+    override fun getPassword(): String = autoPassword.text.toString()
+
+    override fun savePassword(list: ArrayList<String>) {
+        listener?.onSavePasswordClick(list)
     }
 
     override fun onAttach(context: Context?) {
@@ -42,6 +68,6 @@ class CreatePasswordFragment : Fragment() {
     }
 
     interface Listener {
-        fun onSavePasswordClick(password: String)
+        fun onSavePasswordClick(list: ArrayList<String>)
     }
 }
