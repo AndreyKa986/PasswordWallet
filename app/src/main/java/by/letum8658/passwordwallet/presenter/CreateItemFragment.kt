@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import by.letum8658.passwordwallet.OnBackPressedListener
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_create_item.*
 
-class CreateItemFragment : Fragment(), CreateItemView {
+class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
 
     companion object {
 
@@ -28,7 +30,11 @@ class CreateItemFragment : Fragment(), CreateItemView {
     private var listener: Listener? = null
     private val list by lazy { arguments?.getStringArrayList(ID_KEY) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_create_item, container, false)
     }
 
@@ -73,9 +79,16 @@ class CreateItemFragment : Fragment(), CreateItemView {
         listener?.onSaveItemClick()
     }
 
-//    override fun showMessage() {
-//        Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
-//    }
+    override fun onBackPressed() {
+        activity!!.supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, RecyclerViewFragment())
+            .commit()
+    }
+
+    override fun showMessage() {
+        Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
+    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

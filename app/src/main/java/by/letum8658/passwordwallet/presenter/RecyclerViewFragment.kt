@@ -13,10 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.letum8658.passwordwallet.Adapter
+import by.letum8658.passwordwallet.OnBackPressedListener
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_recyclerview_items.*
 
-class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener {
+class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener,
+    OnBackPressedListener {
 
     private val presenter = RecyclerViewPresenter()
     private var listener: Listener? = null
@@ -79,6 +81,13 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
 
     override fun updateDatabase() {
         updateList()
+    }
+
+    override fun onBackPressed() {
+        activity!!.supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, LogInFragment())
+            .commit()
     }
 
     override fun onAttach(context: Context?) {

@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.letum8658.passwordwallet.OnBackPressedListener
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_item_information.*
 
-class InformationFragment : Fragment(), InformationView {
+class InformationFragment : Fragment(), InformationView, OnBackPressedListener {
 
     companion object {
 
@@ -88,6 +89,13 @@ class InformationFragment : Fragment(), InformationView {
 
     override fun ok() {
         listener?.onOkClick()
+    }
+
+    override fun onBackPressed() {
+        activity!!.supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, RecyclerViewFragment())
+            .commit()
     }
 
     override fun onAttach(context: Context?) {

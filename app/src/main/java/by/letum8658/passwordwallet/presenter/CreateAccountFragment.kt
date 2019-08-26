@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import by.letum8658.passwordwallet.OnBackPressedListener
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_create_account.*
 
-class CreateAccountFragment : Fragment(), CreateAccountView {
+class CreateAccountFragment : Fragment(), CreateAccountView, OnBackPressedListener {
 
     private val presenter = CreateAccountPresenter()
     private var listener: Listener? = null
@@ -40,6 +41,13 @@ class CreateAccountFragment : Fragment(), CreateAccountView {
 
     override fun createAccount() {
         listener?.onSaveAccountClick()
+    }
+
+    override fun onBackPressed() {
+        activity!!.supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, LogInFragment())
+            .commit()
     }
 
     override fun showMessage() {

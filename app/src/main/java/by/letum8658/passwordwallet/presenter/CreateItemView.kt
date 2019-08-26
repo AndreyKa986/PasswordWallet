@@ -10,5 +10,5 @@ interface CreateItemView {
     fun getConfirmPassword(): String
     fun createPassword(name: String)
     fun saveItem()
-//    fun showMessage()
+    fun showMessage()
 }

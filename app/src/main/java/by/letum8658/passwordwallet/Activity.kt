@@ -130,4 +130,21 @@ class Activity : FragmentActivity(),
             .replace(R.id.container, CreateItemFragment.getInstance(list))
             .commit()
     }
+
+    override fun onBackPressed() {
+        val fm = supportFragmentManager
+        var backPressedListener: OnBackPressedListener? = null
+        for (fragment in fm.fragments) {
+            if (fragment is OnBackPressedListener) {
+                backPressedListener = fragment
+                break
+            }
+        }
+
+        if (backPressedListener != null) {
+            backPressedListener.onBackPressed()
+        } else {
+            super.onBackPressed()
+        }
+    }
 }
