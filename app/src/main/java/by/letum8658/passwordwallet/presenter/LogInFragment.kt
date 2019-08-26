@@ -15,7 +15,11 @@ class LogInFragment : Fragment(), LogInView {
     private val presenter = LogInPresenter()
     private var listener: Listener? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_log_in, container, false)
     }
 
@@ -44,8 +48,8 @@ class LogInFragment : Fragment(), LogInView {
 
     override fun getPassword(): String = logInPassword.text.toString()
 
-    override fun logIn(name: String, password: String) {
-        listener?.onLogInClick(name, password)
+    override fun logIn() {
+        listener?.onLogInClick()
     }
 
     override fun create() {
@@ -67,10 +71,11 @@ class LogInFragment : Fragment(), LogInView {
     override fun onDetach() {
         super.onDetach()
         listener = null
+        presenter.detach()
     }
 
     interface Listener {
-        fun onLogInClick(username: String, password: String)
+        fun onLogInClick()
         fun onCreateAccountClick()
     }
 }

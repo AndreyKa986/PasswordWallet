@@ -15,10 +15,10 @@ class DeleteItemFragment : Fragment(), DeleteItemView {
 
         private const val ID_KEY = "id_key"
 
-        fun getInstance(id: Int): DeleteItemFragment {
+        fun getInstance(list: ArrayList<String>): DeleteItemFragment {
             return DeleteItemFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ID_KEY, id)
+                    putStringArrayList(ID_KEY, list)
                 }
             }
         }
@@ -26,9 +26,13 @@ class DeleteItemFragment : Fragment(), DeleteItemView {
 
     private val presenter = DeleteItemPresenter()
     private var listener: Listener? = null
-    private val id by lazy { arguments?.getInt(ID_KEY, -1) }
+    private val list by lazy { arguments!!.getStringArrayList(ID_KEY) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_delete_item, container, false)
     }
 
@@ -41,12 +45,12 @@ class DeleteItemFragment : Fragment(), DeleteItemView {
         }
 
         deleteYes.setOnClickListener {
-            presenter.yes(id!!)
+            presenter.yes(list!![0])
         }
     }
 
     override fun no() {
-        listener?.onNoClick(id!!)
+        listener?.onNoClick(list)
     }
 
     override fun yes() {
@@ -63,10 +67,11 @@ class DeleteItemFragment : Fragment(), DeleteItemView {
     override fun onDetach() {
         super.onDetach()
         listener = null
+        presenter.detach()
     }
 
     interface Listener {
-        fun onNoClick(id: Int)
+        fun onNoClick(list: ArrayList<String>)
         fun onYesClick()
     }
 }

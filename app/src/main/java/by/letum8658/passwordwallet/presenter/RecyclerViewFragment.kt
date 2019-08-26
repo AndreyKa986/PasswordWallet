@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.letum8658.passwordwallet.Adapter
-import by.letum8658.passwordwallet.Item
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_recyclerview_items.*
 
@@ -23,7 +22,11 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
     private var listener: Listener? = null
     private lateinit var adapter: Adapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_recyclerview_items, container, false)
     }
 
@@ -60,18 +63,22 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
         }
     }
 
-    override fun onItemClick(item: Item) {
-        listener?.onItemClick(item.id)
+    override fun onItemClick(item: String) {
+        listener?.onItemClick(item)
     }
 
     private fun updateList() {
         adapter.itemListBySearch(presenter.getSearchList())
     }
 
-    override fun getSearchString() = search.text.toString()
+    override fun getSearchString(): String = search.text.toString()
 
     override fun fab() {
         listener?.onFABClick()
+    }
+
+    override fun updateDatabase() {
+        updateList()
     }
 
     override fun onAttach(context: Context?) {
@@ -84,10 +91,11 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
     override fun onDetach() {
         super.onDetach()
         listener = null
+        presenter.detach()
     }
 
     interface Listener {
-        fun onItemClick(id: Int)
+        fun onItemClick(item: String)
         fun onFABClick()
     }
 }

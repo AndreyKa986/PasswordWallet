@@ -8,6 +8,6 @@ interface LogInView {
     fun setName(name: String)
     fun getName(): String
     fun getPassword(): String
-    fun logIn(name: String, password: String)
+    fun logIn()
     fun create()
 }

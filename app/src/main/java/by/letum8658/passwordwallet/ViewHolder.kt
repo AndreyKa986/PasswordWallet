@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val itemName = itemView.findViewById<TextView>(R.id.itemText)
 
-    fun bind(item: Item) {
-        itemName.text = item.name
+    fun bind(item: String) {
+        itemName.text = item
     }
 }

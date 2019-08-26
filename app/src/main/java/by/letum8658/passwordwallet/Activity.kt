@@ -33,7 +33,7 @@ class Activity : FragmentActivity(),
         }
     }
 
-    override fun onLogInClick(username: String, password: String) {
+    override fun onLogInClick() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.container, RecyclerViewFragment())
@@ -47,17 +47,17 @@ class Activity : FragmentActivity(),
             .commit()
     }
 
-    override fun onSaveAccountClick(username: String, password: String) {
+    override fun onSaveAccountClick() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.container, RecyclerViewFragment())
             .commit()
     }
 
-    override fun onItemClick(id: Int) {
+    override fun onItemClick(item: String) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, InformationFragment.getInstance(id))
+            .replace(R.id.container, InformationFragment.getInstance(item))
             .commit()
     }
 
@@ -82,17 +82,17 @@ class Activity : FragmentActivity(),
             .commit()
     }
 
-    override fun onDeleteClick(id: Int) {
+    override fun onDeleteClick(list: ArrayList<String>) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, DeleteItemFragment.getInstance(id))
+            .replace(R.id.container, DeleteItemFragment.getInstance(list))
             .commit()
     }
 
-    override fun onChangeClick(id: Int) {
+    override fun onChangeClick(list: ArrayList<String>) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, ChangePasswordFragment.getInstance(id))
+            .replace(R.id.container, ChangePasswordFragment.getInstance(list))
             .commit()
     }
 
@@ -103,17 +103,17 @@ class Activity : FragmentActivity(),
             .commit()
     }
 
-    override fun onSaveChangedClick(id: Int) {
+    override fun onSaveChangedClick(list: ArrayList<String>) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, InformationFragment.getInstance(id))
+            .replace(R.id.container, InformationFragment.getInstance(list))
             .commit()
     }
 
-    override fun onNoClick(id: Int) {
+    override fun onNoClick(list: ArrayList<String>) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, InformationFragment.getInstance(id))
+            .replace(R.id.container, InformationFragment.getInstance(list))
             .commit()
     }
 

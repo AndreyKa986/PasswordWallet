@@ -4,7 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class Adapter(private var items: List<Item>, private val listener: ClickListener) : RecyclerView.Adapter<ViewHolder>() {
+class Adapter(private var items: List<String>, private val listener: ClickListener) :
+    RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
@@ -25,12 +26,12 @@ class Adapter(private var items: List<Item>, private val listener: ClickListener
         return items.size
     }
 
-    fun itemListBySearch(list: List<Item>) {
+    fun itemListBySearch(list: List<String>) {
         items = list
         notifyDataSetChanged()
     }
 
     interface ClickListener {
-        fun onItemClick(item: Item)
+        fun onItemClick(item: String)
     }
 }

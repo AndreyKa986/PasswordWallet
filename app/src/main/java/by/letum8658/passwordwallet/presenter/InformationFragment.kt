@@ -15,10 +15,18 @@ class InformationFragment : Fragment(), InformationView {
 
         private const val ID_KEY = "id_key"
 
-        fun getInstance(id: Int): InformationFragment {
+        fun getInstance(item: String): InformationFragment {
             return InformationFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ID_KEY, id)
+                    putString(ID_KEY, item)
+                }
+            }
+        }
+
+        fun getInstance(list: ArrayList<String>): InformationFragment {
+            return InformationFragment().apply {
+                arguments = Bundle().apply {
+                    putStringArrayList(ID_KEY, list)
                 }
             }
         }
@@ -26,9 +34,14 @@ class InformationFragment : Fragment(), InformationView {
 
     private val presenter = InformationPresenter()
     private var listener: Listener? = null
-    private val id by lazy { arguments?.getInt(ID_KEY, -1) }
+    private val item by lazy { arguments!!.getString(ID_KEY, " ") }
+    private val list by lazy { arguments!!.getStringArrayList(ID_KEY) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_item_information, container, false)
     }
 
@@ -36,7 +49,7 @@ class InformationFragment : Fragment(), InformationView {
 
         presenter.setView(this)
 
-        presenter.showData(id!!)
+        presenter.showData(item)
 
         informationDelete.setOnClickListener {
             presenter.delete()
@@ -59,12 +72,18 @@ class InformationFragment : Fragment(), InformationView {
         informationPassword.text = password
     }
 
+    override fun getInformationList(): ArrayList<String> = list
+
     override fun delete() {
-        listener?.onDeleteClick(id!!)
+        val password = informationPassword.text.toString()
+        val list = arrayListOf(item, password)
+        listener?.onDeleteClick(list)
     }
 
     override fun change() {
-        listener?.onChangeClick(id!!)
+        val password = informationPassword.text.toString()
+        val list = arrayListOf(item, password)
+        listener?.onChangeClick(list)
     }
 
     override fun ok() {
@@ -81,11 +100,12 @@ class InformationFragment : Fragment(), InformationView {
     override fun onDetach() {
         super.onDetach()
         listener = null
+        presenter.detach()
     }
 
     interface Listener {
-        fun onDeleteClick(id: Int)
-        fun onChangeClick(id: Int)
+        fun onDeleteClick(list: ArrayList<String>)
+        fun onChangeClick(list: ArrayList<String>)
         fun onOkClick()
     }
 }

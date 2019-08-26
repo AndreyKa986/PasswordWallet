@@ -15,7 +15,11 @@ class CreateAccountFragment : Fragment(), CreateAccountView {
     private val presenter = CreateAccountPresenter()
     private var listener: Listener? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_create_account, container, false)
     }
 
@@ -34,8 +38,8 @@ class CreateAccountFragment : Fragment(), CreateAccountView {
 
     override fun getConfirmPassword(): String = accountConfirm.text.toString()
 
-    override fun createAccount(userName: String, password: String) {
-        listener?.onSaveAccountClick(userName, password)
+    override fun createAccount() {
+        listener?.onSaveAccountClick()
     }
 
     override fun showMessage() {
@@ -52,9 +56,10 @@ class CreateAccountFragment : Fragment(), CreateAccountView {
     override fun onDetach() {
         super.onDetach()
         listener = null
+        presenter.detach()
     }
 
     interface Listener {
-        fun onSaveAccountClick(username: String, password: String)
+        fun onSaveAccountClick()
     }
 }

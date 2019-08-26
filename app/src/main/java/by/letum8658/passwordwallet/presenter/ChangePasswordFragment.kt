@@ -16,10 +16,10 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView {
 
         private const val ID_KEY = "id_key"
 
-        fun getInstance(id: Int): ChangePasswordFragment {
+        fun getInstance(list: ArrayList<String>): ChangePasswordFragment {
             return ChangePasswordFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ID_KEY, id)
+                    putStringArrayList(ID_KEY, list)
                 }
             }
         }
@@ -27,9 +27,13 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView {
 
     private val presenter = ChangePasswordPresenter()
     private var listener: Listener? = null
-    private val id by lazy { arguments?.getInt(ID_KEY, -1) }
+    private val list by lazy { arguments!!.getStringArrayList(ID_KEY) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_change_password, container, false)
     }
 
@@ -37,10 +41,10 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView {
 
         presenter.setView(this)
 
-        presenter.showItem(id!!)
+        presenter.showItem(list!![0])
 
         changeSave.setOnClickListener {
-            presenter.saveItem(id!!)
+            presenter.saveItem()
         }
     }
 
@@ -54,8 +58,8 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView {
 
     override fun getConfirmPassword(): String = changeConfirm.text.toString()
 
-    override fun saveChange() {
-        listener?.onSaveChangedClick(id!!)
+    override fun saveChange(list: ArrayList<String>) {
+        listener?.onSaveChangedClick(list)
     }
 
     override fun showMessage() {
@@ -72,9 +76,10 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView {
     override fun onDetach() {
         super.onDetach()
         listener = null
+        presenter.detach()
     }
 
     interface Listener {
-        fun onSaveChangedClick(id: Int)
+        fun onSaveChangedClick(list: ArrayList<String>)
     }
 }

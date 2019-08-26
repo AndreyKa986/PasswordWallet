@@ -1,5 +1,9 @@
 package by.letum8658.passwordwallet.presenter
 
+import by.letum8658.passwordwallet.Callback
+import by.letum8658.passwordwallet.ItemManager
+import by.letum8658.passwordwallet.User
+
 class CreateAccountPresenter {
 
     private var view: CreateAccountView? = null
@@ -9,17 +13,36 @@ class CreateAccountPresenter {
     }
 
     fun createAccount() {
-        if (isPasswordEqual()) {
-            view?.createAccount(
-                view?.getName()!!,
-                view?.getPassword()!!
-            )
-        } else view?.showMessage()
+        val name = view?.getName()
+        val password = view?.getPassword()!!
+        val confirmPassword = view?.getConfirmPassword()
+        if (name!!.isNotBlank()) {
+            if (password == confirmPassword) {
+                ItemManager.getAccount(name, object : Callback() {
+                    override fun returnResult(text: String?) {
+                        if (text == null) {
+                            ItemManager.createAccount(name, User(password), object : Callback() {
+                                override fun returnResult(text: String?) {
+                                    ItemManager.setName(name)
+                                    view?.createAccount()
+                                }
+                            })
+                        } else {
+                            TODO() // дописать - такой пользаватель существует
+                        }
+                    }
+                })
+            } else {
+                TODO() // дописать - пароли не совподают
+                // view?.showMessage()
+            }
+        } else {
+            TODO() // дописать - введите имя пользователя
+        }
     }
 
-    private fun isPasswordEqual(): Boolean {
-        val password = view?.getPassword()
-        val confirmPassword = view?.getConfirmPassword()
-        return password == confirmPassword
+    fun detach() {
+        ItemManager.dispose()
+        view = null
     }
 }

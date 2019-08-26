@@ -6,6 +6,6 @@ interface ChangePasswordView {
     fun getName(): String
     fun getPassword(): String
     fun getConfirmPassword(): String
-    fun saveChange()
+    fun saveChange(list: ArrayList<String>)
     fun showMessage()
 }

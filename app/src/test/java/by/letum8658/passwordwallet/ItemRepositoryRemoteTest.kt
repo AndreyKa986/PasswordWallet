@@ -27,7 +27,7 @@ class ItemRepositoryRemoteTest {
     fun getAllItems() {
 
         Mockito
-            .`when`(api.getAllItems())
+            .`when`(api.getAllNames())
             .thenReturn(Single.just(list))
 
         val repository = ItemRepositoryRemote(api)

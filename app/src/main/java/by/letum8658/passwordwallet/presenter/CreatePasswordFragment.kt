@@ -26,9 +26,13 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
 
     private val presenter = CreatePasswordPresenter()
     private var listener: Listener? = null
-    private val name by lazy { arguments?.getString(ID_KEY, "Name") }
+    private val name by lazy { arguments!!.getString(ID_KEY, "Name") }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_auto_create_password, container, false)
     }
 
@@ -41,7 +45,7 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
         }
 
         autoSave.setOnClickListener {
-            presenter.savePassword(name!!)
+            presenter.savePassword(name)
         }
     }
 
@@ -65,6 +69,7 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
     override fun onDetach() {
         super.onDetach()
         listener = null
+        presenter.detach()
     }
 
     interface Listener {

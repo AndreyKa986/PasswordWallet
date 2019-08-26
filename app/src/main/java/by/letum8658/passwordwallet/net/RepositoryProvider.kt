@@ -1,6 +1,6 @@
 package by.letum8658.passwordwallet.net
 
-private const val BASE_URL = " "
+private const val BASE_URL = "https://passwordwallet-914b2.firebaseio.com/Users/"
 
 fun provideItemRepository(): ItemRepository {
     return ItemRepositoryRemote(

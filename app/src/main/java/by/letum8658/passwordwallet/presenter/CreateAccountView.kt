@@ -5,6 +5,6 @@ interface CreateAccountView {
     fun getName(): String
     fun getPassword(): String
     fun getConfirmPassword(): String
-    fun createAccount(userName: String, password: String)
+    fun createAccount()
     fun showMessage()
 }
