@@ -84,7 +84,8 @@ class InformationFragment : Fragment(), InformationView, OnBackPressedListener {
 
     override fun change() {
         val password = informationPassword.text.toString()
-        val list = arrayListOf(item, password)
+        val itemName = informationName.text.toString()
+        val list = arrayListOf(itemName, password)
         listener?.onChangeClick(list)
     }
 
