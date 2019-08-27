@@ -21,8 +21,10 @@ class DeleteItemPresenter {
         ItemManager.setItemList(list)
         val account = ItemManager.getName()!!
         ItemManager.updateAllNames(account, list)
+        view?.progressBarOn()
         ItemManager.deleteItem(account, itemName, object : Callback() {
             override fun returnResult(text: String?) {
+                view?.progressBarOff()
                 view?.yes()
             }
         })

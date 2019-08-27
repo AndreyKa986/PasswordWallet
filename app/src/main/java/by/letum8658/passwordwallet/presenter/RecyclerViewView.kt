@@ -5,4 +5,6 @@ interface RecyclerViewView {
     fun getSearchString(): String
     fun fab()
     fun updateDatabase()
+    fun progressBarOn()
+    fun progressBarOff()
 }

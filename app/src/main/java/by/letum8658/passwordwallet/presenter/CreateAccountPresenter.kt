@@ -18,16 +18,19 @@ class CreateAccountPresenter {
         val confirmPassword = view?.getConfirmPassword()
         if (name!!.isNotBlank()) {
             if (password == confirmPassword) {
+                view?.progressBarOn()
                 ItemManager.getAccount(name, object : Callback() {
                     override fun returnResult(text: String?) {
                         if (text == null) {
                             ItemManager.createAccount(name, User(password), object : Callback() {
                                 override fun returnResult(text: String?) {
                                     ItemManager.setName(name)
+                                    view?.progressBarOff()
                                     view?.createAccount()
                                 }
                             })
                         } else {
+                            view?.progressBarOff()
                             view?.showMessage(1)
                         }
                     }

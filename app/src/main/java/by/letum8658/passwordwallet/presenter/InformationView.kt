@@ -8,4 +8,6 @@ interface InformationView {
     fun delete()
     fun change()
     fun ok()
+    fun progressBarOn()
+    fun progressBarOff()
 }

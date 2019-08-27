@@ -4,4 +4,6 @@ interface DeleteItemView {
 
     fun no()
     fun yes()
+    fun progressBarOn()
+    fun progressBarOff()
 }

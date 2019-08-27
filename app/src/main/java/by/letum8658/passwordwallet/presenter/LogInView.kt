@@ -11,4 +11,6 @@ interface LogInView {
     fun logIn()
     fun create()
     fun showMessage(number: Int)
+    fun progressBarOn()
+    fun progressBarOff()
 }

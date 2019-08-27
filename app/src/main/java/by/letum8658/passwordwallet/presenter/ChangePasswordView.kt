@@ -8,4 +8,6 @@ interface ChangePasswordView {
     fun getConfirmPassword(): String
     fun saveChange(list: ArrayList<String>)
     fun showMessage()
+    fun progressBarOn()
+    fun progressBarOff()
 }

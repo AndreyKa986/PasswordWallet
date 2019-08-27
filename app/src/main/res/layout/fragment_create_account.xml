@@ -5,6 +5,16 @@
     android:background="@color/lightBlack"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/account_progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/red"
+        android:minWidth="150dp"
+        android:minHeight="150dp"
+        android:visibility="gone" />
+
     <View style="@style/View" />
 
     <EditText

@@ -40,12 +40,14 @@ class CreateItemPresenter {
                 val cryptPassword = encode(password)
                 val list = ItemManager.getItemList()
                 if (list.contains(itemName)) {
+                    view?.progressBarOn()
                     ItemManager.updateItem(
                         account,
                         itemName,
                         Item(cryptPassword),
                         object : Callback() {
                             override fun returnResult(text: String?) {
+                                view?.progressBarOff()
                                 view?.saveItem()
                             }
                         })
@@ -53,12 +55,14 @@ class CreateItemPresenter {
                     list.add(itemName)
                     ItemManager.setItemList(list)
                     ItemManager.updateAllNames(account, list)
+                    view?.progressBarOn()
                     ItemManager.saveNewItem(
                         account,
                         itemName,
                         Item(cryptPassword),
                         object : Callback() {
                             override fun returnResult(text: String?) {
+                                view?.progressBarOff()
                                 view?.saveItem()
                             }
                         })

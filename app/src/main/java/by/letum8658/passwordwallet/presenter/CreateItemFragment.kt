@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.letum8658.passwordwallet.OnBackPressedListener
@@ -28,6 +29,7 @@ class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
 
     private val presenter = CreateItemPresenter()
     private var listener: Listener? = null
+    private lateinit var progressBar: ProgressBar
     private val list by lazy { arguments?.getStringArrayList(ID_KEY) }
 
     override fun onCreateView(
@@ -39,6 +41,8 @@ class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        progressBar = view.findViewById(R.id.item_progress_circular)
 
         presenter.setView(this)
 
@@ -86,6 +90,14 @@ class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
             1 -> Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
             2 -> Toast.makeText(context, R.string.take_item, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun progressBarOn() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun progressBarOff() {
+        progressBar.visibility = View.GONE
     }
 
     override fun onAttach(context: Context?) {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import by.letum8658.passwordwallet.BackPressed
 import by.letum8658.passwordwallet.OnBackPressedListener
@@ -28,6 +29,7 @@ class DeleteItemFragment : Fragment(), DeleteItemView, OnBackPressedListener {
 
     private val presenter = DeleteItemPresenter()
     private var listener: Listener? = null
+    private lateinit var progressBar: ProgressBar
     private val list by lazy { arguments!!.getStringArrayList(ID_KEY) }
 
     override fun onCreateView(
@@ -39,6 +41,8 @@ class DeleteItemFragment : Fragment(), DeleteItemView, OnBackPressedListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        progressBar = view.findViewById(R.id.delete_progress_circular)
 
         presenter.setView(this)
 
@@ -61,6 +65,14 @@ class DeleteItemFragment : Fragment(), DeleteItemView, OnBackPressedListener {
 
     override fun onBackPressed() {
         BackPressed.setList(list)
+    }
+
+    override fun progressBarOn() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun progressBarOff() {
+        progressBar.visibility = View.GONE
     }
 
     override fun onAttach(context: Context?) {

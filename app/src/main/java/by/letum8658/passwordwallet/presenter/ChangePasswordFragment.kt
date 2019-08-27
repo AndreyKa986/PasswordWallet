@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.letum8658.passwordwallet.BackPressed
@@ -29,6 +30,7 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView, OnBackPressedList
 
     private val presenter = ChangePasswordPresenter()
     private var listener: Listener? = null
+    private lateinit var progressBar: ProgressBar
     private val list by lazy { arguments!!.getStringArrayList(ID_KEY) }
 
     override fun onCreateView(
@@ -40,6 +42,8 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView, OnBackPressedList
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        progressBar = view.findViewById(R.id.change_progress_circular)
 
         presenter.setView(this)
 
@@ -70,6 +74,14 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView, OnBackPressedList
 
     override fun showMessage() {
         Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun progressBarOn() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun progressBarOff() {
+        progressBar.visibility = View.GONE
     }
 
     override fun onAttach(context: Context?) {

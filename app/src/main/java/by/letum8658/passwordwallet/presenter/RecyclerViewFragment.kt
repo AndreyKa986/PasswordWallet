@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
     private val presenter = RecyclerViewPresenter()
     private var listener: Listener? = null
     private lateinit var adapter: Adapter
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +35,8 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        progressBar = view.findViewById(R.id.recycler_progress_circular)
 
         presenter.setView(this)
 
@@ -84,6 +88,14 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
     }
 
     override fun onBackPressed() {}
+
+    override fun progressBarOn() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun progressBarOff() {
+        progressBar.visibility = View.GONE
+    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

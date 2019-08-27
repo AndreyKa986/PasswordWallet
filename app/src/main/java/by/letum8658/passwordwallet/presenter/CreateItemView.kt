@@ -11,4 +11,6 @@ interface CreateItemView {
     fun createPassword(name: String)
     fun saveItem()
     fun showMessage(number: Int)
+    fun progressBarOn()
+    fun progressBarOff()
 }

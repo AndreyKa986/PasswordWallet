@@ -5,6 +5,16 @@
     android:background="@color/lightBlack"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/recycler_progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/red"
+        android:minWidth="150dp"
+        android:minHeight="150dp"
+        android:visibility="gone" />
+
     <EditText
         android:id="@+id/search"
         android:layout_width="match_parent"

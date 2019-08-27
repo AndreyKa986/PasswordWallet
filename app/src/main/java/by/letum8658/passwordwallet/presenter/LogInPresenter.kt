@@ -29,6 +29,7 @@ class LogInPresenter {
         val password = view?.getPassword()!!
         if (name.isNotBlank()) {
             if (password.isNotBlank()) {
+                view?.progressBarOn()
                 ItemManager.getAccount(name, object : Callback() {
                     override fun returnResult(text: String?) {
                         if (text != null) {
@@ -37,11 +38,14 @@ class LogInPresenter {
                                 if (ItemManager.getItemList().isNotEmpty()) {
                                     ItemManager.clearItemList()
                                 }
+                                view?.progressBarOff()
                                 view?.logIn()
                             } else {
+                                view?.progressBarOff()
                                 view?.showMessage(1)
                             }
                         } else {
+                            view?.progressBarOff()
                             view?.showMessage(2)
                         }
                     }

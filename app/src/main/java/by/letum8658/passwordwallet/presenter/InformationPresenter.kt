@@ -16,9 +16,11 @@ class InformationPresenter {
         if (item.isNotBlank()) {
             view?.setName(item)
             val name = ItemManager.getName()!!
+            view?.progressBarOn()
             ItemManager.getItemPassword(name, item, object : Callback() {
                 override fun returnResult(text: String?) {
                     val password = decode(text!!)
+                    view?.progressBarOff()
                     view?.setPassword(password)
                 }
             })

@@ -24,9 +24,11 @@ class ChangePasswordPresenter {
             val account = ItemManager.getName()!!
             val itemName = view?.getName()!!
             val cryptPassword = encode(password)
+            view?.progressBarOn()
             ItemManager.updateItem(account, itemName, Item(cryptPassword), object : Callback() {
                 override fun returnResult(text: String?) {
                     val list = arrayListOf(itemName, password)
+                    view?.progressBarOff()
                     view?.saveChange(list)
                 }
             })

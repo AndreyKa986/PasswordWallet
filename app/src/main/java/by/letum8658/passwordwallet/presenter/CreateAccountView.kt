@@ -7,4 +7,6 @@ interface CreateAccountView {
     fun getConfirmPassword(): String
     fun createAccount()
     fun showMessage(number: Int)
+    fun progressBarOn()
+    fun progressBarOff()
 }

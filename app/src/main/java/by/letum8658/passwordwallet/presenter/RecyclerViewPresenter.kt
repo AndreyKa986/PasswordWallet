@@ -15,8 +15,10 @@ class RecyclerViewPresenter {
         val itemList = ItemManager.getItemList()
         if (itemList.isEmpty()) {
             val name = ItemManager.getName()!!
+            view?.progressBarOn()
             ItemManager.getAllNames(name, object : Callback() {
                 override fun returnResult(text: String?) {
+                    view?.progressBarOff()
                     view?.updateDatabase()
                 }
             })

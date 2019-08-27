@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.letum8658.passwordwallet.AppPrefManager
@@ -15,6 +16,7 @@ class LogInFragment : Fragment(), LogInView {
 
     private val presenter = LogInPresenter()
     private var listener: Listener? = null
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +27,8 @@ class LogInFragment : Fragment(), LogInView {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        progressBar = view.findViewById(R.id.log_progress_circular)
 
         presenter.setView(this)
 
@@ -69,6 +73,14 @@ class LogInFragment : Fragment(), LogInView {
             3 -> Toast.makeText(context, R.string.take_password, Toast.LENGTH_SHORT).show()
             4 -> Toast.makeText(context, R.string.take_name, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun progressBarOn() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun progressBarOff() {
+        progressBar.visibility = View.GONE
     }
 
     override fun onAttach(context: Context?) {
