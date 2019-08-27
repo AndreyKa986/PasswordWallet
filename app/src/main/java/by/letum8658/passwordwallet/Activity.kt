@@ -143,6 +143,51 @@ class Activity : FragmentActivity(),
 
         if (backPressedListener != null) {
             backPressedListener.onBackPressed()
+            when (backPressedListener) {
+                is RecyclerViewFragment -> supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, LogInFragment())
+                    .commit()
+                is InformationFragment -> supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, RecyclerViewFragment())
+                    .commit()
+                is DeleteItemFragment -> {
+                    val list = BackPressed.getList()
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.container, InformationFragment.getInstance(list))
+                        .commit()
+//                    list.clear()
+//                    BackPressed.setList(list)
+                }
+                is CreatePasswordFragment -> {
+                    val list = BackPressed.getList()
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.container, CreateItemFragment.getInstance(list))
+                        .commit()
+//                    list.clear()
+//                    BackPressed.setList(list)
+                }
+                is CreateItemFragment -> supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, RecyclerViewFragment())
+                    .commit()
+                is CreateAccountFragment -> supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, LogInFragment())
+                    .commit()
+                is ChangePasswordFragment -> {
+                    val list = BackPressed.getList()
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.container, InformationFragment.getInstance(list))
+                        .commit()
+//                    list.clear()
+//                    BackPressed.setList(list)
+                }
+            }
         } else {
             super.onBackPressed()
         }

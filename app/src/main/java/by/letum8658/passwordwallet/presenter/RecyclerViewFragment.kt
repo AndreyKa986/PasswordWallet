@@ -83,12 +83,7 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
         updateList()
     }
 
-    override fun onBackPressed() {
-        activity!!.supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, LogInFragment())
-            .commit()
-    }
+    override fun onBackPressed() {}
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

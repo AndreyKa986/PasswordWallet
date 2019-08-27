@@ -43,12 +43,7 @@ class CreateAccountFragment : Fragment(), CreateAccountView, OnBackPressedListen
         listener?.onSaveAccountClick()
     }
 
-    override fun onBackPressed() {
-        activity!!.supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, LogInFragment())
-            .commit()
-    }
+    override fun onBackPressed() {}
 
     override fun showMessage() {
         Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()

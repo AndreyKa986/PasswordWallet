@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.letum8658.passwordwallet.BackPressed
 import by.letum8658.passwordwallet.OnBackPressedListener
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_auto_create_password.*
@@ -63,11 +64,8 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView, OnBackPressedList
     override fun onBackPressed() {
         val list = ArrayList<String>()
         list.add(name)
-        list.add(" ")
-        activity!!.supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, CreateItemFragment.getInstance(list))
-            .commit()
+        list.add("")
+        BackPressed.setList(list)
     }
 
     override fun onAttach(context: Context?) {

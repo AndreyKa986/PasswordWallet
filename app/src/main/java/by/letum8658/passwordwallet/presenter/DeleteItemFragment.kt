@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.letum8658.passwordwallet.BackPressed
 import by.letum8658.passwordwallet.OnBackPressedListener
 import by.letum8658.passwordwallet.R
 import kotlinx.android.synthetic.main.fragment_delete_item.*
@@ -59,10 +60,7 @@ class DeleteItemFragment : Fragment(), DeleteItemView, OnBackPressedListener {
     }
 
     override fun onBackPressed() {
-        activity!!.supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, InformationFragment.getInstance(list))
-            .commit()
+        BackPressed.setList(list)
     }
 
     override fun onAttach(context: Context?) {

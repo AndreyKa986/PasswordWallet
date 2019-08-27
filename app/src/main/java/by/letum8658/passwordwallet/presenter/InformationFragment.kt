@@ -77,7 +77,8 @@ class InformationFragment : Fragment(), InformationView, OnBackPressedListener {
 
     override fun delete() {
         val password = informationPassword.text.toString()
-        val list = arrayListOf(item, password)
+        val itemName = informationName.text.toString()
+        val list = arrayListOf(itemName, password)
         listener?.onDeleteClick(list)
     }
 
@@ -91,12 +92,7 @@ class InformationFragment : Fragment(), InformationView, OnBackPressedListener {
         listener?.onOkClick()
     }
 
-    override fun onBackPressed() {
-        activity!!.supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, RecyclerViewFragment())
-            .commit()
-    }
+    override fun onBackPressed() {}
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

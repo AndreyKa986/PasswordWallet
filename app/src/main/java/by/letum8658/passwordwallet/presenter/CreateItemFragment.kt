@@ -79,12 +79,7 @@ class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
         listener?.onSaveItemClick()
     }
 
-    override fun onBackPressed() {
-        activity!!.supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, RecyclerViewFragment())
-            .commit()
-    }
+    override fun onBackPressed() {}
 
     override fun showMessage() {
         Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
