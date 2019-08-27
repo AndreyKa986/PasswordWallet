@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.letum8658.passwordwallet.AppPrefManager
 import by.letum8658.passwordwallet.R
@@ -59,6 +60,15 @@ class LogInFragment : Fragment(), LogInView {
     override fun onStop() {
         super.onStop()
         presenter.saveName()
+    }
+
+    override fun showMessage(number: Int) {
+        when (number) {
+            1 -> Toast.makeText(context, R.string.dont_password, Toast.LENGTH_SHORT).show()
+            2 -> Toast.makeText(context, R.string.dont_user, Toast.LENGTH_SHORT).show()
+            3 -> Toast.makeText(context, R.string.take_password, Toast.LENGTH_SHORT).show()
+            4 -> Toast.makeText(context, R.string.take_name, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onAttach(context: Context?) {

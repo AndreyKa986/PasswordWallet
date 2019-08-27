@@ -6,5 +6,5 @@ interface CreateAccountView {
     fun getPassword(): String
     fun getConfirmPassword(): String
     fun createAccount()
-    fun showMessage()
+    fun showMessage(number: Int)
 }

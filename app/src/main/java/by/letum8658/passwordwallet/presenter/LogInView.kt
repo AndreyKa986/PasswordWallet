@@ -10,4 +10,5 @@ interface LogInView {
     fun getPassword(): String
     fun logIn()
     fun create()
+    fun showMessage(number: Int)
 }

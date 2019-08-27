@@ -45,8 +45,12 @@ class CreateAccountFragment : Fragment(), CreateAccountView, OnBackPressedListen
 
     override fun onBackPressed() {}
 
-    override fun showMessage() {
-        Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
+    override fun showMessage(number: Int) {
+        when (number) {
+            1 -> Toast.makeText(context, R.string.have_user, Toast.LENGTH_SHORT).show()
+            2 -> Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
+            3 -> Toast.makeText(context, R.string.take_name, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onAttach(context: Context?) {

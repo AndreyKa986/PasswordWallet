@@ -31,7 +31,7 @@ class ChangePasswordPresenter {
                 }
             })
         } else {
-            TODO() // дописать - пароли не совподают
+            view?.showMessage()
         }
     }
 

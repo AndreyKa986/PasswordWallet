@@ -28,16 +28,15 @@ class CreateAccountPresenter {
                                 }
                             })
                         } else {
-                            TODO() // дописать - такой пользаватель существует
+                            view?.showMessage(1)
                         }
                     }
                 })
             } else {
-                TODO() // дописать - пароли не совподают
-                // view?.showMessage()
+                view?.showMessage(2)
             }
         } else {
-            TODO() // дописать - введите имя пользователя
+            view?.showMessage(3)
         }
     }
 

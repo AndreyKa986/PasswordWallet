@@ -64,11 +64,10 @@ class CreateItemPresenter {
                         })
                 }
             } else {
-                TODO() // дописать - пароли не совподают
-//                view?.showMessage()
+                view?.showMessage(1)
             }
         } else {
-            TODO() // дописать - не введено имя
+            view?.showMessage(2)
         }
     }
 

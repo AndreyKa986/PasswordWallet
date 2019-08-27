@@ -39,17 +39,18 @@ class LogInPresenter {
                                 }
                                 view?.logIn()
                             } else {
-                                TODO() // дописать - не правильно введен пароль
+                                view?.showMessage(1)
                             }
                         } else {
-                            TODO() // дописать - нет такого пользователя
+                            view?.showMessage(2)
                         }
                     }
                 })
-            } else
-                TODO() // дописать - введите пароль
+            } else {
+                view?.showMessage(3)
+            }
         } else {
-            TODO() // дописать - введите имя пользователя
+            view?.showMessage(4)
         }
     }
 
