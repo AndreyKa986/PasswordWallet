@@ -1,134 +1,85 @@
 package by.letum8658.passwordwallet
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import by.letum8658.passwordwallet.presenter.LogInFragment
-import by.letum8658.passwordwallet.presenter.CreateAccountFragment
-import by.letum8658.passwordwallet.presenter.RecyclerViewFragment
-import by.letum8658.passwordwallet.presenter.CreateItemFragment
-import by.letum8658.passwordwallet.presenter.InformationFragment
-import by.letum8658.passwordwallet.presenter.ChangePasswordFragment
-import by.letum8658.passwordwallet.presenter.DeleteItemFragment
-import by.letum8658.passwordwallet.presenter.CreatePasswordFragment
+import by.letum8658.passwordwallet.model.BackPressed
+import by.letum8658.passwordwallet.model.MainActivityNavigation
+import by.letum8658.passwordwallet.model.OnBackPressedListener
+import by.letum8658.passwordwallet.view.fragments.LogInFragment
+import by.letum8658.passwordwallet.view.fragments.CreateAccountFragment
+import by.letum8658.passwordwallet.view.fragments.RecyclerViewFragment
+import by.letum8658.passwordwallet.view.fragments.CreateItemFragment
+import by.letum8658.passwordwallet.view.fragments.InformationFragment
+import by.letum8658.passwordwallet.view.fragments.ChangePasswordFragment
+import by.letum8658.passwordwallet.view.fragments.DeleteItemFragment
+import by.letum8658.passwordwallet.view.fragments.CreatePasswordFragment
 
-class Activity : FragmentActivity(),
-    LogInFragment.Listener,
-    CreateAccountFragment.Listener,
-    RecyclerViewFragment.Listener,
-    CreateItemFragment.Listener,
-    InformationFragment.Listener,
-    ChangePasswordFragment.Listener,
-    DeleteItemFragment.Listener,
-    CreatePasswordFragment.Listener {
+class Activity : FragmentActivity(), MainActivityNavigation {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity)
 
         if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, LogInFragment())
-                .commit()
+            replaceFragment(LogInFragment())
         }
     }
 
     override fun onLogInClick() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, RecyclerViewFragment())
-            .commit()
+        replaceFragment(RecyclerViewFragment())
     }
 
     override fun onCreateAccountClick() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, CreateAccountFragment())
-            .commit()
+        replaceFragment(CreateAccountFragment())
     }
 
     override fun onSaveAccountClick() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, RecyclerViewFragment())
-            .commit()
+        replaceFragment(RecyclerViewFragment())
     }
 
     override fun onItemClick(item: String) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, InformationFragment.getInstance(item))
-            .commit()
+        replaceFragment(InformationFragment.getInstance(item))
     }
 
     override fun onFABClick() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, CreateItemFragment())
-            .commit()
+        replaceFragment(CreateItemFragment())
     }
 
     override fun onCreatePasswordClick(name: String) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, CreatePasswordFragment.getInstance(name))
-            .commit()
+        replaceFragment(CreatePasswordFragment.getInstance(name))
     }
 
     override fun onSaveItemClick() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, RecyclerViewFragment())
-            .commit()
+        replaceFragment(RecyclerViewFragment())
     }
 
     override fun onDeleteClick(list: ArrayList<String>) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, DeleteItemFragment.getInstance(list))
-            .commit()
+        replaceFragment(DeleteItemFragment.getInstance(list))
     }
 
     override fun onChangeClick(list: ArrayList<String>) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, ChangePasswordFragment.getInstance(list))
-            .commit()
+        replaceFragment(ChangePasswordFragment.getInstance(list))
     }
 
     override fun onOkClick() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, RecyclerViewFragment())
-            .commit()
+        replaceFragment(RecyclerViewFragment())
     }
 
     override fun onSaveChangedClick(list: ArrayList<String>) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, InformationFragment.getInstance(list))
-            .commit()
+        replaceFragment(InformationFragment.getInstance(list))
     }
 
     override fun onNoClick(list: ArrayList<String>) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, InformationFragment.getInstance(list))
-            .commit()
+        replaceFragment(InformationFragment.getInstance(list))
     }
 
     override fun onYesClick() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, RecyclerViewFragment())
-            .commit()
+        replaceFragment(RecyclerViewFragment())
     }
 
     override fun onSavePasswordClick(list: ArrayList<String>) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, CreateItemFragment.getInstance(list))
-            .commit()
+        replaceFragment(CreateItemFragment.getInstance(list))
     }
 
     override fun onBackPressed() {
@@ -144,46 +95,25 @@ class Activity : FragmentActivity(),
         if (backPressedListener != null) {
             backPressedListener.onBackPressed()
             when (backPressedListener) {
-                is RecyclerViewFragment -> supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.container, LogInFragment())
-                    .commit()
-                is InformationFragment -> supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.container, RecyclerViewFragment())
-                    .commit()
+                is RecyclerViewFragment -> replaceFragment(LogInFragment())
+                is InformationFragment -> replaceFragment(RecyclerViewFragment())
                 is DeleteItemFragment -> {
                     val list = BackPressed.getList()
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.container, InformationFragment.getInstance(list))
-                        .commit()
+                    replaceFragment(InformationFragment.getInstance(list))
 //                    list.clear()
 //                    BackPressed.setList(list)
                 }
                 is CreatePasswordFragment -> {
                     val list = BackPressed.getList()
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.container, CreateItemFragment.getInstance(list))
-                        .commit()
+                    replaceFragment(CreateItemFragment.getInstance(list))
 //                    list.clear()
 //                    BackPressed.setList(list)
                 }
-                is CreateItemFragment -> supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.container, RecyclerViewFragment())
-                    .commit()
-                is CreateAccountFragment -> supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.container, LogInFragment())
-                    .commit()
+                is CreateItemFragment -> replaceFragment(RecyclerViewFragment())
+                is CreateAccountFragment -> replaceFragment(LogInFragment())
                 is ChangePasswordFragment -> {
                     val list = BackPressed.getList()
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.container, InformationFragment.getInstance(list))
-                        .commit()
+                    replaceFragment(InformationFragment.getInstance(list))
 //                    list.clear()
 //                    BackPressed.setList(list)
                 }
@@ -191,5 +121,12 @@ class Activity : FragmentActivity(),
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, fragment)
+            .commit()
     }
 }

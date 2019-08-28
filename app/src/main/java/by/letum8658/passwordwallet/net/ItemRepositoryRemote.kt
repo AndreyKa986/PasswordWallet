@@ -1,7 +1,7 @@
 package by.letum8658.passwordwallet.net
 
-import by.letum8658.passwordwallet.Item
-import by.letum8658.passwordwallet.User
+import by.letum8658.passwordwallet.model.Item
+import by.letum8658.passwordwallet.model.User
 import io.reactivex.Completable
 import io.reactivex.Single
 

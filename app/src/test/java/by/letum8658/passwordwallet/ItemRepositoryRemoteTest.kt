@@ -1,5 +1,6 @@
 package by.letum8658.passwordwallet
 
+import by.letum8658.passwordwallet.model.Item
 import by.letum8658.passwordwallet.net.ItemApi
 import by.letum8658.passwordwallet.net.ItemRepositoryRemote
 import io.reactivex.Completable

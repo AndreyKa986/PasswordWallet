@@ -22,4 +22,6 @@
     <string name="take_password">Enter your password</string>
     <string name="dont_user">Don\'t have account with that name</string>
     <string name="dont_password">Password is entered incorrectly</string>
+    <string name="error">An error has occurred</string>
+    <string name="have_item">That itemname has already been taken</string>
 </resources>
