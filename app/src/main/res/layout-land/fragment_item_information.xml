@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/lightBlack">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/informationName"
+                style="@style/TextView"
+                tools:text="name" />
+
+            <TextView
+                android:id="@+id/informationPassword"
+                style="@style/TextView"
+                tools:text="password" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/informationDelete"
+                style="@style/ButtonLand"
+                android:text="@string/delete" />
+
+            <Button
+                android:id="@+id/informationChange"
+                style="@style/ButtonLand"
+                android:text="@string/change" />
+
+            <Button
+                android:id="@+id/informationOK"
+                style="@style/ButtonLand"
+                android:text="@string/ok" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/inform_progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/red"
+        android:minWidth="150dp"
+        android:minHeight="150dp"
+        android:visibility="gone" />
+</FrameLayout>

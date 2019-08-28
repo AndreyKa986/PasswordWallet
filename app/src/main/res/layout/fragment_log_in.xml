@@ -33,7 +33,7 @@
         <Button
             android:id="@+id/logInCreate"
             style="@style/Button"
-            android:text="@string/create" />
+            android:text="@string/create_account" />
 
         <View style="@style/View" />
     </LinearLayout>

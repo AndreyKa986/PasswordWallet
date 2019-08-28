@@ -35,7 +35,7 @@
         <Button
             android:id="@+id/itemCreate"
             style="@style/Button"
-            android:text="@string/create" />
+            android:text="@string/create_password" />
 
         <View style="@style/View" />
 

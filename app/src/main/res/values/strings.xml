@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">PasswordWallet</string>
     <string name="log_in">Log In</string>
-    <string name="create">Create</string>
+    <string name="create_account">Create Account</string>
+    <string name="create_password">Create Password</string>
+    <string name="auto_create">Generate Password</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="change">Change</string>
-    <string name="ok">OK</string>
+    <string name="ok">Back</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="really">Are you\nreally\nwant to\ndelete?</string>
@@ -13,7 +15,7 @@
     <string name="username">USERNAME</string>
     <string name="password">PASSWORD</string>
     <string name="confirm_password">CONFIRM PASSWORD</string>
-    <string name="name">NAME</string>
+    <string name="name">RESOURCE NAME</string>
     <string name="new_password">NEW PASSWORD</string>
     <string name="password_not">Passwords do not match</string>
     <string name="have_user">Username has already been taken</string>
@@ -22,6 +24,6 @@
     <string name="take_password">Enter your password</string>
     <string name="dont_user">Don\'t have account with that name</string>
     <string name="dont_password">Password is entered incorrectly</string>
-    <string name="error">An error has occurred</string>
+    <string name="error">Sorry, an error has occurred</string>
     <string name="have_item">That itemname has already been taken</string>
 </resources>
