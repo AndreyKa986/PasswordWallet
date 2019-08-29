@@ -7,9 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/lightBlack"
-        android:orientation="vertical">
-
-        <View style="@style/View" />
+        android:orientation="vertical"
+        android:gravity="center">
 
         <EditText
             android:id="@+id/logInUsername"
@@ -34,8 +33,6 @@
             android:id="@+id/logInCreate"
             style="@style/Button"
             android:text="@string/create_account" />
-
-        <View style="@style/View" />
     </LinearLayout>
 
     <ProgressBar

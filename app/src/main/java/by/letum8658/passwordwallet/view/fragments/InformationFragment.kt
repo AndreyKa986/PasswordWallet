@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.R
+import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.presenters.InformationPresenter
 import by.letum8658.passwordwallet.view.views.InformationView
 import kotlinx.android.synthetic.main.fragment_item_information.*
@@ -20,6 +20,7 @@ class InformationFragment : Fragment(), InformationView,
     companion object {
 
         private const val ID_KEY = "id_key"
+        private const val INSTANCE_KEY = "instance_key"
 
         fun getInstance(item: String): InformationFragment {
             return InformationFragment().apply {
@@ -58,7 +59,7 @@ class InformationFragment : Fragment(), InformationView,
 
         presenter.setView(this)
 
-        presenter.showData(item)
+        presenter.showData(item, savedInstanceState?.getString(INSTANCE_KEY))
 
         informationDelete.setOnClickListener {
             presenter.delete()
@@ -71,6 +72,11 @@ class InformationFragment : Fragment(), InformationView,
         informationOK.setOnClickListener {
             presenter.ok()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(INSTANCE_KEY, informationPassword.text.toString())
     }
 
     override fun setName(name: String) {

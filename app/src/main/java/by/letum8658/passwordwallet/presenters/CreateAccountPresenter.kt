@@ -2,6 +2,7 @@ package by.letum8658.passwordwallet.presenters
 
 import by.letum8658.passwordwallet.model.ItemManager
 import by.letum8658.passwordwallet.model.User
+import by.letum8658.passwordwallet.utils.encode
 import by.letum8658.passwordwallet.view.views.CreateAccountView
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,6 +25,7 @@ class CreateAccountPresenter {
         val confirmPassword = view?.getConfirmPassword()
         if (name!!.isNotBlank()) {
             if (password == confirmPassword) {
+                val cryptPassword = encode(password)
                 view?.progressBarOn()
                 disposable = ItemManager.getAccount(name)
                     .onErrorResumeNext {
@@ -34,7 +36,7 @@ class CreateAccountPresenter {
                         }
                     }.flatMap {
                         if (it == "NULL") {
-                            ItemManager.createAccount(name, User(password))
+                            ItemManager.createAccount(name, User(cryptPassword))
                         } else {
                             isFreeName = false
                             Single.error(Throwable("Account exists"))

@@ -2,6 +2,7 @@ package by.letum8658.passwordwallet.presenters
 
 import by.letum8658.passwordwallet.model.AppPrefManager
 import by.letum8658.passwordwallet.model.ItemManager
+import by.letum8658.passwordwallet.utils.decode
 import by.letum8658.passwordwallet.view.views.LogInView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -35,6 +36,7 @@ class LogInPresenter {
             if (password.isNotBlank()) {
                 view?.progressBarOn()
                 disposable = ItemManager.getAccount(name)
+                    .map { decode(it) }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({

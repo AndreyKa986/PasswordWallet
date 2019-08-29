@@ -10,13 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import by.letum8658.passwordwallet.R
 import by.letum8658.passwordwallet.adapters.Adapter
 import by.letum8658.passwordwallet.model.OnBackPressedListener
-import by.letum8658.passwordwallet.R
 import by.letum8658.passwordwallet.presenters.RecyclerViewPresenter
 import by.letum8658.passwordwallet.view.views.RecyclerViewView
 import kotlinx.android.synthetic.main.fragment_recyclerview_items.*
@@ -91,10 +90,6 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
     }
 
     override fun onBackPressed() {}
-
-    override fun showMessage() {
-        Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
-    }
 
     override fun progressBarOn() {
         progressBar.visibility = View.VISIBLE

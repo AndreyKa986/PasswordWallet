@@ -7,5 +7,4 @@ interface RecyclerViewView {
     fun updateDatabase()
     fun progressBarOn()
     fun progressBarOff()
-    fun showMessage()
 }

@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.model.BackPressed
 import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.R
+import by.letum8658.passwordwallet.model.ItemManager
 import by.letum8658.passwordwallet.presenters.ChangePasswordPresenter
 import by.letum8658.passwordwallet.view.views.ChangePasswordView
 import kotlinx.android.synthetic.main.fragment_change_password.*
@@ -72,7 +72,7 @@ class ChangePasswordFragment : Fragment(),
     }
 
     override fun onBackPressed() {
-        BackPressed.setList(list)
+        ItemManager.setList(list)
     }
 
     override fun showMessage(number: Int) {

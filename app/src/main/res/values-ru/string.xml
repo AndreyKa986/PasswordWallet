@@ -12,18 +12,18 @@
     <string name="yes">Да</string>
     <string name="really">Вы\nточно\nхотите\nудалить?</string>
     <string name="search">Поиск</string>
-    <string name="username">ИМЯ ПОЛЬЗАТЕЛЯ</string>
+    <string name="username">ИМЯ ПОЛЬЗОВАТЕЛЯ</string>
     <string name="password">ПАРОЛЬ</string>
     <string name="confirm_password">ПОДТВЕРЖДЕНИЕ ПАРОЛЯ</string>
-    <string name="name">НОЗВАНИЕ РЕСУРСА</string>
+    <string name="name">НАЗВАНИЕ РЕСУРСА</string>
     <string name="new_password">НОВЫЙ ПАРОЛЬ</string>
-    <string name="password_not">Пароли не совподают</string>
+    <string name="password_not">Пароли не совпадают</string>
     <string name="have_user">Такое имя пользователя уже существует</string>
     <string name="take_name">Введите ваше имя пользователя</string>
     <string name="take_item">Введите название ресурса</string>
     <string name="take_password">Введите пароль</string>
     <string name="dont_user">Аккаунт с таким именем не найден</string>
-    <string name="dont_password">Не верно введен пароль</string>
+    <string name="dont_password">Неверно введен пароль</string>
     <string name="error">Извините, произошла ошибка</string>
     <string name="have_item">Название такого ресурса уже есть</string>
 </resources>

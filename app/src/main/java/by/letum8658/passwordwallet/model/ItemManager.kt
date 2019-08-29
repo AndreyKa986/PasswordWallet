@@ -7,6 +7,7 @@ object ItemManager {
 
     private var itemName: String? = null
     private var itemList: MutableList<String> = mutableListOf()
+    private var list: ArrayList<String> = arrayListOf()
     private val repository = provideItemRepository()
 
     fun getName(): String? = itemName
@@ -24,6 +25,12 @@ object ItemManager {
 
     fun clearItemList() {
         itemList.clear()
+    }
+
+    fun getList(): ArrayList<String> = list
+
+    fun setList(list: ArrayList<String>) {
+        this.list = list
     }
 
     fun getSearchList(string: String): List<String> =
@@ -45,7 +52,6 @@ object ItemManager {
 
     fun getItemPassword(account: String, itemName: String) = repository
         .getItemPassword(account, itemName)
-        .subscribeOn(Schedulers.io())
 
     fun saveNewItem(account: String, itemName: String, item: Item) = repository
         .saveNewItem(account, itemName, item)

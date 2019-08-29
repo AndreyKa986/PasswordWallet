@@ -27,7 +27,6 @@ class RecyclerViewPresenter {
                     view?.updateDatabase()
                 }, {
                     view?.progressBarOff()
-                    view?.showMessage()
                 })
         }
         return itemList
