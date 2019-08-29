@@ -6,6 +6,8 @@ PasswordWallet is an application for creating and storing passwords for any reso
 
 To use PasswordWallet, you need a mobile device with Android operating system version 4.4 or higher and Internet access.
 
+## Screenshots
+
 ## Library
 
 Project is created with:
