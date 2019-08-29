@@ -14,7 +14,7 @@ To use PasswordWallet, you need a mobile device with Android operating system ve
 
 Project is created with:
 * OkHttp version: 4.1.0
-* Retrofit version: 2.6.0
+* Retrofit version: 2.6.1
 * RxJava version: 2.2.10
 
 ## Versioning
