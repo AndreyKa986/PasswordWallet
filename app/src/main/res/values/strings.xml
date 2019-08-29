@@ -10,4 +10,10 @@
     <string name="yes">Yes</string>
     <string name="really">Are you\nreally\nwant to\ndelete?</string>
     <string name="search">Search</string>
+    <string name="username">USERNAME</string>
+    <string name="password">PASSWORD</string>
+    <string name="confirm_password">CONFIRM PASSWORD</string>
+    <string name="name">NAME</string>
+    <string name="new_password">NEW PASSWORD</string>
+    <string name="password_not">Passwords do not match</string>
 </resources>

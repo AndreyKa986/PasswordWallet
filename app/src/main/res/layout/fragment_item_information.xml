@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightBlack"
+    android:orientation="vertical">
+
+    <View style="@style/View" />
+
+    <TextView
+        android:id="@+id/informationName"
+        style="@style/TextView"
+        tools:text="name" />
+
+    <TextView
+        android:id="@+id/informationPassword"
+        style="@style/TextView"
+        tools:text="password" />
+
+    <View style="@style/View" />
+
+    <Button
+        android:id="@+id/informationDelete"
+        style="@style/Button"
+        android:text="@string/delete" />
+
+    <Button
+        android:id="@+id/informationChange"
+        style="@style/Button"
+        android:text="@string/change" />
+
+    <Button
+        android:id="@+id/informationOK"
+        style="@style/Button"
+        android:text="@string/ok" />
+
+</LinearLayout>
