@@ -1,5 +1,6 @@
 package by.letum8658.passwordwallet.presenters
 
+import by.letum8658.passwordwallet.model.AppPrefManager
 import by.letum8658.passwordwallet.model.ItemManager
 import by.letum8658.passwordwallet.model.User
 import by.letum8658.passwordwallet.utils.encode
@@ -13,17 +14,20 @@ class CreateAccountPresenter {
 
     private var view: CreateAccountView? = null
     private var disposable: Disposable? = null
+    private lateinit var prefsManager: AppPrefManager
     private var isFreeName = true
 
     fun setView(view: CreateAccountView?) {
         this.view = view
+        prefsManager = view?.getPrefsManager()!!
     }
 
-    fun createAccount() {
-        val name = view?.getName()
-        val password = view?.getPassword()!!
-        val confirmPassword = view?.getConfirmPassword()
-        if (name!!.isNotBlank()) {
+    fun saveName(name: String) {
+        prefsManager.saveName(name)
+    }
+
+    fun createAccount(name: String, password: String, confirmPassword: String) {
+        if (name.isNotBlank()) {
             if (password == confirmPassword) {
                 val cryptPassword = encode(password)
                 view?.progressBarOn()
@@ -45,8 +49,11 @@ class CreateAccountPresenter {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         ItemManager.setName(name)
+                        if (ItemManager.getItemList().isNotEmpty()) {
+                            ItemManager.clearItemList()
+                        }
                         view?.progressBarOff()
-                        view?.createAccount()
+                        view?.onCreateAccountClick()
                     }, {
                         if (isFreeName) {
                             view?.progressBarOff()

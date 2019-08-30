@@ -37,11 +37,14 @@ class LogInFragment : Fragment(), LogInView {
         presenter.setName()
 
         logIn.setOnClickListener {
-            presenter.logIn()
+            presenter.logIn(
+                logInUsername.text.toString(),
+                logInPassword.text.toString()
+            )
         }
 
         logInCreate.setOnClickListener {
-            presenter.create()
+            listener?.onCreateAccountClick()
         }
     }
 
@@ -52,21 +55,13 @@ class LogInFragment : Fragment(), LogInView {
         logInUsername.setText(name)
     }
 
-    override fun getName(): String = logInUsername.text.toString()
-
-    override fun getPassword(): String = logInPassword.text.toString()
-
-    override fun logIn() {
+    override fun onLogInClick() {
         listener?.onLogInClick()
-    }
-
-    override fun create() {
-        listener?.onCreateAccountClick()
     }
 
     override fun onStop() {
         super.onStop()
-        presenter.saveName()
+        presenter.saveName(logInUsername.text.toString())
     }
 
     override fun showMessage(number: Int) {

@@ -37,7 +37,7 @@
         <Button
             android:id="@+id/accountSave"
             style="@style/Button"
-            android:text="@string/save" />
+            android:text="@string/create" />
     </LinearLayout>
 
     <ProgressBar

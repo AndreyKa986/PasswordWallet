@@ -6,10 +6,7 @@ interface LogInView {
 
     fun getPrefsManager(): AppPrefManager
     fun setName(name: String)
-    fun getName(): String
-    fun getPassword(): String
-    fun logIn()
-    fun create()
+    fun onLogInClick()
     fun showMessage(number: Int)
     fun progressBarOn()
     fun progressBarOff()

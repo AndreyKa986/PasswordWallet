@@ -17,10 +17,6 @@ class DeleteItemPresenter {
         this.view = view
     }
 
-    fun no() {
-        view?.no()
-    }
-
     fun yes(itemName: String) {
         val list = ItemManager.getItemList()
         list.remove(itemName)
@@ -37,7 +33,7 @@ class DeleteItemPresenter {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 view?.progressBarOff()
-                view?.yes()
+                view?.onYesClick()
             }, {
                 view?.progressBarOff()
                 view?.showMessage()

@@ -50,7 +50,7 @@ class CreatePasswordFragment : Fragment(),
         }
 
         autoSave.setOnClickListener {
-            presenter.savePassword(name)
+            savePassword()
         }
     }
 
@@ -58,9 +58,10 @@ class CreatePasswordFragment : Fragment(),
         autoPassword.setText(password)
     }
 
-    override fun getPassword(): String = autoPassword.text.toString()
-
-    override fun savePassword(list: ArrayList<String>) {
+    private fun savePassword() {
+        val list = ArrayList<String>()
+        list.add(name)
+        list.add(autoPassword.text.toString())
         listener?.onSavePasswordClick(list)
     }
 

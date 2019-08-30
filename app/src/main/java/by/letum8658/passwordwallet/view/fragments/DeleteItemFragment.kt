@@ -15,8 +15,7 @@ import by.letum8658.passwordwallet.presenters.DeleteItemPresenter
 import by.letum8658.passwordwallet.view.views.DeleteItemView
 import kotlinx.android.synthetic.main.fragment_delete_item.*
 
-class DeleteItemFragment : Fragment(), DeleteItemView,
-    OnBackPressedListener {
+class DeleteItemFragment : Fragment(), DeleteItemView, OnBackPressedListener {
 
     companion object {
 
@@ -51,7 +50,7 @@ class DeleteItemFragment : Fragment(), DeleteItemView,
         presenter.setView(this)
 
         deleteNo.setOnClickListener {
-            presenter.no()
+            listener?.onNoClick(list)
         }
 
         deleteYes.setOnClickListener {
@@ -59,11 +58,7 @@ class DeleteItemFragment : Fragment(), DeleteItemView,
         }
     }
 
-    override fun no() {
-        listener?.onNoClick(list)
-    }
-
-    override fun yes() {
+    override fun onYesClick() {
         listener?.onYesClick()
     }
 
@@ -80,7 +75,7 @@ class DeleteItemFragment : Fragment(), DeleteItemView,
     }
 
     override fun showMessage() {
-            Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
     }
 
     override fun onAttach(context: Context?) {

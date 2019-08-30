@@ -20,12 +20,9 @@ class ChangePasswordPresenter {
         view?.setName(name)
     }
 
-    fun saveItem() {
-        val password = view?.getPassword()!!
-        val confirmP = view?.getConfirmPassword()
+    fun saveItem(itemName: String, password: String, confirmP: String) {
         if (password == confirmP) {
             val account = ItemManager.getName()!!
-            val itemName = view?.getName()!!
             val cryptPassword = encode(password)
             view?.progressBarOn()
             disposable = ItemManager.updateItem(account, itemName, Item(cryptPassword))
@@ -33,7 +30,7 @@ class ChangePasswordPresenter {
                 .subscribe({
                     val list = arrayListOf(itemName, password)
                     view?.progressBarOff()
-                    view?.saveChange(list)
+                    view?.onSaveClick(list)
                 }, {
                     view?.progressBarOff()
                     view?.showMessage(1)

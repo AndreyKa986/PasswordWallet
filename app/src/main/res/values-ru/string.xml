@@ -5,6 +5,7 @@
     <string name="create_password">Создать пароль</string>
     <string name="auto_create">Генирировать пароль</string>
     <string name="save">Сохранить</string>
+    <string name="create">Создать</string>
     <string name="delete">Удалить</string>
     <string name="change">Изменить</string>
     <string name="ok">Назад</string>

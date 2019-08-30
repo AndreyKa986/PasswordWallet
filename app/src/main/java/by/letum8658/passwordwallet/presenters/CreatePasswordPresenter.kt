@@ -19,13 +19,6 @@ class CreatePasswordPresenter {
             .joinToString("")
         view?.setPassword(password)
     }
-    fun savePassword(name: String) {
-        val password = view?.getPassword()!!
-        val list = ArrayList<String>()
-        list.add(name)
-        list.add(password)
-        view?.savePassword(list)
-    }
 
     fun detach() {
         view = null

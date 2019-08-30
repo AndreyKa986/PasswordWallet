@@ -24,14 +24,11 @@ class LogInPresenter {
         view?.setName(name)
     }
 
-    fun saveName() {
-        val name = view?.getName()
-        prefsManager.saveName(name!!)
+    fun saveName(name: String) {
+        prefsManager.saveName(name)
     }
 
-    fun logIn() {
-        val name = view?.getName()!!
-        val password = view?.getPassword()!!
+    fun logIn(name: String, password: String) {
         if (name.isNotBlank()) {
             if (password.isNotBlank()) {
                 view?.progressBarOn()
@@ -46,7 +43,7 @@ class LogInPresenter {
                                 ItemManager.clearItemList()
                             }
                             view?.progressBarOff()
-                            view?.logIn()
+                            view?.onLogInClick()
                         } else {
                             view?.progressBarOff()
                             view?.showMessage(1)
@@ -66,10 +63,6 @@ class LogInPresenter {
         } else {
             view?.showMessage(4)
         }
-    }
-
-    fun create() {
-        view?.create()
     }
 
     fun detach() {

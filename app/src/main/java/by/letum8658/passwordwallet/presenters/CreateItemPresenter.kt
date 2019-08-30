@@ -31,15 +31,7 @@ class CreateItemPresenter {
         }
     }
 
-    fun createPassword() {
-        val name = view?.getName()
-        view?.createPassword(name!!)
-    }
-
-    fun saveItem() {
-        val itemName = view?.getName()!!
-        val password = view?.getPassword()!!
-        val confirm = view?.getConfirmPassword()
+    fun saveItem(itemName: String, password: String, confirm: String) {
         if (itemName.isNotBlank()) {
             if (password == confirm) {
                 val account = ItemManager.getName()!!
@@ -61,7 +53,7 @@ class CreateItemPresenter {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             view?.progressBarOff()
-                            view?.saveItem()
+                            view?.onSaveItemClick()
                         }, {
                             view?.progressBarOff()
                             view?.showMessage(4)

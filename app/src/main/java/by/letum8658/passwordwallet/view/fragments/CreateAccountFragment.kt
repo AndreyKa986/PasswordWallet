@@ -10,9 +10,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.R
+import by.letum8658.passwordwallet.model.AppPrefManager
 import by.letum8658.passwordwallet.presenters.CreateAccountPresenter
 import by.letum8658.passwordwallet.view.views.CreateAccountView
 import kotlinx.android.synthetic.main.fragment_create_account.*
+import kotlinx.android.synthetic.main.fragment_log_in.*
 
 class CreateAccountFragment : Fragment(), CreateAccountView,
     OnBackPressedListener {
@@ -36,21 +38,27 @@ class CreateAccountFragment : Fragment(), CreateAccountView,
         presenter.setView(this)
 
         accountSave.setOnClickListener {
-            presenter.createAccount()
+            presenter.createAccount(
+                accountUsername.text.toString(),
+                accountPassword.text.toString(),
+                accountConfirm.text.toString()
+            )
         }
     }
 
-    override fun getName(): String = accountUsername.text.toString()
+    override fun getPrefsManager(): AppPrefManager =
+        AppPrefManager(context!!)
 
-    override fun getPassword(): String = accountPassword.text.toString()
-
-    override fun getConfirmPassword(): String = accountConfirm.text.toString()
-
-    override fun createAccount() {
+    override fun onCreateAccountClick() {
         listener?.onSaveAccountClick()
     }
 
     override fun onBackPressed() {}
+
+    override fun onStop() {
+        super.onStop()
+        presenter.saveName(accountUsername.text.toString())
+    }
 
     override fun showMessage(number: Int) {
         when (number) {

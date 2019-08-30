@@ -17,7 +17,7 @@ class InformationPresenter {
         this.view = view
     }
 
-    fun showData(item: String, pass: String?) {
+    fun showData(item: String, pass: String?, list: ArrayList<String>?) {
         if (item.isNotBlank()) {
             view?.setName(item)
             if (pass == null) {
@@ -39,22 +39,9 @@ class InformationPresenter {
                 view?.setPassword(pass)
             }
         } else {
-            val list = view?.getInformationList()!!
-            view?.setName(list[0])
-            view?.setPassword(list[1])
+            view?.setName(list!![0])
+            view?.setPassword(list!![1])
         }
-    }
-
-    fun delete() {
-        view?.delete()
-    }
-
-    fun change() {
-        view?.change()
-    }
-
-    fun ok() {
-        view?.ok()
     }
 
     fun detach() {

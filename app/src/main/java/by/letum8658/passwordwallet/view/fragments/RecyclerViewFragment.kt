@@ -67,7 +67,7 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
         })
 
         FAB.setOnClickListener {
-            presenter.fab()
+            listener?.onFABClick()
         }
     }
 
@@ -76,13 +76,8 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
     }
 
     private fun updateList() {
-        adapter.itemListBySearch(presenter.getSearchList())
-    }
-
-    override fun getSearchString(): String = search.text.toString()
-
-    override fun fab() {
-        listener?.onFABClick()
+        val text = search.text.toString()
+        adapter.itemListBySearch(presenter.getSearchList(text))
     }
 
     override fun updateDatabase() {

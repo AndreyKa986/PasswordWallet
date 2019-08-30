@@ -15,8 +15,7 @@ import by.letum8658.passwordwallet.presenters.ChangePasswordPresenter
 import by.letum8658.passwordwallet.view.views.ChangePasswordView
 import kotlinx.android.synthetic.main.fragment_change_password.*
 
-class ChangePasswordFragment : Fragment(),
-    ChangePasswordView, OnBackPressedListener {
+class ChangePasswordFragment : Fragment(), ChangePasswordView, OnBackPressedListener {
 
     companion object {
 
@@ -53,7 +52,11 @@ class ChangePasswordFragment : Fragment(),
         presenter.showItem(list!![0])
 
         changeSave.setOnClickListener {
-            presenter.saveItem()
+            presenter.saveItem(
+                changeName.text.toString(),
+                changePassword.text.toString(),
+                changeConfirm.text.toString()
+            )
         }
     }
 
@@ -61,13 +64,7 @@ class ChangePasswordFragment : Fragment(),
         changeName.text = name
     }
 
-    override fun getName(): String = changeName.text.toString()
-
-    override fun getPassword(): String = changePassword.text.toString()
-
-    override fun getConfirmPassword(): String = changeConfirm.text.toString()
-
-    override fun saveChange(list: ArrayList<String>) {
+    override fun onSaveClick(list: ArrayList<String>) {
         listener?.onSaveChangedClick(list)
     }
 

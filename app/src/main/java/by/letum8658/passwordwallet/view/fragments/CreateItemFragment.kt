@@ -14,8 +14,7 @@ import by.letum8658.passwordwallet.presenters.CreateItemPresenter
 import by.letum8658.passwordwallet.view.views.CreateItemView
 import kotlinx.android.synthetic.main.fragment_create_item.*
 
-class CreateItemFragment : Fragment(), CreateItemView,
-    OnBackPressedListener {
+class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
 
     companion object {
 
@@ -52,11 +51,15 @@ class CreateItemFragment : Fragment(), CreateItemView,
         presenter.setData(list)
 
         itemCreate.setOnClickListener {
-            presenter.createPassword()
+            listener?.onCreatePasswordClick(itemName.text.toString())
         }
 
         itemSave.setOnClickListener {
-            presenter.saveItem()
+            presenter.saveItem(
+                itemName.text.toString(),
+                itemPassword.text.toString(),
+                itemConfirm.text.toString()
+            )
         }
     }
 
@@ -72,17 +75,7 @@ class CreateItemFragment : Fragment(), CreateItemView,
         itemConfirm.setText(confirm)
     }
 
-    override fun getName(): String = itemName.text.toString()
-
-    override fun getPassword(): String = itemPassword.text.toString()
-
-    override fun getConfirmPassword(): String = itemConfirm.text.toString()
-
-    override fun createPassword(name: String) {
-        listener?.onCreatePasswordClick(name)
-    }
-
-    override fun saveItem() {
+    override fun onSaveItemClick() {
         listener?.onSaveItemClick()
     }
 

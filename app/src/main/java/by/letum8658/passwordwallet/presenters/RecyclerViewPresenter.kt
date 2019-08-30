@@ -32,14 +32,7 @@ class RecyclerViewPresenter {
         return itemList
     }
 
-    fun getSearchList(): List<String> {
-        val text = view?.getSearchString()
-        return ItemManager.getSearchList(text!!)
-    }
-
-    fun fab() {
-        view?.fab()
-    }
+    fun getSearchList(text: String): List<String> = ItemManager.getSearchList(text)
 
     fun detach() {
         disposable?.dispose()

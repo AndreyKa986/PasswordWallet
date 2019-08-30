@@ -43,7 +43,7 @@ class InformationFragment : Fragment(), InformationView,
     private var listener: Listener? = null
     private lateinit var progressBar: ProgressBar
     private val item by lazy { arguments!!.getString(ID_KEY, " ") }
-    private val list by lazy { arguments!!.getStringArrayList(ID_KEY) }
+    private val list by lazy { arguments?.getStringArrayList(ID_KEY) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,18 +59,22 @@ class InformationFragment : Fragment(), InformationView,
 
         presenter.setView(this)
 
-        presenter.showData(item, savedInstanceState?.getString(INSTANCE_KEY))
+        presenter.showData(
+            item,
+            savedInstanceState?.getString(INSTANCE_KEY),
+            list
+            )
 
         informationDelete.setOnClickListener {
-            presenter.delete()
+            delete()
         }
 
         informationChange.setOnClickListener {
-            presenter.change()
+            change()
         }
 
         informationOK.setOnClickListener {
-            presenter.ok()
+            listener?.onOkClick()
         }
     }
 
@@ -87,8 +91,6 @@ class InformationFragment : Fragment(), InformationView,
         informationPassword.text = password
     }
 
-    override fun getInformationList(): ArrayList<String> = list
-
     override fun delete() {
         val password = informationPassword.text.toString()
         val itemName = informationName.text.toString()
@@ -101,10 +103,6 @@ class InformationFragment : Fragment(), InformationView,
         val itemName = informationName.text.toString()
         val list = arrayListOf(itemName, password)
         listener?.onChangeClick(list)
-    }
-
-    override fun ok() {
-        listener?.onOkClick()
     }
 
     override fun onBackPressed() {}
