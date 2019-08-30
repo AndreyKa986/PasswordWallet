@@ -1,7 +1,7 @@
 package by.letum8658.passwordwallet.presenters
 
 import by.letum8658.passwordwallet.model.Item
-import by.letum8658.passwordwallet.model.ItemManager
+import by.letum8658.passwordwallet.model.EntityManager
 import by.letum8658.passwordwallet.utils.decode
 import by.letum8658.passwordwallet.view.views.InformationView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,9 +21,9 @@ class InformationPresenter {
         if (item.isNotBlank()) {
             view?.setName(item)
             if (pass == null) {
-                val name = ItemManager.getName()!!
+                val name = EntityManager.getName()!!
                 view?.progressBarOn()
-                disposable = ItemManager.getItemPassword(name, item)
+                disposable = EntityManager.getItemPassword(name, item)
                     .map { Item(decode(it.password)) }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

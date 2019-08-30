@@ -13,3 +13,15 @@ fun provideItemRepository(): ItemRepository {
         )
     )
 }
+
+fun provideUserRepository(): UserRepository {
+    return UserRepositoryRemote(
+        NetProvider.provideUserApi(
+            NetProvider.provideRetrofit(
+                BASE_URL,
+                NetProvider.provideOkHttp(),
+                NetProvider.provideGson()
+            )
+        )
+    )
+}

@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.R
-import by.letum8658.passwordwallet.model.ItemManager
+import by.letum8658.passwordwallet.model.EntityManager
 import by.letum8658.passwordwallet.presenters.DeleteItemPresenter
 import by.letum8658.passwordwallet.view.views.DeleteItemView
 import kotlinx.android.synthetic.main.fragment_delete_item.*
@@ -63,7 +63,7 @@ class DeleteItemFragment : Fragment(), DeleteItemView, OnBackPressedListener {
     }
 
     override fun onBackPressed() {
-        ItemManager.setList(list)
+        EntityManager.setList(list)
     }
 
     override fun progressBarOn() {

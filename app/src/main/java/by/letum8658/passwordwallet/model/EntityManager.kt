@@ -1,14 +1,16 @@
 package by.letum8658.passwordwallet.model
 
 import by.letum8658.passwordwallet.net.provideItemRepository
+import by.letum8658.passwordwallet.net.provideUserRepository
 import io.reactivex.schedulers.Schedulers
 
-object ItemManager {
+object EntityManager {
 
     private var itemName: String? = null
     private var itemList: MutableList<String> = mutableListOf()
     private var list: ArrayList<String> = arrayListOf()
-    private val repository = provideItemRepository()
+    private val itemRepository = provideItemRepository()
+    private val userRepository = provideUserRepository()
 
     fun getName(): String? = itemName
 
@@ -36,32 +38,32 @@ object ItemManager {
     fun getSearchList(string: String): List<String> =
         itemList.filter { it.contains(string, true) }
 
-    fun getAccount(account: String) = repository
+    fun getAccount(account: String) = userRepository
         .getAccount(account)
 
-    fun createAccount(account: String, password: User) = repository
+    fun createAccount(account: String, password: User) = userRepository
         .createAccount(account, password)
 
-    fun getAllNames(account: String) = repository
+    fun getAllNames(account: String) = userRepository
         .getAllNames(account)
         .subscribeOn(Schedulers.io())
 
-    fun updateAllNames(account: String, list: List<String>) = repository
+    fun updateAllNames(account: String, list: List<String>) = userRepository
         .updateAllNames(account, list)
         .subscribeOn(Schedulers.io())
 
-    fun getItemPassword(account: String, itemName: String) = repository
+    fun getItemPassword(account: String, itemName: String) = itemRepository
         .getItemPassword(account, itemName)
 
-    fun saveNewItem(account: String, itemName: String, item: Item) = repository
+    fun saveNewItem(account: String, itemName: String, item: Item) = itemRepository
         .saveNewItem(account, itemName, item)
         .subscribeOn(Schedulers.io())
 
-    fun updateItem(account: String, itemName: String, item: Item) = repository
+    fun updateItem(account: String, itemName: String, item: Item) = itemRepository
         .updateItem(account, itemName, item)
         .subscribeOn(Schedulers.io())
 
-    fun deleteItem(account: String, itemName: String) = repository
+    fun deleteItem(account: String, itemName: String) = itemRepository
         .deleteItem(account, itemName)
         .subscribeOn(Schedulers.io())
 }

@@ -1,7 +1,7 @@
 package by.letum8658.passwordwallet.presenters
 
 import by.letum8658.passwordwallet.model.Item
-import by.letum8658.passwordwallet.model.ItemManager
+import by.letum8658.passwordwallet.model.EntityManager
 import by.letum8658.passwordwallet.utils.encode
 import by.letum8658.passwordwallet.view.views.CreateItemView
 import io.reactivex.Single
@@ -34,19 +34,19 @@ class CreateItemPresenter {
     fun saveItem(itemName: String, password: String, confirm: String) {
         if (itemName.isNotBlank()) {
             if (password == confirm) {
-                val account = ItemManager.getName()!!
+                val account = EntityManager.getName()!!
                 val cryptPassword = encode(password)
-                val list = ItemManager.getItemList()
+                val list = EntityManager.getItemList()
                 if (list.contains(itemName)) {
                     view?.showMessage(3)
                 } else {
                     list.add(itemName)
-                    ItemManager.setItemList(list)
+                    EntityManager.setItemList(list)
                     view?.progressBarOn()
                     disposable = Single.zip(
-                        ItemManager.updateAllNames(account, list).toSingleDefault(Unit)
+                        EntityManager.updateAllNames(account, list).toSingleDefault(Unit)
                             .subscribeOn(Schedulers.computation()),
-                        ItemManager.saveNewItem(account, itemName, Item(cryptPassword))
+                        EntityManager.saveNewItem(account, itemName, Item(cryptPassword))
                             .subscribeOn(Schedulers.computation()),
                         BiFunction<Unit, Item, Item> { _, Item -> Item }
                     ).subscribeOn(Schedulers.io())

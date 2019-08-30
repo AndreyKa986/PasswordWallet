@@ -1,7 +1,7 @@
 package by.letum8658.passwordwallet.presenters
 
 import by.letum8658.passwordwallet.model.Item
-import by.letum8658.passwordwallet.model.ItemManager
+import by.letum8658.passwordwallet.model.EntityManager
 import by.letum8658.passwordwallet.utils.encode
 import by.letum8658.passwordwallet.view.views.ChangePasswordView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,10 +22,10 @@ class ChangePasswordPresenter {
 
     fun saveItem(itemName: String, password: String, confirmP: String) {
         if (password == confirmP) {
-            val account = ItemManager.getName()!!
+            val account = EntityManager.getName()!!
             val cryptPassword = encode(password)
             view?.progressBarOn()
-            disposable = ItemManager.updateItem(account, itemName, Item(cryptPassword))
+            disposable = EntityManager.updateItem(account, itemName, Item(cryptPassword))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     val list = arrayListOf(itemName, password)

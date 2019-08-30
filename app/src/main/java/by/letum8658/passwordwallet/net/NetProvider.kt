@@ -12,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object NetProvider {
 
     private var itemApi: ItemApi? = null
+    private var userApi: UserApi? = null
 
     fun provideGson(): Gson = GsonBuilder().create()
 
@@ -41,5 +42,10 @@ object NetProvider {
     fun provideItemApi(retrofit: Retrofit): ItemApi {
         if (itemApi == null) itemApi = retrofit.create(ItemApi::class.java)
         return itemApi!!
+    }
+
+    fun provideUserApi(retrofit: Retrofit): UserApi {
+        if (userApi == null) userApi = retrofit.create(UserApi::class.java)
+        return userApi!!
     }
 }

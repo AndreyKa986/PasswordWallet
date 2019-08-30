@@ -3,7 +3,7 @@ package by.letum8658.passwordwallet
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import by.letum8658.passwordwallet.model.ItemManager
+import by.letum8658.passwordwallet.model.EntityManager
 import by.letum8658.passwordwallet.model.MainActivityNavigation
 import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.view.fragments.LogInFragment
@@ -98,17 +98,17 @@ class Activity : FragmentActivity(), MainActivityNavigation {
                 is RecyclerViewFragment -> replaceFragment(LogInFragment())
                 is InformationFragment -> replaceFragment(RecyclerViewFragment())
                 is DeleteItemFragment -> {
-                    val list = ItemManager.getList()
+                    val list = EntityManager.getList()
                     replaceFragment(InformationFragment.getInstance(list))
                 }
                 is CreatePasswordFragment -> {
-                    val list = ItemManager.getList()
+                    val list = EntityManager.getList()
                     replaceFragment(CreateItemFragment.getInstance(list))
                 }
                 is CreateItemFragment -> replaceFragment(RecyclerViewFragment())
                 is CreateAccountFragment -> replaceFragment(LogInFragment())
                 is ChangePasswordFragment -> {
-                    val list = ItemManager.getList()
+                    val list = EntityManager.getList()
                     replaceFragment(InformationFragment.getInstance(list))
                 }
             }

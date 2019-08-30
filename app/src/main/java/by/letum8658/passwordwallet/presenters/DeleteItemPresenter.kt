@@ -1,6 +1,6 @@
 package by.letum8658.passwordwallet.presenters
 
-import by.letum8658.passwordwallet.model.ItemManager
+import by.letum8658.passwordwallet.model.EntityManager
 import by.letum8658.passwordwallet.view.views.DeleteItemView
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,15 +18,15 @@ class DeleteItemPresenter {
     }
 
     fun yes(itemName: String) {
-        val list = ItemManager.getItemList()
+        val list = EntityManager.getItemList()
         list.remove(itemName)
-        ItemManager.setItemList(list)
-        val account = ItemManager.getName()!!
+        EntityManager.setItemList(list)
+        val account = EntityManager.getName()!!
         view?.progressBarOn()
         disposable = Single.zip(
-            ItemManager.updateAllNames(account, list).toSingleDefault(Unit)
+            EntityManager.updateAllNames(account, list).toSingleDefault(Unit)
                 .subscribeOn(Schedulers.computation()),
-            ItemManager.deleteItem(account, itemName).toSingleDefault(Unit)
+            EntityManager.deleteItem(account, itemName).toSingleDefault(Unit)
                 .subscribeOn(Schedulers.computation()),
             BiFunction<Unit, Unit, Unit> { _, _ -> Unit }
         ).subscribeOn(Schedulers.io())

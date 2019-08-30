@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.model.AppPrefManager
+import by.letum8658.passwordwallet.utils.AppPrefManager
 import by.letum8658.passwordwallet.R
 import by.letum8658.passwordwallet.presenters.LogInPresenter
 import by.letum8658.passwordwallet.view.views.LogInView

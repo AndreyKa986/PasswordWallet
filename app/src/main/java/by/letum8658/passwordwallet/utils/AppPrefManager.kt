@@ -1,4 +1,4 @@
-package by.letum8658.passwordwallet.model
+package by.letum8658.passwordwallet.utils
 
 import android.content.Context
 import android.content.SharedPreferences

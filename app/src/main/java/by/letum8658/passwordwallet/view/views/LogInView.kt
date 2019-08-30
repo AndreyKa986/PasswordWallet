@@ -1,6 +1,6 @@
 package by.letum8658.passwordwallet.view.views
 
-import by.letum8658.passwordwallet.model.AppPrefManager
+import by.letum8658.passwordwallet.utils.AppPrefManager
 
 interface LogInView {
 

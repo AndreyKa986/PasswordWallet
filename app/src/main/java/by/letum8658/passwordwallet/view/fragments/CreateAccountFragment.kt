@@ -10,11 +10,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.R
-import by.letum8658.passwordwallet.model.AppPrefManager
+import by.letum8658.passwordwallet.utils.AppPrefManager
 import by.letum8658.passwordwallet.presenters.CreateAccountPresenter
 import by.letum8658.passwordwallet.view.views.CreateAccountView
 import kotlinx.android.synthetic.main.fragment_create_account.*
-import kotlinx.android.synthetic.main.fragment_log_in.*
 
 class CreateAccountFragment : Fragment(), CreateAccountView,
     OnBackPressedListener {

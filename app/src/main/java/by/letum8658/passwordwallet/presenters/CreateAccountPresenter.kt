@@ -1,7 +1,7 @@
 package by.letum8658.passwordwallet.presenters
 
-import by.letum8658.passwordwallet.model.AppPrefManager
-import by.letum8658.passwordwallet.model.ItemManager
+import by.letum8658.passwordwallet.utils.AppPrefManager
+import by.letum8658.passwordwallet.model.EntityManager
 import by.letum8658.passwordwallet.model.User
 import by.letum8658.passwordwallet.utils.encode
 import by.letum8658.passwordwallet.view.views.CreateAccountView
@@ -31,7 +31,7 @@ class CreateAccountPresenter {
             if (password == confirmPassword) {
                 val cryptPassword = encode(password)
                 view?.progressBarOn()
-                disposable = ItemManager.getAccount(name)
+                disposable = EntityManager.getAccount(name)
                     .onErrorResumeNext {
                         if (it is NoSuchElementException) {
                             Single.just("NULL")
@@ -40,7 +40,7 @@ class CreateAccountPresenter {
                         }
                     }.flatMap {
                         if (it == "NULL") {
-                            ItemManager.createAccount(name, User(cryptPassword))
+                            EntityManager.createAccount(name, User(cryptPassword))
                         } else {
                             isFreeName = false
                             Single.error(Throwable("Account exists"))
@@ -48,9 +48,9 @@ class CreateAccountPresenter {
                     }.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        ItemManager.setName(name)
-                        if (ItemManager.getItemList().isNotEmpty()) {
-                            ItemManager.clearItemList()
+                        EntityManager.setName(name)
+                        if (EntityManager.getItemList().isNotEmpty()) {
+                            EntityManager.clearItemList()
                         }
                         view?.progressBarOff()
                         view?.onCreateAccountClick()
