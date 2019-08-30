@@ -1,36 +1,27 @@
 package by.letum8658.passwordwallet.view.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.model.OnBackPressedListener
+import androidx.navigation.findNavController
 import by.letum8658.passwordwallet.R
 import by.letum8658.passwordwallet.model.EntityManager
+import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.presenters.CreatePasswordPresenter
 import by.letum8658.passwordwallet.view.views.CreatePasswordView
 import kotlinx.android.synthetic.main.fragment_auto_create_password.*
 
-class CreatePasswordFragment : Fragment(),
-    CreatePasswordView, OnBackPressedListener {
+class CreatePasswordFragment : Fragment(), CreatePasswordView, OnBackPressedListener {
 
     companion object {
 
         private const val ID_KEY = "id_key"
-
-        fun getInstance(name: String): CreatePasswordFragment {
-            return CreatePasswordFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ID_KEY, name)
-                }
-            }
-        }
     }
 
     private val presenter = CreatePasswordPresenter()
-    private var listener: Listener? = null
     private val name by lazy { arguments!!.getString(ID_KEY, "Name") }
 
     override fun onCreateView(
@@ -62,7 +53,9 @@ class CreatePasswordFragment : Fragment(),
         val list = ArrayList<String>()
         list.add(name)
         list.add(autoPassword.text.toString())
-        listener?.onSavePasswordClick(list)
+        val bundle = bundleOf(ID_KEY to list)
+        view!!.findNavController()
+            .navigate(R.id.action_createPasswordFragment_to_createItemFragment, bundle)
     }
 
     override fun onBackPressed() {
@@ -72,20 +65,8 @@ class CreatePasswordFragment : Fragment(),
         EntityManager.setList(list)
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is Listener) {
-            listener = context
-        }
-    }
-
     override fun onDetach() {
         super.onDetach()
-        listener = null
         presenter.detach()
-    }
-
-    interface Listener {
-        fun onSavePasswordClick(list: ArrayList<String>)
     }
 }

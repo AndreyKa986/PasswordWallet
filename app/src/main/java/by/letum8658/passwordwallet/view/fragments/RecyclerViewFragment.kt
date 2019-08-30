@@ -1,6 +1,5 @@
 package by.letum8658.passwordwallet.view.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.letum8658.passwordwallet.R
@@ -23,8 +24,12 @@ import kotlinx.android.synthetic.main.fragment_recyclerview_items.*
 class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener,
     OnBackPressedListener {
 
+    companion object {
+
+        private const val ID_KEY = "id_key"
+    }
+
     private val presenter = RecyclerViewPresenter()
-    private var listener: Listener? = null
     private lateinit var adapter: Adapter
     private lateinit var progressBar: ProgressBar
 
@@ -67,12 +72,15 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
         })
 
         FAB.setOnClickListener {
-            listener?.onFABClick()
+            view.findNavController()
+                .navigate(R.id.action_recyclerViewFragment_to_createItemFragment)
         }
     }
 
     override fun onItemClick(item: String) {
-        listener?.onItemClick(item)
+        val bundle = bundleOf(ID_KEY to item)
+        view!!.findNavController()
+            .navigate(R.id.action_recyclerViewFragment_to_informationFragment, bundle)
     }
 
     private fun updateList() {
@@ -94,21 +102,8 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
         progressBar.visibility = View.GONE
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is Listener) {
-            listener = context
-        }
-    }
-
     override fun onDetach() {
         super.onDetach()
-        listener = null
         presenter.detach()
-    }
-
-    interface Listener {
-        fun onItemClick(item: String)
-        fun onFABClick()
     }
 }

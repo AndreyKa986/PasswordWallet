@@ -1,16 +1,17 @@
 package by.letum8658.passwordwallet.view.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.model.OnBackPressedListener
+import androidx.navigation.findNavController
 import by.letum8658.passwordwallet.R
 import by.letum8658.passwordwallet.model.EntityManager
+import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.presenters.ChangePasswordPresenter
 import by.letum8658.passwordwallet.view.views.ChangePasswordView
 import kotlinx.android.synthetic.main.fragment_change_password.*
@@ -20,18 +21,9 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView, OnBackPressedList
     companion object {
 
         private const val ID_KEY = "id_key"
-
-        fun getInstance(list: ArrayList<String>): ChangePasswordFragment {
-            return ChangePasswordFragment().apply {
-                arguments = Bundle().apply {
-                    putStringArrayList(ID_KEY, list)
-                }
-            }
-        }
     }
 
     private val presenter = ChangePasswordPresenter()
-    private var listener: Listener? = null
     private lateinit var progressBar: ProgressBar
     private val list by lazy { arguments!!.getStringArrayList(ID_KEY) }
 
@@ -65,7 +57,9 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView, OnBackPressedList
     }
 
     override fun onSaveClick(list: ArrayList<String>) {
-        listener?.onSaveChangedClick(list)
+        val bundle = bundleOf(ID_KEY to list)
+        view!!.findNavController()
+            .navigate(R.id.action_changePasswordFragment_to_informationFragment, bundle)
     }
 
     override fun onBackPressed() {
@@ -87,20 +81,8 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView, OnBackPressedList
         progressBar.visibility = View.GONE
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is Listener) {
-            listener = context
-        }
-    }
-
     override fun onDetach() {
         super.onDetach()
-        listener = null
         presenter.detach()
-    }
-
-    interface Listener {
-        fun onSaveChangedClick(list: ArrayList<String>)
     }
 }

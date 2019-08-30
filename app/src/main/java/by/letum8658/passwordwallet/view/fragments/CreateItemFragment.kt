@@ -1,15 +1,16 @@
 package by.letum8658.passwordwallet.view.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.model.OnBackPressedListener
+import androidx.navigation.findNavController
 import by.letum8658.passwordwallet.R
+import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.presenters.CreateItemPresenter
 import by.letum8658.passwordwallet.view.views.CreateItemView
 import kotlinx.android.synthetic.main.fragment_create_item.*
@@ -19,18 +20,9 @@ class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
     companion object {
 
         private const val ID_KEY = "id_key"
-
-        fun getInstance(list: ArrayList<String>): CreateItemFragment {
-            return CreateItemFragment().apply {
-                arguments = Bundle().apply {
-                    putStringArrayList(ID_KEY, list)
-                }
-            }
-        }
     }
 
     private val presenter = CreateItemPresenter()
-    private var listener: Listener? = null
     private lateinit var progressBar: ProgressBar
     private val list by lazy { arguments?.getStringArrayList(ID_KEY) }
 
@@ -51,7 +43,10 @@ class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
         presenter.setData(list)
 
         itemCreate.setOnClickListener {
-            listener?.onCreatePasswordClick(itemName.text.toString())
+            val name = itemName.text.toString()
+            val bundle = bundleOf(ID_KEY to name)
+            view.findNavController()
+                .navigate(R.id.action_createItemFragment_to_createPasswordFragment, bundle)
         }
 
         itemSave.setOnClickListener {
@@ -76,7 +71,7 @@ class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
     }
 
     override fun onSaveItemClick() {
-        listener?.onSaveItemClick()
+        view!!.findNavController().navigate(R.id.action_createItemFragment_to_recyclerViewFragment)
     }
 
     override fun onBackPressed() {}
@@ -98,21 +93,8 @@ class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
         progressBar.visibility = View.GONE
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is Listener) {
-            listener = context
-        }
-    }
-
     override fun onDetach() {
         super.onDetach()
-        listener = null
         presenter.detach()
-    }
-
-    interface Listener {
-        fun onCreatePasswordClick(name: String)
-        fun onSaveItemClick()
     }
 }

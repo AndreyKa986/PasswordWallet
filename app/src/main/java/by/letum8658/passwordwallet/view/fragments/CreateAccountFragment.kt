@@ -1,6 +1,5 @@
 package by.letum8658.passwordwallet.view.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,18 +7,17 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.model.OnBackPressedListener
+import androidx.navigation.findNavController
 import by.letum8658.passwordwallet.R
-import by.letum8658.passwordwallet.utils.AppPrefManager
+import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.presenters.CreateAccountPresenter
+import by.letum8658.passwordwallet.utils.AppPrefManager
 import by.letum8658.passwordwallet.view.views.CreateAccountView
 import kotlinx.android.synthetic.main.fragment_create_account.*
 
-class CreateAccountFragment : Fragment(), CreateAccountView,
-    OnBackPressedListener {
+class CreateAccountFragment : Fragment(), CreateAccountView, OnBackPressedListener {
 
     private val presenter = CreateAccountPresenter()
-    private var listener: Listener? = null
     private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
@@ -49,7 +47,8 @@ class CreateAccountFragment : Fragment(), CreateAccountView,
         AppPrefManager(context!!)
 
     override fun onCreateAccountClick() {
-        listener?.onSaveAccountClick()
+        view!!.findNavController()
+            .navigate(R.id.action_createAccountFragment_to_recyclerViewFragment)
     }
 
     override fun onBackPressed() {}
@@ -76,20 +75,8 @@ class CreateAccountFragment : Fragment(), CreateAccountView,
         progressBar.visibility = View.GONE
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is Listener) {
-            listener = context
-        }
-    }
-
     override fun onDetach() {
         super.onDetach()
-        listener = null
         presenter.detach()
-    }
-
-    interface Listener {
-        fun onSaveAccountClick()
     }
 }

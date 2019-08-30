@@ -1,16 +1,17 @@
 package by.letum8658.passwordwallet.view.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.model.OnBackPressedListener
+import androidx.navigation.findNavController
 import by.letum8658.passwordwallet.R
 import by.letum8658.passwordwallet.model.EntityManager
+import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.presenters.DeleteItemPresenter
 import by.letum8658.passwordwallet.view.views.DeleteItemView
 import kotlinx.android.synthetic.main.fragment_delete_item.*
@@ -20,18 +21,9 @@ class DeleteItemFragment : Fragment(), DeleteItemView, OnBackPressedListener {
     companion object {
 
         private const val ID_KEY = "id_key"
-
-        fun getInstance(list: ArrayList<String>): DeleteItemFragment {
-            return DeleteItemFragment().apply {
-                arguments = Bundle().apply {
-                    putStringArrayList(ID_KEY, list)
-                }
-            }
-        }
     }
 
     private val presenter = DeleteItemPresenter()
-    private var listener: Listener? = null
     private lateinit var progressBar: ProgressBar
     private val list by lazy { arguments!!.getStringArrayList(ID_KEY) }
 
@@ -50,7 +42,8 @@ class DeleteItemFragment : Fragment(), DeleteItemView, OnBackPressedListener {
         presenter.setView(this)
 
         deleteNo.setOnClickListener {
-            listener?.onNoClick(list)
+            val bundle = bundleOf(ID_KEY to list)
+            view.findNavController().navigate(R.id.action_deleteItemFragment_to_informationFragment, bundle)
         }
 
         deleteYes.setOnClickListener {
@@ -59,7 +52,7 @@ class DeleteItemFragment : Fragment(), DeleteItemView, OnBackPressedListener {
     }
 
     override fun onYesClick() {
-        listener?.onYesClick()
+        view!!.findNavController().navigate(R.id.action_deleteItemFragment_to_recyclerViewFragment)
     }
 
     override fun onBackPressed() {
@@ -78,21 +71,8 @@ class DeleteItemFragment : Fragment(), DeleteItemView, OnBackPressedListener {
         Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is Listener) {
-            listener = context
-        }
-    }
-
     override fun onDetach() {
         super.onDetach()
-        listener = null
         presenter.detach()
-    }
-
-    interface Listener {
-        fun onNoClick(list: ArrayList<String>)
-        fun onYesClick()
     }
 }

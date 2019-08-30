@@ -1,6 +1,5 @@
 package by.letum8658.passwordwallet.view.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,16 +7,16 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import by.letum8658.passwordwallet.utils.AppPrefManager
+import androidx.navigation.findNavController
 import by.letum8658.passwordwallet.R
 import by.letum8658.passwordwallet.presenters.LogInPresenter
+import by.letum8658.passwordwallet.utils.AppPrefManager
 import by.letum8658.passwordwallet.view.views.LogInView
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
 class LogInFragment : Fragment(), LogInView {
 
     private val presenter = LogInPresenter()
-    private var listener: Listener? = null
     private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
@@ -44,7 +43,7 @@ class LogInFragment : Fragment(), LogInView {
         }
 
         logInCreate.setOnClickListener {
-            listener?.onCreateAccountClick()
+            view.findNavController().navigate(R.id.action_logInFragment_to_createAccountFragment)
         }
     }
 
@@ -56,11 +55,12 @@ class LogInFragment : Fragment(), LogInView {
     }
 
     override fun onLogInClick() {
-        listener?.onLogInClick()
+        view!!.findNavController().navigate(R.id.action_logInFragment_to_recyclerViewFragment)
     }
 
     override fun onStop() {
         super.onStop()
+        logInPassword.text.clear()
         presenter.saveName(logInUsername.text.toString())
     }
 
@@ -82,21 +82,8 @@ class LogInFragment : Fragment(), LogInView {
         progressBar.visibility = View.GONE
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is Listener) {
-            listener = context
-        }
-    }
-
     override fun onDetach() {
         super.onDetach()
-        listener = null
         presenter.detach()
-    }
-
-    interface Listener {
-        fun onLogInClick()
-        fun onCreateAccountClick()
     }
 }
