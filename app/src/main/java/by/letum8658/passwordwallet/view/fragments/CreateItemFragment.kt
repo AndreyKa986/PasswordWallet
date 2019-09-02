@@ -6,20 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import by.letum8658.passwordwallet.R
-import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.presenters.CreateItemPresenter
 import by.letum8658.passwordwallet.view.views.CreateItemView
 import kotlinx.android.synthetic.main.fragment_create_item.*
 
-class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
+class CreateItemFragment : Fragment(), CreateItemView {
 
     companion object {
 
         private const val ID_KEY = "id_key"
+        private const val PASSWORD = 1
+        private const val ITEMNAME = 2
+        private const val TAKEN_ITEM = 3
+        private const val ERROR = 4
     }
 
     private val presenter = CreateItemPresenter()
@@ -35,6 +39,14 @@ class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                view.findNavController().navigate(R.id.action_createItemFragment_callback)
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 
         progressBar = view.findViewById(R.id.item_progress_circular)
 
@@ -71,17 +83,15 @@ class CreateItemFragment : Fragment(), CreateItemView, OnBackPressedListener {
     }
 
     override fun onSaveItemClick() {
-        view!!.findNavController().navigate(R.id.action_createItemFragment_to_recyclerViewFragment)
+        view?.findNavController()?.navigate(R.id.action_createItemFragment_to_recyclerViewFragment)
     }
-
-    override fun onBackPressed() {}
 
     override fun showMessage(number: Int) {
         when (number) {
-            1 -> Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
-            2 -> Toast.makeText(context, R.string.take_item, Toast.LENGTH_SHORT).show()
-            3 -> Toast.makeText(context, R.string.have_item, Toast.LENGTH_SHORT).show()
-            4 -> Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
+            PASSWORD -> Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
+            ITEMNAME -> Toast.makeText(context, R.string.take_item, Toast.LENGTH_SHORT).show()
+            TAKEN_ITEM -> Toast.makeText(context, R.string.have_item, Toast.LENGTH_SHORT).show()
+            ERROR -> Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
         }
     }
 

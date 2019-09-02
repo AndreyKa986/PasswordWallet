@@ -6,16 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import by.letum8658.passwordwallet.R
-import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.presenters.InformationPresenter
 import by.letum8658.passwordwallet.view.views.InformationView
 import kotlinx.android.synthetic.main.fragment_item_information.*
 
-class InformationFragment : Fragment(), InformationView, OnBackPressedListener {
+class InformationFragment : Fragment(), InformationView {
 
     companion object {
 
@@ -38,15 +38,19 @@ class InformationFragment : Fragment(), InformationView, OnBackPressedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                view.findNavController().navigate(R.id.action_informationFragment_callback)
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
         progressBar = view.findViewById(R.id.inform_progress_circular)
 
         presenter.setView(this)
 
-        presenter.showData(
-            item,
-            savedInstanceState?.getString(INSTANCE_KEY),
-            list
-        )
+        presenter.showData(item, savedInstanceState?.getString(INSTANCE_KEY), list)
 
         informationDelete.setOnClickListener {
             delete()
@@ -76,23 +80,26 @@ class InformationFragment : Fragment(), InformationView, OnBackPressedListener {
     }
 
     override fun delete() {
-        val password = informationPassword.text.toString()
-        val itemName = informationName.text.toString()
-        val list = arrayListOf(itemName, password)
-        val bundle = bundleOf(ID_KEY to list)
-        view!!.findNavController()
-            .navigate(R.id.action_informationFragment_to_deleteItemFragment, bundle)
+        view?.let {
+            val password = informationPassword.text.toString()
+            val itemName = informationName.text.toString()
+            val list = arrayListOf(itemName, password)
+            val bundle = bundleOf(ID_KEY to list)
+            it.findNavController()
+                .navigate(R.id.action_informationFragment_to_deleteItemFragment, bundle)
+        }
     }
 
     override fun change() {
-        val password = informationPassword.text.toString()
-        val itemName = informationName.text.toString()
-        val list = arrayListOf(itemName, password)
-        val bundle = bundleOf(ID_KEY to list)
-        view!!.findNavController().navigate(R.id.action_informationFragment_to_changePasswordFragment, bundle)
+        view?.let {
+            val password = informationPassword.text.toString()
+            val itemName = informationName.text.toString()
+            val list = arrayListOf(itemName, password)
+            val bundle = bundleOf(ID_KEY to list)
+            it.findNavController()
+                .navigate(R.id.action_informationFragment_to_changePasswordFragment, bundle)
+        }
     }
-
-    override fun onBackPressed() {}
 
     override fun showMessage() {
         Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()

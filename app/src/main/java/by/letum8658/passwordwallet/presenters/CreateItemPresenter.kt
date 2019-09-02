@@ -1,7 +1,7 @@
 package by.letum8658.passwordwallet.presenters
 
 import by.letum8658.passwordwallet.model.Item
-import by.letum8658.passwordwallet.model.EntityManager
+import by.letum8658.passwordwallet.model.EntityRepository
 import by.letum8658.passwordwallet.utils.encode
 import by.letum8658.passwordwallet.view.views.CreateItemView
 import io.reactivex.Single
@@ -11,6 +11,14 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 
 class CreateItemPresenter {
+
+    companion object {
+
+        private const val PASSWORD = 1
+        private const val ITEMNAME = 2
+        private const val TAKEN_ITEM = 3
+        private const val ERROR = 4
+    }
 
     private var view: CreateItemView? = null
     private var disposable: Disposable? = null
@@ -32,38 +40,40 @@ class CreateItemPresenter {
     }
 
     fun saveItem(itemName: String, password: String, confirm: String) {
-        if (itemName.isNotBlank()) {
-            if (password == confirm) {
-                val account = EntityManager.getName()!!
-                val cryptPassword = encode(password)
-                val list = EntityManager.getItemList()
-                if (list.contains(itemName)) {
-                    view?.showMessage(3)
+        view?.let { itView ->
+            if (itemName.isNotBlank()) {
+                if (password == confirm) {
+                    val account = EntityRepository.getName()!!
+                    val cryptPassword = encode(password)
+                    val list = EntityRepository.getItemList()
+                    if (list.contains(itemName)) {
+                        itView.showMessage(TAKEN_ITEM)
+                    } else {
+                        list.add(itemName)
+                        EntityRepository.setItemList(list)
+                        itView.progressBarOn()
+                        disposable = Single.zip(
+                            EntityRepository.updateAllNames(account, list).toSingleDefault(Unit)
+                                .subscribeOn(Schedulers.computation()),
+                            EntityRepository.saveNewItem(account, itemName, Item(cryptPassword))
+                                .subscribeOn(Schedulers.computation()),
+                            BiFunction<Unit, Item, Item> { _, Item -> Item }
+                        ).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                itView.progressBarOff()
+                                itView.onSaveItemClick()
+                            }, {
+                                itView.progressBarOff()
+                                itView.showMessage(ERROR)
+                            })
+                    }
                 } else {
-                    list.add(itemName)
-                    EntityManager.setItemList(list)
-                    view?.progressBarOn()
-                    disposable = Single.zip(
-                        EntityManager.updateAllNames(account, list).toSingleDefault(Unit)
-                            .subscribeOn(Schedulers.computation()),
-                        EntityManager.saveNewItem(account, itemName, Item(cryptPassword))
-                            .subscribeOn(Schedulers.computation()),
-                        BiFunction<Unit, Item, Item> { _, Item -> Item }
-                    ).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            view?.progressBarOff()
-                            view?.onSaveItemClick()
-                        }, {
-                            view?.progressBarOff()
-                            view?.showMessage(4)
-                        })
+                    itView.showMessage(PASSWORD)
                 }
             } else {
-                view?.showMessage(1)
+                itView.showMessage(ITEMNAME)
             }
-        } else {
-            view?.showMessage(2)
         }
     }
 

@@ -6,21 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import by.letum8658.passwordwallet.R
-import by.letum8658.passwordwallet.model.EntityManager
-import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.presenters.ChangePasswordPresenter
 import by.letum8658.passwordwallet.view.views.ChangePasswordView
 import kotlinx.android.synthetic.main.fragment_change_password.*
 
-class ChangePasswordFragment : Fragment(), ChangePasswordView, OnBackPressedListener {
+class ChangePasswordFragment : Fragment(), ChangePasswordView {
 
     companion object {
 
         private const val ID_KEY = "id_key"
+        private const val ERROR = 1
+        private const val PASSWORD = 2
     }
 
     private val presenter = ChangePasswordPresenter()
@@ -36,6 +37,16 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView, OnBackPressedList
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val bundle = bundleOf(ID_KEY to list)
+                view.findNavController()
+                    .navigate(R.id.action_changePasswordFragment_callback, bundle)
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 
         progressBar = view.findViewById(R.id.change_progress_circular)
 
@@ -57,19 +68,17 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView, OnBackPressedList
     }
 
     override fun onSaveClick(list: ArrayList<String>) {
-        val bundle = bundleOf(ID_KEY to list)
-        view!!.findNavController()
-            .navigate(R.id.action_changePasswordFragment_to_informationFragment, bundle)
-    }
-
-    override fun onBackPressed() {
-        EntityManager.setList(list)
+        view?.let {
+            val bundle = bundleOf(ID_KEY to list)
+            it.findNavController()
+                .navigate(R.id.action_changePasswordFragment_to_informationFragment, bundle)
+        }
     }
 
     override fun showMessage(number: Int) {
         when (number) {
-            1 -> Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
-            2 -> Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
+            ERROR -> Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
+            PASSWORD -> Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
         }
     }
 

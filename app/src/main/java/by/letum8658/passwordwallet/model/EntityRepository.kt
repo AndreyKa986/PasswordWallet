@@ -4,7 +4,7 @@ import by.letum8658.passwordwallet.net.provideItemRepository
 import by.letum8658.passwordwallet.net.provideUserRepository
 import io.reactivex.schedulers.Schedulers
 
-object EntityManager {
+object EntityRepository {
 
     private var itemName: String? = null
     private var itemList: MutableList<String> = mutableListOf()

@@ -1,7 +1,7 @@
 package by.letum8658.passwordwallet.presenters
 
 import by.letum8658.passwordwallet.model.Item
-import by.letum8658.passwordwallet.model.EntityManager
+import by.letum8658.passwordwallet.model.EntityRepository
 import by.letum8658.passwordwallet.utils.decode
 import by.letum8658.passwordwallet.view.views.InformationView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,29 +18,31 @@ class InformationPresenter {
     }
 
     fun showData(item: String, pass: String?, list: ArrayList<String>?) {
-        if (item.isNotBlank()) {
-            view?.setName(item)
-            if (pass == null) {
-                val name = EntityManager.getName()!!
-                view?.progressBarOn()
-                disposable = EntityManager.getItemPassword(name, item)
-                    .map { Item(decode(it.password)) }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        val password = it.password
-                        view?.progressBarOff()
-                        view?.setPassword(password)
-                    }, {
-                        view?.progressBarOff()
-                        view?.showMessage()
-                    })
+        view?.let { itView ->
+            if (item.isNotBlank()) {
+                itView.setName(item)
+                if (pass == null) {
+                    val name = EntityRepository.getName()!!
+                    itView.progressBarOn()
+                    disposable = EntityRepository.getItemPassword(name, item)
+                        .map { Item(decode(it.password)) }
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            val password = it.password
+                            itView.progressBarOff()
+                            itView.setPassword(password)
+                        }, {
+                            itView.progressBarOff()
+                            itView.showMessage()
+                        })
+                } else {
+                    itView.setPassword(pass)
+                }
             } else {
-                view?.setPassword(pass)
+                itView.setName(list!![0])
+                itView.setPassword(list[1])
             }
-        } else {
-            view?.setName(list!![0])
-            view?.setPassword(list!![1])
         }
     }
 

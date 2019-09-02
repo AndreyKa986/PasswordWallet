@@ -16,6 +16,15 @@ import kotlinx.android.synthetic.main.fragment_log_in.*
 
 class LogInFragment : Fragment(), LogInView {
 
+    companion object {
+
+        private const val INCORRECTLY = 1
+        private const val DO_NOT_HAVE = 2
+        private const val PASSWORD = 3
+        private const val USERNAME = 4
+        private const val ERROR = 5
+    }
+
     private val presenter = LogInPresenter()
     private lateinit var progressBar: ProgressBar
 
@@ -55,7 +64,7 @@ class LogInFragment : Fragment(), LogInView {
     }
 
     override fun onLogInClick() {
-        view!!.findNavController().navigate(R.id.action_logInFragment_to_recyclerViewFragment)
+        view?.findNavController()?.navigate(R.id.action_logInFragment_to_recyclerViewFragment)
     }
 
     override fun onStop() {
@@ -66,11 +75,11 @@ class LogInFragment : Fragment(), LogInView {
 
     override fun showMessage(number: Int) {
         when (number) {
-            1 -> Toast.makeText(context, R.string.dont_password, Toast.LENGTH_SHORT).show()
-            2 -> Toast.makeText(context, R.string.dont_user, Toast.LENGTH_SHORT).show()
-            3 -> Toast.makeText(context, R.string.take_password, Toast.LENGTH_SHORT).show()
-            4 -> Toast.makeText(context, R.string.take_name, Toast.LENGTH_SHORT).show()
-            5 -> Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
+            INCORRECTLY -> Toast.makeText(context, R.string.dont_password, Toast.LENGTH_SHORT).show()
+            DO_NOT_HAVE -> Toast.makeText(context, R.string.dont_user, Toast.LENGTH_SHORT).show()
+            PASSWORD -> Toast.makeText(context, R.string.take_password, Toast.LENGTH_SHORT).show()
+            USERNAME -> Toast.makeText(context, R.string.take_name, Toast.LENGTH_SHORT).show()
+            ERROR -> Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
         }
     }
 

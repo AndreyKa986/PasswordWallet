@@ -1,6 +1,6 @@
 package by.letum8658.passwordwallet.presenters
 
-import by.letum8658.passwordwallet.model.EntityManager
+import by.letum8658.passwordwallet.model.EntityRepository
 import by.letum8658.passwordwallet.view.views.RecyclerViewView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -15,24 +15,26 @@ class RecyclerViewPresenter {
     }
 
     fun getDataBase(): List<String> {
-        val itemList = EntityManager.getItemList()
+        val itemList = EntityRepository.getItemList()
         if (itemList.isEmpty()) {
-            val name = EntityManager.getName()!!
-            view?.progressBarOn()
-            disposable = EntityManager.getAllNames(name)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    EntityManager.setItemList(it.toMutableList())
-                    view?.progressBarOff()
-                    view?.updateDatabase()
-                }, {
-                    view?.progressBarOff()
-                })
+            view?.let { itView ->
+                val name = EntityRepository.getName()!!
+                itView.progressBarOn()
+                disposable = EntityRepository.getAllNames(name)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        EntityRepository.setItemList(it.toMutableList())
+                        itView.progressBarOff()
+                        itView.updateDatabase()
+                    }, {
+                        itView.progressBarOff()
+                    })
+            }
         }
         return itemList
     }
 
-    fun getSearchList(text: String): List<String> = EntityManager.getSearchList(text)
+    fun getSearchList(text: String): List<String> = EntityRepository.getSearchList(text)
 
     fun detach() {
         disposable?.dispose()

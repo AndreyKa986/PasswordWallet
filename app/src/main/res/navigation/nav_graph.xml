@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_createAccountFragment_to_recyclerViewFragment"
             app:destination="@id/recyclerViewFragment" />
+        <action
+            android:id="@+id/action_createAccountFragment_callback"
+            app:destination="@id/logInFragment" />
     </fragment>
     <fragment
         android:id="@+id/recyclerViewFragment"
@@ -33,6 +36,9 @@
         <action
             android:id="@+id/action_recyclerViewFragment_to_createItemFragment"
             app:destination="@id/createItemFragment" />
+        <action
+            android:id="@+id/action_recyclerViewFragment_callback"
+            app:destination="@id/logInFragment" />
     </fragment>
     <fragment
         android:id="@+id/informationFragment"
@@ -53,6 +59,9 @@
         <argument
             android:name="itemInfor"
             app:argType="string[]" />
+        <action
+            android:id="@+id/action_informationFragment_callback"
+            app:destination="@id/recyclerViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/createItemFragment"
@@ -67,6 +76,9 @@
         <argument
             android:name="listPassword"
             app:argType="string[]" />
+        <action
+            android:id="@+id/action_createItemFragment_callback"
+            app:destination="@id/recyclerViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/deleteItemFragment"
@@ -81,6 +93,9 @@
         <argument
             android:name="itemDeleteList"
             app:argType="string[]" />
+        <action
+            android:id="@+id/action_deleteItemFragment_callback"
+            app:destination="@id/informationFragment" />
     </fragment>
     <fragment
         android:id="@+id/changePasswordFragment"
@@ -92,6 +107,9 @@
         <argument
             android:name="itemChange"
             app:argType="string[]" />
+        <action
+            android:id="@+id/action_changePasswordFragment_callback"
+            app:destination="@id/informationFragment" />
     </fragment>
     <fragment
         android:id="@+id/createPasswordFragment"
@@ -103,5 +121,8 @@
         <argument
             android:name="itemPass"
             app:argType="string" />
+        <action
+            android:id="@+id/action_createPasswordFragment_callback"
+            app:destination="@id/createItemFragment" />
     </fragment>
 </navigation>

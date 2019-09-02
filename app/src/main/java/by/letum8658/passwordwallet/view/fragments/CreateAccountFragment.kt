@@ -6,16 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import by.letum8658.passwordwallet.R
-import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.presenters.CreateAccountPresenter
 import by.letum8658.passwordwallet.utils.AppPrefManager
 import by.letum8658.passwordwallet.view.views.CreateAccountView
 import kotlinx.android.synthetic.main.fragment_create_account.*
 
-class CreateAccountFragment : Fragment(), CreateAccountView, OnBackPressedListener {
+class CreateAccountFragment : Fragment(), CreateAccountView {
+
+    companion object {
+
+        private const val TAKEN_NAME = 1
+        private const val PASSWORD = 2
+        private const val USERNAME = 3
+        private const val ERROR = 4
+    }
 
     private val presenter = CreateAccountPresenter()
     private lateinit var progressBar: ProgressBar
@@ -29,6 +37,14 @@ class CreateAccountFragment : Fragment(), CreateAccountView, OnBackPressedListen
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                view.findNavController().navigate(R.id.action_createAccountFragment_callback)
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 
         progressBar = view.findViewById(R.id.account_progress_circular)
 
@@ -47,11 +63,9 @@ class CreateAccountFragment : Fragment(), CreateAccountView, OnBackPressedListen
         AppPrefManager(context!!)
 
     override fun onCreateAccountClick() {
-        view!!.findNavController()
-            .navigate(R.id.action_createAccountFragment_to_recyclerViewFragment)
+        view?.findNavController()
+            ?.navigate(R.id.action_createAccountFragment_to_recyclerViewFragment)
     }
-
-    override fun onBackPressed() {}
 
     override fun onStop() {
         super.onStop()
@@ -60,10 +74,10 @@ class CreateAccountFragment : Fragment(), CreateAccountView, OnBackPressedListen
 
     override fun showMessage(number: Int) {
         when (number) {
-            1 -> Toast.makeText(context, R.string.have_user, Toast.LENGTH_SHORT).show()
-            2 -> Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
-            3 -> Toast.makeText(context, R.string.take_name, Toast.LENGTH_SHORT).show()
-            4 -> Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
+            TAKEN_NAME -> Toast.makeText(context, R.string.have_user, Toast.LENGTH_SHORT).show()
+            PASSWORD -> Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
+            USERNAME -> Toast.makeText(context, R.string.take_name, Toast.LENGTH_SHORT).show()
+            ERROR -> Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
         }
     }
 

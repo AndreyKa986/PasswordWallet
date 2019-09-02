@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -16,13 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.letum8658.passwordwallet.R
 import by.letum8658.passwordwallet.adapters.Adapter
-import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.presenters.RecyclerViewPresenter
 import by.letum8658.passwordwallet.view.views.RecyclerViewView
 import kotlinx.android.synthetic.main.fragment_recyclerview_items.*
 
-class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener,
-    OnBackPressedListener {
+class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener {
 
     companion object {
 
@@ -42,6 +41,14 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                view.findNavController().navigate(R.id.action_recyclerViewFragment_callback)
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 
         progressBar = view.findViewById(R.id.recycler_progress_circular)
 
@@ -71,16 +78,18 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        FAB.setOnClickListener {
+        floatActionButton.setOnClickListener {
             view.findNavController()
                 .navigate(R.id.action_recyclerViewFragment_to_createItemFragment)
         }
     }
 
     override fun onItemClick(item: String) {
-        val bundle = bundleOf(ID_KEY to item)
-        view!!.findNavController()
-            .navigate(R.id.action_recyclerViewFragment_to_informationFragment, bundle)
+        view?.let {
+            val bundle = bundleOf(ID_KEY to item)
+            it.findNavController()
+                .navigate(R.id.action_recyclerViewFragment_to_informationFragment, bundle)
+        }
     }
 
     private fun updateList() {
@@ -91,8 +100,6 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
     override fun updateDatabase() {
         updateList()
     }
-
-    override fun onBackPressed() {}
 
     override fun progressBarOn() {
         progressBar.visibility = View.VISIBLE

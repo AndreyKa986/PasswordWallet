@@ -4,17 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import by.letum8658.passwordwallet.R
-import by.letum8658.passwordwallet.model.EntityManager
-import by.letum8658.passwordwallet.model.OnBackPressedListener
 import by.letum8658.passwordwallet.presenters.CreatePasswordPresenter
 import by.letum8658.passwordwallet.view.views.CreatePasswordView
 import kotlinx.android.synthetic.main.fragment_auto_create_password.*
 
-class CreatePasswordFragment : Fragment(), CreatePasswordView, OnBackPressedListener {
+class CreatePasswordFragment : Fragment(), CreatePasswordView {
 
     companion object {
 
@@ -34,6 +33,19 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView, OnBackPressedList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val list = arrayListOf<String>()
+                list.add(name)
+                list.add("")
+                val bundle = bundleOf(ID_KEY to list)
+                view.findNavController()
+                    .navigate(R.id.action_createPasswordFragment_callback, bundle)
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
         presenter.setView(this)
 
         autoCreate.setOnClickListener {
@@ -50,19 +62,14 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView, OnBackPressedList
     }
 
     private fun savePassword() {
-        val list = ArrayList<String>()
-        list.add(name)
-        list.add(autoPassword.text.toString())
-        val bundle = bundleOf(ID_KEY to list)
-        view!!.findNavController()
-            .navigate(R.id.action_createPasswordFragment_to_createItemFragment, bundle)
-    }
-
-    override fun onBackPressed() {
-        val list = arrayListOf<String>()
-        list.add(name)
-        list.add("")
-        EntityManager.setList(list)
+        view?.let {
+            val list = ArrayList<String>()
+            list.add(name)
+            list.add(autoPassword.text.toString())
+            val bundle = bundleOf(ID_KEY to list)
+            it.findNavController()
+                .navigate(R.id.action_createPasswordFragment_to_createItemFragment, bundle)
+        }
     }
 
     override fun onDetach() {
