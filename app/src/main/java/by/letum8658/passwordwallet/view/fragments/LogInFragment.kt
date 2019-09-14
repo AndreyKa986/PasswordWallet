@@ -75,7 +75,11 @@ class LogInFragment : Fragment(), LogInView {
 
     override fun showMessage(number: Int) {
         when (number) {
-            INCORRECTLY -> Toast.makeText(context, R.string.dont_password, Toast.LENGTH_SHORT).show()
+            INCORRECTLY -> Toast.makeText(
+                context,
+                R.string.dont_password,
+                Toast.LENGTH_SHORT
+            ).show()
             DO_NOT_HAVE -> Toast.makeText(context, R.string.dont_user, Toast.LENGTH_SHORT).show()
             PASSWORD -> Toast.makeText(context, R.string.take_password, Toast.LENGTH_SHORT).show()
             USERNAME -> Toast.makeText(context, R.string.take_name, Toast.LENGTH_SHORT).show()

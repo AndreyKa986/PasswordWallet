@@ -2,9 +2,15 @@ package by.letum8658.passwordwallet.view.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.view.View
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -21,7 +27,15 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
     }
 
     private val presenter = CreatePasswordPresenter()
+    private var actionBar: ActionBar? = null
     private val name by lazy { arguments!!.getString(ID_KEY, "Name") }
+
+    private lateinit var al: AlertDialog
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +46,24 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.let {
+            it.title = ""
+            it.show()
+        }
+
+        val isItemChecked = booleanArrayOf(true, true, true, true)
+        val checkedNames = arrayOf("random length", "uppercase", "lowercase", "numbers")
+
+        val builder = AlertDialog.Builder(activity as AppCompatActivity)
+        builder.setTitle(R.string.setting)
+            .setMultiChoiceItems(
+                checkedNames,
+                isItemChecked
+            ) { _, which, isChecked -> isItemChecked[which] = isChecked }
+            .setPositiveButton(R.string.ok) { dialog, _ -> dialog.cancel() }
+        al = builder.create()
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -49,11 +81,34 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
         presenter.setView(this)
 
         autoCreate.setOnClickListener {
-            presenter.createPassword()
+            presenter.createPassword(10, isItemChecked)
         }
 
         autoSave.setOnClickListener {
             savePassword()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        actionBar?.hide()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_pass, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.setting_pass -> {
+                al.show()
+                true
+            }
+            android.R.id.home -> {
+                back()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -70,6 +125,10 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
             it.findNavController()
                 .navigate(R.id.action_createPasswordFragment_to_createItemFragment, bundle)
         }
+    }
+
+    private fun back() {
+        view?.apply { findNavController().navigate(R.id.action_createPasswordFragment_to_createItemFragment) }
     }
 
     override fun onDetach() {

@@ -8,10 +8,11 @@
     <string name="create">Создать</string>
     <string name="delete">Удалить</string>
     <string name="change">Изменить</string>
-    <string name="ok">Назад</string>
+    <string name="setting">Настройки</string>
+    <string name="ok">Закрыть и применить</string>
     <string name="no">Нет</string>
     <string name="yes">Да</string>
-    <string name="really">Вы\nточно\nхотите\nудалить?</string>
+    <string name="really">Вы точно хотите удалить?</string>
     <string name="search">Поиск</string>
     <string name="username">ИМЯ ПОЛЬЗОВАТЕЛЯ</string>
     <string name="password">ПАРОЛЬ</string>
@@ -27,4 +28,5 @@
     <string name="dont_password">Неверно введен пароль</string>
     <string name="error">Извините, произошла ошибка</string>
     <string name="have_item">Название такого ресурса уже есть</string>
+    <string name="symbols">количество символов</string>
 </resources>

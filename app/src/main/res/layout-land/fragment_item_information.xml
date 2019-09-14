@@ -7,49 +7,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:background="@color/lightBlack">
+        android:background="@color/lightBlack"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+        <TextView
+            android:id="@+id/informationName"
+            style="@style/TextView"
+            tools:text="name" />
 
-            <TextView
-                android:id="@+id/informationName"
-                style="@style/TextView"
-                tools:text="name" />
-
-            <TextView
-                android:id="@+id/informationPassword"
-                style="@style/TextView"
-                tools:text="password" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/informationDelete"
-                style="@style/ButtonLand"
-                android:text="@string/delete" />
-
-            <Button
-                android:id="@+id/informationChange"
-                style="@style/ButtonLand"
-                android:text="@string/change" />
-
-            <Button
-                android:id="@+id/informationOK"
-                style="@style/ButtonLand"
-                android:text="@string/ok" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/informationPassword"
+            style="@style/TextView"
+            tools:text="password" />
     </LinearLayout>
 
     <ProgressBar

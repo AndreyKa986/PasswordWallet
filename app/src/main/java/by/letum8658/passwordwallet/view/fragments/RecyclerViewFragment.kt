@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -41,14 +40,6 @@ class RecyclerViewFragment : Fragment(), RecyclerViewView, Adapter.ClickListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                view.findNavController().navigate(R.id.action_recyclerViewFragment_callback)
-            }
-        }
-
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 
         progressBar = view.findViewById(R.id.recycler_progress_circular)
 

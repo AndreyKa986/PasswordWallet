@@ -8,10 +8,11 @@
     <string name="create">Create</string>
     <string name="delete">Delete</string>
     <string name="change">Change</string>
-    <string name="ok">Back</string>
+    <string name="setting">Setting</string>
+    <string name="ok">Close and apply</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
-    <string name="really">Are you\nreally\nwant to\ndelete?</string>
+    <string name="really">Are you really want to delete?</string>
     <string name="search">Search</string>
     <string name="username">USERNAME</string>
     <string name="password">PASSWORD</string>
@@ -27,4 +28,5 @@
     <string name="dont_password">Password is entered incorrectly</string>
     <string name="error">Sorry, an error has occurred</string>
     <string name="have_item">That itemname has already been taken</string>
+    <string name="symbols">number of symbols</string>
 </resources>
