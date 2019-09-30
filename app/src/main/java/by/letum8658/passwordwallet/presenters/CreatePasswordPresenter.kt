@@ -1,5 +1,6 @@
 package by.letum8658.passwordwallet.presenters
 
+import by.letum8658.passwordwallet.model.SettingRepository
 import by.letum8658.passwordwallet.view.views.CreatePasswordView
 import kotlin.random.Random
 
@@ -9,18 +10,6 @@ class CreatePasswordPresenter {
 
     fun setView(view: CreatePasswordView?) {
         this.view = view
-    }
-
-    fun createPassword() {
-        val length = Random.nextInt(7, 13)
-        val charList: MutableList<Char> = mutableListOf()
-        charList += ('a'..'z')
-        charList += ('A'..'Z')
-        charList += ('0'..'9')
-        val password = (1..length)
-            .map { charList.random() }
-            .joinToString("")
-        view?.setPassword(password)
     }
 
     fun createPassword(passLength: Int, array: BooleanArray) {
@@ -33,6 +22,15 @@ class CreatePasswordPresenter {
             .map { charList.random() }
             .joinToString("")
         view?.setPassword(password)
+    }
+
+    fun getBooleanArray() = SettingRepository.getIsItemChecked()
+
+    fun getNumber() = SettingRepository.getNumbers()
+
+    fun saveSettings(isItemChecked: BooleanArray, numbers: Int) {
+        SettingRepository.setIsItemChecked(isItemChecked)
+        SettingRepository.setNumbers(numbers)
     }
 
     fun detach() {

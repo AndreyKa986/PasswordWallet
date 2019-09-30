@@ -29,4 +29,10 @@
     <string name="error">Извините, произошла ошибка</string>
     <string name="have_item">Название такого ресурса уже есть</string>
     <string name="symbols">количество символов</string>
+    <string-array name="set_strings">
+        <item>произвольная длинна</item>
+        <item>прописные буквы</item>
+        <item>строчные буквы</item>
+        <item>цифры</item>
+    </string-array>
 </resources>

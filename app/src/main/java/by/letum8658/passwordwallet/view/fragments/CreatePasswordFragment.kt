@@ -7,6 +7,7 @@ import android.view.View
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
@@ -24,6 +25,7 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
     companion object {
 
         private const val ID_KEY = "id_key"
+        private const val INSTANCE_KEY = "instance_key"
     }
 
     private val presenter = CreatePasswordPresenter()
@@ -31,6 +33,10 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
     private val name by lazy { arguments!!.getString(ID_KEY, "Name") }
 
     private lateinit var al: AlertDialog
+    private lateinit var isItemChecked: BooleanArray
+    private var numbers: Int = 0
+    private lateinit var t: EditText
+    private var isDialogShowing = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,23 +53,34 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        if (savedInstanceState != null) isDialogShowing =
+            savedInstanceState.getBoolean(INSTANCE_KEY)
+
         actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.let {
             it.title = ""
             it.show()
         }
 
-        val isItemChecked = booleanArrayOf(true, true, true, true)
-        val checkedNames = arrayOf("random length", "uppercase", "lowercase", "numbers")
+        isItemChecked = presenter.getBooleanArray()
+        numbers = presenter.getNumber()
+        val checkedNames = resources.getStringArray(R.array.set_strings)
 
         val builder = AlertDialog.Builder(activity as AppCompatActivity)
+        val dialogView = layoutInflater.inflate(R.layout.dialog, null)
         builder.setTitle(R.string.setting)
+            .setView(dialogView)
             .setMultiChoiceItems(
                 checkedNames,
                 isItemChecked
             ) { _, which, isChecked -> isItemChecked[which] = isChecked }
             .setPositiveButton(R.string.ok) { dialog, _ -> dialog.cancel() }
+
+        t = dialogView.findViewById(R.id.num)
+        t.setText("$numbers")
         al = builder.create()
+
+        if (isDialogShowing) al.show()
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -81,7 +98,8 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
         presenter.setView(this)
 
         autoCreate.setOnClickListener {
-            presenter.createPassword(10, isItemChecked)
+            val nn = t.text.toString().toIntOrNull() ?: 0
+            presenter.createPassword(nn, isItemChecked)
         }
 
         autoSave.setOnClickListener {
@@ -91,7 +109,14 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        val nn = t.text.toString().toIntOrNull() ?: 0
+        presenter.saveSettings(isItemChecked, nn)
         actionBar?.hide()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (al.isShowing) outState.putBoolean(INSTANCE_KEY, true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

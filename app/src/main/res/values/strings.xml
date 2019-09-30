@@ -29,4 +29,10 @@
     <string name="error">Sorry, an error has occurred</string>
     <string name="have_item">That itemname has already been taken</string>
     <string name="symbols">number of symbols</string>
+    <string-array name="set_strings">
+        <item>random length</item>
+        <item>uppercase</item>
+        <item>lowercase</item>
+        <item>numbers</item>
+    </string-array>
 </resources>

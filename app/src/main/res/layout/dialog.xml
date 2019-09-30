@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingTop="14dp">
+
+    <EditText
+        android:id="@+id/num"
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:background="@drawable/number_shape"
+        android:inputType="number"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/symbols"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+</LinearLayout>
