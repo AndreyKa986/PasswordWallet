@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import by.letum8658.passwordwallet.R
 import by.letum8658.passwordwallet.presenters.InformationPresenter
 import by.letum8658.passwordwallet.view.views.InformationView
