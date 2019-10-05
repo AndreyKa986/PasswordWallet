@@ -8,7 +8,6 @@ object EntityRepository {
 
     private var itemName: String? = null
     private var itemList: MutableList<String> = mutableListOf()
-    private var list: ArrayList<String> = arrayListOf()
     private val itemRepository = provideItemRepository()
     private val userRepository = provideUserRepository()
 
@@ -29,12 +28,6 @@ object EntityRepository {
         itemList.clear()
     }
 
-    fun getList(): ArrayList<String> = list
-
-    fun setList(list: ArrayList<String>) {
-        this.list = list
-    }
-
     fun getSearchList(string: String): List<String> =
         itemList.filter { it.contains(string, true) }
 
@@ -52,7 +45,7 @@ object EntityRepository {
         .updateAllNames(account, list)
         .subscribeOn(Schedulers.io())
 
-    fun getItemPassword(account: String, itemName: String) = itemRepository
+    fun getItemInformation(account: String, itemName: String) = itemRepository
         .getItemPassword(account, itemName)
 
     fun saveNewItem(account: String, itemName: String, item: Item) = itemRepository

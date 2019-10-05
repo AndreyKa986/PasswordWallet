@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import by.letum8658.passwordwallet.R
 import by.letum8658.passwordwallet.presenters.InformationPresenter
 import by.letum8658.passwordwallet.view.views.InformationView
@@ -28,12 +27,16 @@ class InformationFragment : Fragment(), InformationView {
 
         private const val ID_KEY = "id_key"
         private const val INSTANCE_KEY = "instance_key"
+        private const val DIALOG_KEY = "dialog_key"
     }
 
     private val presenter = InformationPresenter()
     private lateinit var progressBar: ProgressBar
     private lateinit var builder: AlertDialog.Builder
     private var actionBar: ActionBar? = null
+    private var isDialogShowing = false
+    private lateinit var alertDialog: AlertDialog
+
     private val item by lazy { arguments!!.getString(ID_KEY, " ") }
     private val list by lazy { arguments?.getStringArrayList(ID_KEY) }
 
@@ -52,17 +55,36 @@ class InformationFragment : Fragment(), InformationView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        if (savedInstanceState != null) isDialogShowing =
+            savedInstanceState.getBoolean(DIALOG_KEY)
+
         actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.let {
-            it.title = "    $item"
+            if (item.isNotBlank()) {
+                it.title = "    $item"
+            } else {
+                list?.apply {
+                    val titleName = this[0]
+                    it.title = "    $titleName"
+                }
+            }
             it.show()
         }
 
         builder = AlertDialog.Builder(activity as AppCompatActivity)
         builder.setTitle(R.string.really)
-            .setPositiveButton(R.string.yes) { _, _ -> presenter.deleteItem(item) }
-            .setNegativeButton(R.string.no) { dialog, _ -> dialog.cancel() }
-            .create()
+            .setPositiveButton(R.string.yes) { _, _ ->
+                isDialogShowing = false
+                presenter.deleteItem(item)
+            }
+            .setNegativeButton(R.string.no) { dialog, _ ->
+                isDialogShowing = false
+                dialog.cancel()
+            }
+
+        alertDialog = builder.create()
+
+        if (isDialogShowing) alertDialog.show()
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -76,7 +98,7 @@ class InformationFragment : Fragment(), InformationView {
 
         presenter.setView(this)
 
-        presenter.showData(item, savedInstanceState?.getString(INSTANCE_KEY), list)
+        presenter.showData(item, savedInstanceState?.getStringArrayList(INSTANCE_KEY), list)
     }
 
     override fun onDestroyView() {
@@ -95,7 +117,8 @@ class InformationFragment : Fragment(), InformationView {
                 true
             }
             R.id.delete_info -> {
-                builder.show()
+                isDialogShowing = true
+                alertDialog.show()
                 true
             }
             android.R.id.home -> {
@@ -108,11 +131,17 @@ class InformationFragment : Fragment(), InformationView {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(INSTANCE_KEY, informationPassword?.text.toString())
+        view?.let {
+            val login = informationLogin.text.toString()
+            val password = informationPassword.text.toString()
+            val list = arrayListOf(login, password)
+            outState.putStringArrayList(INSTANCE_KEY, list)
+        }
+        if (isDialogShowing && alertDialog.isShowing) outState.putBoolean(DIALOG_KEY, true)
     }
 
-    override fun setName(name: String) {
-        informationName.text = name
+    override fun setLogin(name: String) {
+        informationLogin.text = name
     }
 
     override fun setPassword(password: String) {
@@ -125,9 +154,9 @@ class InformationFragment : Fragment(), InformationView {
 
     override fun change() {
         view?.let {
+            val login = informationLogin.text.toString()
             val password = informationPassword.text.toString()
-            val itemName = informationName.text.toString()
-            val list = arrayListOf(itemName, password)
+            val list = arrayListOf(item, login, password)
             val bundle = bundleOf(ID_KEY to list)
             it.findNavController()
                 .navigate(R.id.action_informationFragment_to_changePasswordFragment, bundle)

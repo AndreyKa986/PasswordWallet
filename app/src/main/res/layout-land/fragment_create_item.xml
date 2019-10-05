@@ -6,37 +6,50 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:background="@color/lightBlack">
+        android:background="@color/lightBlack"
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_weight="3">
 
-            <EditText
-                android:id="@+id/itemName"
-                style="@style/EditText"
-                android:hint="@string/name"
-                android:imeOptions="actionNext"
-                android:inputType="text" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingTop="60dp">
 
-            <EditText
-                android:id="@+id/itemPassword"
-                style="@style/EditText"
-                android:hint="@string/password"
-                android:imeOptions="actionNext"
-                android:inputType="textPassword" />
+                <EditText
+                    android:id="@+id/itemName"
+                    style="@style/EditText"
+                    android:hint="@string/name"
+                    android:imeOptions="actionNext"
+                    android:inputType="text" />
 
-            <EditText
-                android:id="@+id/itemConfirm"
-                style="@style/EditText"
-                android:hint="@string/confirm_password"
-                android:imeOptions="actionDone"
-                android:inputType="textPassword" />
-        </LinearLayout>
+                <EditText
+                    android:id="@+id/itemLogin"
+                    style="@style/EditText"
+                    android:hint="@string/login"
+                    android:imeOptions="actionNext"
+                    android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/itemPassword"
+                    style="@style/EditText"
+                    android:hint="@string/password"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword" />
+
+                <EditText
+                    android:id="@+id/itemConfirm"
+                    style="@style/EditText"
+                    android:hint="@string/confirm_password"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword" />
+            </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="0dp"

@@ -15,14 +15,19 @@
     <string name="really">Вы точно хотите удалить?</string>
     <string name="search">Поиск</string>
     <string name="username">ИМЯ ПОЛЬЗОВАТЕЛЯ</string>
+    <string name="login">ЛОГИН</string>
     <string name="password">ПАРОЛЬ</string>
     <string name="confirm_password">ПОДТВЕРЖДЕНИЕ ПАРОЛЯ</string>
     <string name="name">НАЗВАНИЕ РЕСУРСА</string>
     <string name="new_password">НОВЫЙ ПАРОЛЬ</string>
+    <string name="new_login">НОВЫЙ ЛОГИН</string>
+    <string name="confirm_login">ПОДТВЕРЖДЕНИЕ ЛОГИНА</string>
     <string name="password_not">Пароли не совпадают</string>
+    <string name="login_not">Логины не совпадают</string>
     <string name="have_user">Такое имя пользователя уже существует</string>
     <string name="take_name">Введите ваше имя пользователя</string>
     <string name="take_item">Введите название ресурса</string>
+    <string name="take_login">Введите логин</string>
     <string name="take_password">Введите пароль</string>
     <string name="dont_user">Аккаунт с таким именем не найден</string>
     <string name="dont_password">Неверно введен пароль</string>
@@ -35,4 +40,6 @@
         <item>строчные буквы</item>
         <item>цифры</item>
     </string-array>
+    <string name="lgn">логин:</string>
+    <string name="psswrd">пароль:</string>
 </resources>

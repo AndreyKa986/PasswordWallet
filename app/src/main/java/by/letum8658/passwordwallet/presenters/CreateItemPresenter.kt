@@ -18,6 +18,7 @@ class CreateItemPresenter {
         private const val ITEMNAME = 2
         private const val TAKEN_ITEM = 3
         private const val ERROR = 4
+        private const val LOGIN = 5
     }
 
     private var view: CreateItemView? = null
@@ -29,9 +30,8 @@ class CreateItemPresenter {
 
     fun setData(list: ArrayList<String>?) {
         if (list != null) {
-            if (list[0].isNotBlank()) {
-                view?.setName(list[0])
-            }
+            if (list[0].isNotBlank()) view?.setName(list[0])
+            if (list[1].isNotBlank()) view?.setLogin(list[1])
             if (list[1].isNotBlank()) {
                 view?.setPassword(list[1])
                 view?.setConfirmPassword(list[1])
@@ -39,37 +39,46 @@ class CreateItemPresenter {
         }
     }
 
-    fun saveItem(itemName: String, password: String, confirm: String) {
+    fun saveItem(itemName: String, login: String, password: String, confirm: String) {
         view?.let { itView ->
             if (itemName.isNotBlank()) {
-                if (password == confirm) {
-                    val account = EntityRepository.getName()!!
-                    val cryptPassword = encode(password)
-                    val list = EntityRepository.getItemList()
-                    if (list.contains(itemName)) {
-                        itView.showMessage(TAKEN_ITEM)
+                if (login.isNotBlank()) {
+                    if (password == confirm) {
+                        val account = EntityRepository.getName()!!
+                        val cryptLogin = encode(login)
+                        val cryptPassword = encode(password)
+                        val list = EntityRepository.getItemList()
+                        if (list.contains(itemName)) {
+                            itView.showMessage(TAKEN_ITEM)
+                        } else {
+                            list.add(itemName)
+                            EntityRepository.setItemList(list)
+                            itView.progressBarOn()
+                            disposable = Single.zip(
+                                EntityRepository.updateAllNames(account, list).toSingleDefault(Unit)
+                                    .subscribeOn(Schedulers.computation()),
+                                EntityRepository.saveNewItem(
+                                    account,
+                                    itemName,
+                                    Item(cryptLogin, cryptPassword)
+                                )
+                                    .subscribeOn(Schedulers.computation()),
+                                BiFunction<Unit, Item, Item> { _, Item -> Item }
+                            ).subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe({
+                                    itView.progressBarOff()
+                                    itView.onSaveItemClick()
+                                }, {
+                                    itView.progressBarOff()
+                                    itView.showMessage(ERROR)
+                                })
+                        }
                     } else {
-                        list.add(itemName)
-                        EntityRepository.setItemList(list)
-                        itView.progressBarOn()
-                        disposable = Single.zip(
-                            EntityRepository.updateAllNames(account, list).toSingleDefault(Unit)
-                                .subscribeOn(Schedulers.computation()),
-                            EntityRepository.saveNewItem(account, itemName, Item(cryptPassword))
-                                .subscribeOn(Schedulers.computation()),
-                            BiFunction<Unit, Item, Item> { _, Item -> Item }
-                        ).subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
-                                itView.progressBarOff()
-                                itView.onSaveItemClick()
-                            }, {
-                                itView.progressBarOff()
-                                itView.showMessage(ERROR)
-                            })
+                        itView.showMessage(PASSWORD)
                     }
                 } else {
-                    itView.showMessage(PASSWORD)
+                    itView.showMessage(LOGIN)
                 }
             } else {
                 itView.showMessage(ITEMNAME)

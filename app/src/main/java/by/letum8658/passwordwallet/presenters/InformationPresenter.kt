@@ -19,31 +19,35 @@ class InformationPresenter {
         this.view = view
     }
 
-    fun showData(item: String, pass: String?, list: ArrayList<String>?) {
+    fun showData(item: String, array: ArrayList<String>?, list: ArrayList<String>?) {
         view?.let { itView ->
             if (item.isNotBlank()) {
-                itView.setName(item)
-                if (pass == null) {
+                if (array == null) {
                     val name = EntityRepository.getName()!!
                     itView.progressBarOn()
-                    disposable = EntityRepository.getItemPassword(name, item)
-                        .map { Item(decode(it.password)) }
+                    disposable = EntityRepository.getItemInformation(name, item)
+                        .map { Item(decode(it.login), decode(it.password)) }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
+                            val login = it.login
                             val password = it.password
                             itView.progressBarOff()
+                            itView.setLogin(login)
                             itView.setPassword(password)
                         }, {
                             itView.progressBarOff()
                             itView.showMessage()
                         })
                 } else {
-                    itView.setPassword(pass)
+                    itView.setLogin(array[0])
+                    itView.setPassword(array[1])
                 }
             } else {
-                itView.setName(list!![0])
-                itView.setPassword(list[1])
+                list?.apply {
+                    itView.setLogin(this[1])
+                    itView.setPassword(this[2])
+                }
             }
         }
     }

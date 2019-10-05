@@ -24,6 +24,7 @@ class CreateItemFragment : Fragment(), CreateItemView {
         private const val ITEMNAME = 2
         private const val TAKEN_ITEM = 3
         private const val ERROR = 4
+        private const val LOGIN = 5
     }
 
     private val presenter = CreateItemPresenter()
@@ -56,7 +57,9 @@ class CreateItemFragment : Fragment(), CreateItemView {
 
         itemCreate.setOnClickListener {
             val name = itemName.text.toString()
-            val bundle = bundleOf(ID_KEY to name)
+            val login = itemLogin.text.toString()
+            val list = arrayListOf<String>(name, login)
+            val bundle = bundleOf(ID_KEY to list)
             view.findNavController()
                 .navigate(R.id.action_createItemFragment_to_createPasswordFragment, bundle)
         }
@@ -64,6 +67,7 @@ class CreateItemFragment : Fragment(), CreateItemView {
         itemSave.setOnClickListener {
             presenter.saveItem(
                 itemName.text.toString(),
+                itemLogin.text.toString(),
                 itemPassword.text.toString(),
                 itemConfirm.text.toString()
             )
@@ -72,6 +76,10 @@ class CreateItemFragment : Fragment(), CreateItemView {
 
     override fun setName(name: String) {
         itemName.setText(name)
+    }
+
+    override fun setLogin(login: String) {
+        itemLogin.setText(login)
     }
 
     override fun setPassword(password: String) {
@@ -92,6 +100,7 @@ class CreateItemFragment : Fragment(), CreateItemView {
             ITEMNAME -> Toast.makeText(context, R.string.take_item, Toast.LENGTH_SHORT).show()
             TAKEN_ITEM -> Toast.makeText(context, R.string.have_item, Toast.LENGTH_SHORT).show()
             ERROR -> Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
+            LOGIN -> Toast.makeText(context, R.string.take_login, Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -15,14 +15,19 @@
     <string name="really">Are you really want to delete?</string>
     <string name="search">Search</string>
     <string name="username">USERNAME</string>
+    <string name="login">LOGIN</string>
     <string name="password">PASSWORD</string>
     <string name="confirm_password">CONFIRM PASSWORD</string>
     <string name="name">RESOURCE NAME</string>
     <string name="new_password">NEW PASSWORD</string>
+    <string name="new_login">NEW LOGIN</string>
+    <string name="confirm_login">CONFIRM LOGIN</string>
     <string name="password_not">Passwords do not match</string>
+    <string name="login_not">Login do not match</string>
     <string name="have_user">Username has already been taken</string>
     <string name="take_name">Enter your username</string>
     <string name="take_item">Enter your itemname</string>
+    <string name="take_login">Enter your login</string>
     <string name="take_password">Enter your password</string>
     <string name="dont_user">Don\'t have account with that name</string>
     <string name="dont_password">Password is entered incorrectly</string>
@@ -35,4 +40,6 @@
         <item>lowercase</item>
         <item>numbers</item>
     </string-array>
+    <string name="lgn">login:</string>
+    <string name="psswrd">password:</string>
 </resources>

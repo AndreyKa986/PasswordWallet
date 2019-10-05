@@ -25,17 +25,18 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
     companion object {
 
         private const val ID_KEY = "id_key"
-        private const val INSTANCE_KEY = "instance_key"
+        private const val DIALOG_KEY = "dialog_key"
     }
 
     private val presenter = CreatePasswordPresenter()
     private var actionBar: ActionBar? = null
-    private val name by lazy { arguments!!.getString(ID_KEY, "Name") }
+//    private val name by lazy { arguments!!.getString(ID_KEY, "Name") }
+    private val arrayList by lazy { arguments?.getStringArrayList(ID_KEY) }
 
-    private lateinit var al: AlertDialog
+    private lateinit var alertDialog: AlertDialog
     private lateinit var isItemChecked: BooleanArray
     private var numbers: Int = 0
-    private lateinit var t: EditText
+    private lateinit var text: EditText
     private var isDialogShowing = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +55,7 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         if (savedInstanceState != null) isDialogShowing =
-            savedInstanceState.getBoolean(INSTANCE_KEY)
+            savedInstanceState.getBoolean(DIALOG_KEY)
 
         actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.let {
@@ -74,18 +75,22 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
                 checkedNames,
                 isItemChecked
             ) { _, which, isChecked -> isItemChecked[which] = isChecked }
-            .setPositiveButton(R.string.ok) { dialog, _ -> dialog.cancel() }
+            .setPositiveButton(R.string.ok) { dialog, _ ->
+                isDialogShowing = false
+                dialog.cancel()
+            }
 
-        t = dialogView.findViewById(R.id.num)
-        t.setText("$numbers")
-        al = builder.create()
+        text = dialogView.findViewById(R.id.num)
+        text.setText("$numbers")
+        alertDialog = builder.create()
 
-        if (isDialogShowing) al.show()
+        if (isDialogShowing) alertDialog.show()
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val list = arrayListOf<String>()
-                list.add(name)
+                list.add(arrayList!![0])
+                list.add(arrayList!![1])
                 list.add("")
                 val bundle = bundleOf(ID_KEY to list)
                 view.findNavController()
@@ -98,8 +103,8 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
         presenter.setView(this)
 
         autoCreate.setOnClickListener {
-            val nn = t.text.toString().toIntOrNull() ?: 0
-            presenter.createPassword(nn, isItemChecked)
+            numbers = text.text.toString().toIntOrNull() ?: 0
+            presenter.createPassword(numbers, isItemChecked)
         }
 
         autoSave.setOnClickListener {
@@ -109,14 +114,14 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        val nn = t.text.toString().toIntOrNull() ?: 0
-        presenter.saveSettings(isItemChecked, nn)
+        numbers = text.text.toString().toIntOrNull() ?: 0
+        presenter.saveSettings(isItemChecked, numbers)
         actionBar?.hide()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (al.isShowing) outState.putBoolean(INSTANCE_KEY, true)
+        if (isDialogShowing && alertDialog.isShowing) outState.putBoolean(DIALOG_KEY, true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -126,7 +131,8 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.setting_pass -> {
-                al.show()
+                isDialogShowing = true
+                alertDialog.show()
                 true
             }
             android.R.id.home -> {
@@ -144,7 +150,8 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
     private fun savePassword() {
         view?.let {
             val list = ArrayList<String>()
-            list.add(name)
+            list.add(arrayList!![0])
+            list.add(arrayList!![1])
             list.add(autoPassword.text.toString())
             val bundle = bundleOf(ID_KEY to list)
             it.findNavController()
