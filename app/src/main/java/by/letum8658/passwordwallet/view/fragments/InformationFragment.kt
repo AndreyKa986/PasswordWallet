@@ -36,6 +36,7 @@ class InformationFragment : Fragment(), InformationView {
     private var actionBar: ActionBar? = null
     private var isDialogShowing = false
     private lateinit var alertDialog: AlertDialog
+    private var titleName = " "
 
     private val item by lazy { arguments!!.getString(ID_KEY, " ") }
     private val list by lazy { arguments?.getStringArrayList(ID_KEY) }
@@ -55,18 +56,18 @@ class InformationFragment : Fragment(), InformationView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        if (savedInstanceState != null) isDialogShowing =
-            savedInstanceState.getBoolean(DIALOG_KEY)
+        if (savedInstanceState != null) {
+            isDialogShowing = savedInstanceState.getBoolean(DIALOG_KEY)
+        }
 
         actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.let {
-            if (item.isNotBlank()) {
-                it.title = "    $item"
+            if (item != " ") {
+                titleName = item
+                it.title = item
             } else {
-                list?.apply {
-                    val titleName = this[0]
-                    it.title = "    $titleName"
-                }
+                titleName = list!![0]
+                it.title = list!![0]
             }
             it.show()
         }
@@ -75,7 +76,7 @@ class InformationFragment : Fragment(), InformationView {
         builder.setTitle(R.string.really)
             .setPositiveButton(R.string.yes) { _, _ ->
                 isDialogShowing = false
-                presenter.deleteItem(item)
+                presenter.deleteItem(titleName)
             }
             .setNegativeButton(R.string.no) { dialog, _ ->
                 isDialogShowing = false
@@ -88,6 +89,7 @@ class InformationFragment : Fragment(), InformationView {
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                actionBar?.hide()
                 view.findNavController().navigate(R.id.action_informationFragment_callback)
             }
         }
@@ -98,12 +100,7 @@ class InformationFragment : Fragment(), InformationView {
 
         presenter.setView(this)
 
-        presenter.showData(item, savedInstanceState?.getStringArrayList(INSTANCE_KEY), list)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        actionBar?.hide()
+        presenter.showData(titleName, savedInstanceState?.getStringArrayList(INSTANCE_KEY), list)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -122,6 +119,7 @@ class InformationFragment : Fragment(), InformationView {
                 true
             }
             android.R.id.home -> {
+                actionBar?.hide()
                 back()
                 true
             }
@@ -137,6 +135,7 @@ class InformationFragment : Fragment(), InformationView {
             val list = arrayListOf(login, password)
             outState.putStringArrayList(INSTANCE_KEY, list)
         }
+        outState.putString(ID_KEY, titleName)
         if (isDialogShowing && alertDialog.isShowing) outState.putBoolean(DIALOG_KEY, true)
     }
 
@@ -156,7 +155,7 @@ class InformationFragment : Fragment(), InformationView {
         view?.let {
             val login = informationLogin.text.toString()
             val password = informationPassword.text.toString()
-            val list = arrayListOf(item, login, password)
+            val list = arrayListOf(titleName, login, password)
             val bundle = bundleOf(ID_KEY to list)
             it.findNavController()
                 .navigate(R.id.action_informationFragment_to_changePasswordFragment, bundle)

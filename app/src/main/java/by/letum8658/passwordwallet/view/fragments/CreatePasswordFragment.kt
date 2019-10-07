@@ -30,7 +30,6 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
 
     private val presenter = CreatePasswordPresenter()
     private var actionBar: ActionBar? = null
-//    private val name by lazy { arguments!!.getString(ID_KEY, "Name") }
     private val arrayList by lazy { arguments?.getStringArrayList(ID_KEY) }
 
     private lateinit var alertDialog: AlertDialog

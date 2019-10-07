@@ -50,7 +50,7 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView {
         actionBar?.let {
             list?.apply {
                 val titleName = this[0]
-                it.title = "    $titleName"
+                it.title = titleName
             }
             it.show()
         }
@@ -124,11 +124,6 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView {
             it.findNavController()
                 .navigate(R.id.action_changePasswordFragment_to_informationFragment, bundle)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        actionBar?.hide()
     }
 
     override fun onDetach() {

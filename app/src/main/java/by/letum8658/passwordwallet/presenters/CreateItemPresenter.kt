@@ -32,9 +32,9 @@ class CreateItemPresenter {
         if (list != null) {
             if (list[0].isNotBlank()) view?.setName(list[0])
             if (list[1].isNotBlank()) view?.setLogin(list[1])
-            if (list[1].isNotBlank()) {
-                view?.setPassword(list[1])
-                view?.setConfirmPassword(list[1])
+            if (list[2].isNotBlank()) {
+                view?.setPassword(list[2])
+                view?.setConfirmPassword(list[2])
             }
         }
     }
