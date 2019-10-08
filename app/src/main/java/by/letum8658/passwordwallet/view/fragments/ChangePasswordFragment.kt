@@ -36,6 +36,11 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView {
 
     private val list by lazy { arguments!!.getStringArrayList(ID_KEY) }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
