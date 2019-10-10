@@ -12,7 +12,6 @@ class ChangePasswordPresenter {
     companion object {
         private const val ERROR = 1
         private const val PASSWORD = 2
-        private const val LOGIN = 3
     }
 
     private var view: ChangePasswordView? = null
@@ -25,36 +24,31 @@ class ChangePasswordPresenter {
     fun saveItem(
         itemName: String,
         login: String,
-        confirmLogin: String,
         password: String,
         confirmPassword: String
     ) {
         view?.let { itView ->
-            if (login == confirmLogin) {
-                if (password == confirmPassword) {
-                    val account = EntityRepository.getName()!!
-                    val cryptLogin = encode(login)
-                    val cryptPassword = encode(password)
-                    itView.progressBarOn()
-                    disposable = EntityRepository.updateItem(
-                        account,
-                        itemName,
-                        Item(cryptLogin, cryptPassword)
-                    )
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            val list = arrayListOf(itemName, login, password)
-                            itView.progressBarOff()
-                            itView.onSaveClick(list)
-                        }, {
-                            itView.progressBarOff()
-                            itView.showMessage(ERROR)
-                        })
-                } else {
-                    itView.showMessage(PASSWORD)
-                }
+            if (password == confirmPassword) {
+                val account = EntityRepository.getName()!!
+                val cryptLogin = encode(login)
+                val cryptPassword = encode(password)
+                itView.progressBarOn()
+                disposable = EntityRepository.updateItem(
+                    account,
+                    itemName,
+                    Item(cryptLogin, cryptPassword)
+                )
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        val list = arrayListOf(itemName, login, password)
+                        itView.progressBarOff()
+                        itView.onSaveClick(list)
+                    }, {
+                        itView.progressBarOff()
+                        itView.showMessage(ERROR)
+                    })
             } else {
-                itView.showMessage(LOGIN)
+                itView.showMessage(PASSWORD)
             }
         }
     }

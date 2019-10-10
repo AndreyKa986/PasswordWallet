@@ -27,7 +27,6 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView {
         private const val ID_KEY = "id_key"
         private const val ERROR = 1
         private const val PASSWORD = 2
-        private const val LOGIN = 3
     }
 
     private val presenter = ChangePasswordPresenter()
@@ -73,6 +72,9 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView {
         progressBar = view.findViewById(R.id.change_progress_circular)
 
         presenter.setView(this)
+
+        changePassword.setText(list!![2])
+        confirmPassword.setText(list!![2])
     }
 
     override fun onSaveClick(list: ArrayList<String>) {
@@ -87,7 +89,6 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView {
         when (number) {
             ERROR -> Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
             PASSWORD -> Toast.makeText(context, R.string.password_not, Toast.LENGTH_SHORT).show()
-            LOGIN -> Toast.makeText(context, R.string.login_not, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -105,11 +106,18 @@ class ChangePasswordFragment : Fragment(), ChangePasswordView {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.auto_change -> {
+                val bundle = bundleOf(ID_KEY to list)
+                view?.apply {
+                    this.findNavController()
+                        .navigate(R.id.action_changePasswordFragment_to_createPasswordTwoFragment, bundle)
+                }
+                true
+            }
             R.id.save_change -> {
                 presenter.saveItem(
                     list!![0],
-                    changeLogin.text.toString(),
-                    confirmLogin.text.toString(),
+                    list!![1],
                     changePassword.text.toString(),
                     confirmPassword.text.toString()
                 )

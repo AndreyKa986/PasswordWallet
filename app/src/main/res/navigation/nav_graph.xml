@@ -12,12 +12,12 @@
             android:id="@+id/action_logInFragment_to_recyclerViewFragment"
             app:destination="@id/recyclerViewFragment"
             app:enterAnim="@animator/slide_open_enter"
-            app:exitAnim="@animator/slide_open_exit"  />
+            app:exitAnim="@animator/slide_open_exit" />
         <action
             android:id="@+id/action_logInFragment_to_createAccountFragment"
             app:destination="@id/createAccountFragment"
             app:enterAnim="@animator/slide_open_enter"
-            app:exitAnim="@animator/slide_open_exit"  />
+            app:exitAnim="@animator/slide_open_exit" />
     </fragment>
     <fragment
         android:id="@+id/createAccountFragment"
@@ -27,7 +27,7 @@
             android:id="@+id/action_createAccountFragment_to_recyclerViewFragment"
             app:destination="@id/recyclerViewFragment"
             app:enterAnim="@animator/slide_open_enter"
-            app:exitAnim="@animator/slide_open_exit"  />
+            app:exitAnim="@animator/slide_open_exit" />
         <action
             android:id="@+id/action_createAccountFragment_callback"
             app:destination="@id/logInFragment"
@@ -57,7 +57,7 @@
             android:id="@+id/action_informationFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment"
             app:enterAnim="@animator/slide_open_enter"
-            app:exitAnim="@animator/slide_open_exit"  />
+            app:exitAnim="@animator/slide_open_exit" />
         <action
             android:id="@+id/action_informationFragment_to_recyclerViewFragment"
             app:destination="@id/recyclerViewFragment"
@@ -83,7 +83,7 @@
             android:id="@+id/action_createItemFragment_to_createPasswordFragment"
             app:destination="@id/createPasswordFragment"
             app:enterAnim="@animator/slide_open_enter"
-            app:exitAnim="@animator/slide_open_exit"  />
+            app:exitAnim="@animator/slide_open_exit" />
         <action
             android:id="@+id/action_createItemFragment_to_recyclerViewFragment"
             app:destination="@id/recyclerViewFragment"
@@ -115,6 +115,9 @@
             app:destination="@id/informationFragment"
             app:enterAnim="@animator/slide_close_enter"
             app:exitAnim="@animator/slide_close_exit" />
+        <action
+            android:id="@+id/action_changePasswordFragment_to_createPasswordTwoFragment"
+            app:destination="@id/createPasswordTwoFragment" />
     </fragment>
     <fragment
         android:id="@+id/createPasswordFragment"
@@ -131,6 +134,24 @@
         <action
             android:id="@+id/action_createPasswordFragment_callback"
             app:destination="@id/createItemFragment"
+            app:enterAnim="@animator/slide_close_enter"
+            app:exitAnim="@animator/slide_close_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPasswordTwoFragment"
+        android:name="by.letum8658.passwordwallet.view.fragments.CreatePasswordTwoFragment"
+        android:label="CreatePasswordTwoFragment">
+        <action
+            android:id="@+id/action_createPasswordTwoFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment"
+            app:enterAnim="@animator/slide_close_enter"
+            app:exitAnim="@animator/slide_close_exit" />
+        <argument
+            android:name="itemPassTwo"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_createPasswordTwoFragment_callback"
+            app:destination="@id/changePasswordFragment"
             app:enterAnim="@animator/slide_close_enter"
             app:exitAnim="@animator/slide_close_exit" />
     </fragment>

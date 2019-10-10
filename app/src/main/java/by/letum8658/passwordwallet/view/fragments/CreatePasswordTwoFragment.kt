@@ -20,7 +20,7 @@ import by.letum8658.passwordwallet.presenters.CreatePasswordPresenter
 import by.letum8658.passwordwallet.view.views.CreatePasswordView
 import kotlinx.android.synthetic.main.fragment_auto_create_password.*
 
-class CreatePasswordFragment : Fragment(), CreatePasswordView {
+class CreatePasswordTwoFragment : Fragment(), CreatePasswordView {
 
     companion object {
 
@@ -29,11 +29,11 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
     }
 
     private val presenter = CreatePasswordPresenter()
-    private var actionBar: ActionBar? = null
     private val arrayList by lazy { arguments?.getStringArrayList(ID_KEY) }
 
     private lateinit var alertDialog: AlertDialog
     private lateinit var isItemChecked: BooleanArray
+    private var actionBar: ActionBar? = null
     private var numbers: Int = 0
     private lateinit var text: EditText
     private var isDialogShowing = false
@@ -58,7 +58,7 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
 
         actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.let {
-            it.title = resources.getString(R.string.new_item)
+            it.title = arrayList!![0]
             it.show()
         }
 
@@ -87,13 +87,9 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val list = arrayListOf<String>()
-                list.add(arrayList!![0])
-                list.add(arrayList!![1])
-                list.add("")
-                val bundle = bundleOf(ID_KEY to list)
+                val bundle = bundleOf(ID_KEY to arrayList)
                 view.findNavController()
-                    .navigate(R.id.action_createPasswordFragment_callback, bundle)
+                    .navigate(R.id.action_createPasswordTwoFragment_callback, bundle)
             }
         }
 
@@ -153,12 +149,13 @@ class CreatePasswordFragment : Fragment(), CreatePasswordView {
             list.add(autoPassword.text.toString())
             val bundle = bundleOf(ID_KEY to list)
             it.findNavController()
-                .navigate(R.id.action_createPasswordFragment_to_createItemFragment, bundle)
+                .navigate(R.id.action_createPasswordTwoFragment_to_changePasswordFragment, bundle)
         }
     }
 
     private fun back() {
-        view?.apply { findNavController().navigate(R.id.action_createPasswordFragment_to_createItemFragment) }
+        val bundle = bundleOf(ID_KEY to arrayList)
+        view?.apply { findNavController().navigate(R.id.action_createPasswordTwoFragment_to_changePasswordFragment, bundle) }
     }
 
     override fun onDetach() {

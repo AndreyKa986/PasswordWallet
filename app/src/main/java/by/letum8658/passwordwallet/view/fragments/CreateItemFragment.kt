@@ -2,11 +2,16 @@ package by.letum8658.passwordwallet.view.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.view.View
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -29,7 +34,14 @@ class CreateItemFragment : Fragment(), CreateItemView {
 
     private val presenter = CreateItemPresenter()
     private lateinit var progressBar: ProgressBar
+    private var actionBar: ActionBar? = null
+
     private val list by lazy { arguments?.getStringArrayList(ID_KEY) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,8 +53,15 @@ class CreateItemFragment : Fragment(), CreateItemView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.let {
+            it.title = resources.getString(R.string.new_item)
+            it.show()
+        }
+
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                actionBar?.hide()
                 view.findNavController().navigate(R.id.action_createItemFragment_callback)
             }
         }
@@ -54,23 +73,40 @@ class CreateItemFragment : Fragment(), CreateItemView {
         presenter.setView(this)
 
         presenter.setData(list)
+    }
 
-        itemCreate.setOnClickListener {
-            val name = itemName.text.toString()
-            val login = itemLogin.text.toString()
-            val list = arrayListOf<String>(name, login)
-            val bundle = bundleOf(ID_KEY to list)
-            view.findNavController()
-                .navigate(R.id.action_createItemFragment_to_createPasswordFragment, bundle)
-        }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_create, menu)
+    }
 
-        itemSave.setOnClickListener {
-            presenter.saveItem(
-                itemName.text.toString(),
-                itemLogin.text.toString(),
-                itemPassword.text.toString(),
-                itemConfirm.text.toString()
-            )
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.auto_create -> {
+                val name = itemName.text.toString()
+                val login = itemLogin.text.toString()
+                val list = arrayListOf(name, login)
+                val bundle = bundleOf(ID_KEY to list)
+                view?.apply {
+                    this.findNavController()
+                        .navigate(R.id.action_createItemFragment_to_createPasswordFragment, bundle)
+                }
+                true
+            }
+            R.id.save_create -> {
+                presenter.saveItem(
+                    itemName.text.toString(),
+                    itemLogin.text.toString(),
+                    itemPassword.text.toString(),
+                    itemConfirm.text.toString()
+                )
+                true
+            }
+            android.R.id.home -> {
+                actionBar?.hide()
+                back()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -92,6 +128,10 @@ class CreateItemFragment : Fragment(), CreateItemView {
 
     override fun onSaveItemClick() {
         view?.findNavController()?.navigate(R.id.action_createItemFragment_to_recyclerViewFragment)
+    }
+
+    private fun back() {
+        view?.apply { findNavController().navigate(R.id.action_createItemFragment_to_recyclerViewFragment) }
     }
 
     override fun showMessage(number: Int) {

@@ -37,8 +37,7 @@ class LogInPresenter {
         prefsManager.saveName(name)
     }
 
-    fun logIn(name: String, password2: String) {
-        val password = "text" // TODO переделать для релиза
+    fun logIn(name: String, password: String) {
         view?.let { itView ->
             if (name.isNotBlank()) {
                 if (password.isNotBlank()) {
