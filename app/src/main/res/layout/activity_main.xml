@@ -35,5 +35,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+        ads:adUnitId="ca-app-pub-8427973545725455/3358390380" />
 </LinearLayout>

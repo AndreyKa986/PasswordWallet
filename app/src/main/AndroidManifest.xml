@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="by.letum8658.passwordwallet">
+    package="com.andreykapustindev.passwordwallet">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -16,10 +16,10 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-9304950808925623~9396612361"/>
+            android:value="ca-app-pub-8427973545725455~8946237914" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.andreykapustindev.passwordwallet.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

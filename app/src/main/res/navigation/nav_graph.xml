@@ -6,63 +6,66 @@
 
     <fragment
         android:id="@+id/logInFragment"
-        android:name="by.letum8658.passwordwallet.view.fragments.LogInFragment"
+        android:name="com.andreykapustindev.passwordwallet.view.fragments.LogInFragment"
         android:label="LogInFragment">
         <action
             android:id="@+id/action_logInFragment_to_recyclerViewFragment"
             app:destination="@id/recyclerViewFragment"
-            app:enterAnim="@animator/slide_open_enter"
-            app:exitAnim="@animator/slide_open_exit" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_logInFragment_to_createAccountFragment"
             app:destination="@id/createAccountFragment"
-            app:enterAnim="@animator/slide_open_enter"
-            app:exitAnim="@animator/slide_open_exit" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
+
     <fragment
         android:id="@+id/createAccountFragment"
-        android:name="by.letum8658.passwordwallet.view.fragments.CreateAccountFragment"
+        android:name="com.andreykapustindev.passwordwallet.view.fragments.CreateAccountFragment"
         android:label="CreateAccountFragment">
         <action
             android:id="@+id/action_createAccountFragment_to_recyclerViewFragment"
             app:destination="@id/recyclerViewFragment"
-            app:enterAnim="@animator/slide_open_enter"
-            app:exitAnim="@animator/slide_open_exit" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_createAccountFragment_callback"
             app:destination="@id/logInFragment"
-            app:enterAnim="@animator/slide_close_enter"
-            app:exitAnim="@animator/slide_close_exit" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/recyclerViewFragment"
-        android:name="by.letum8658.passwordwallet.view.fragments.RecyclerViewFragment"
+        android:name="com.andreykapustindev.passwordwallet.view.fragments.RecyclerViewFragment"
         android:label="RecyclerViewFragment">
         <action
             android:id="@+id/action_recyclerViewFragment_to_informationFragment"
             app:destination="@id/informationFragment"
-            app:enterAnim="@animator/slide_open_enter"
-            app:exitAnim="@animator/slide_open_exit" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_recyclerViewFragment_to_createItemFragment"
             app:destination="@id/createItemFragment"
-            app:enterAnim="@animator/slide_open_enter"
-            app:exitAnim="@animator/slide_open_exit" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
+
     <fragment
         android:id="@+id/informationFragment"
-        android:name="by.letum8658.passwordwallet.view.fragments.InformationFragment"
+        android:name="com.andreykapustindev.passwordwallet.view.fragments.InformationFragment"
         android:label="InformationFragment">
         <action
             android:id="@+id/action_informationFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment"
-            app:enterAnim="@animator/slide_open_enter"
-            app:exitAnim="@animator/slide_open_exit" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_informationFragment_to_recyclerViewFragment"
             app:destination="@id/recyclerViewFragment"
-            app:enterAnim="@animator/slide_close_enter"
-            app:exitAnim="@animator/slide_close_exit" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
         <argument
             android:name="itemName"
             app:argType="string" />
@@ -72,87 +75,93 @@
         <action
             android:id="@+id/action_informationFragment_callback"
             app:destination="@id/recyclerViewFragment"
-            app:enterAnim="@animator/slide_close_enter"
-            app:exitAnim="@animator/slide_close_exit" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/createItemFragment"
-        android:name="by.letum8658.passwordwallet.view.fragments.CreateItemFragment"
+        android:name="com.andreykapustindev.passwordwallet.view.fragments.CreateItemFragment"
         android:label="CreateItemFragment">
         <action
             android:id="@+id/action_createItemFragment_to_createPasswordFragment"
             app:destination="@id/createPasswordFragment"
-            app:enterAnim="@animator/slide_open_enter"
-            app:exitAnim="@animator/slide_open_exit" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_createItemFragment_to_recyclerViewFragment"
             app:destination="@id/recyclerViewFragment"
-            app:enterAnim="@animator/slide_close_enter"
-            app:exitAnim="@animator/slide_close_exit" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
         <argument
             android:name="listPassword"
             app:argType="string[]" />
         <action
             android:id="@+id/action_createItemFragment_callback"
             app:destination="@id/recyclerViewFragment"
-            app:enterAnim="@animator/slide_close_enter"
-            app:exitAnim="@animator/slide_close_exit" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/changePasswordFragment"
-        android:name="by.letum8658.passwordwallet.view.fragments.ChangePasswordFragment"
+        android:name="com.andreykapustindev.passwordwallet.view.fragments.ChangePasswordFragment"
         android:label="ChangePasswordFragment">
         <action
             android:id="@+id/action_changePasswordFragment_to_informationFragment"
             app:destination="@id/informationFragment"
-            app:enterAnim="@animator/slide_close_enter"
-            app:exitAnim="@animator/slide_close_exit" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
         <argument
             android:name="itemChange"
             app:argType="string[]" />
         <action
             android:id="@+id/action_changePasswordFragment_callback"
             app:destination="@id/informationFragment"
-            app:enterAnim="@animator/slide_close_enter"
-            app:exitAnim="@animator/slide_close_exit" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_changePasswordFragment_to_createPasswordTwoFragment"
-            app:destination="@id/createPasswordTwoFragment" />
+            app:destination="@id/createPasswordTwoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
+
     <fragment
         android:id="@+id/createPasswordFragment"
-        android:name="by.letum8658.passwordwallet.view.fragments.CreatePasswordFragment"
+        android:name="com.andreykapustindev.passwordwallet.view.fragments.CreatePasswordFragment"
         android:label="CreatePasswordFragment">
         <action
             android:id="@+id/action_createPasswordFragment_to_createItemFragment"
             app:destination="@id/createItemFragment"
-            app:enterAnim="@animator/slide_close_enter"
-            app:exitAnim="@animator/slide_close_exit" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
         <argument
             android:name="itemPass"
             app:argType="string" />
         <action
             android:id="@+id/action_createPasswordFragment_callback"
             app:destination="@id/createItemFragment"
-            app:enterAnim="@animator/slide_close_enter"
-            app:exitAnim="@animator/slide_close_exit" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/createPasswordTwoFragment"
-        android:name="by.letum8658.passwordwallet.view.fragments.CreatePasswordTwoFragment"
+        android:name="com.andreykapustindev.passwordwallet.view.fragments.CreatePasswordTwoFragment"
         android:label="CreatePasswordTwoFragment">
         <action
             android:id="@+id/action_createPasswordTwoFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment"
-            app:enterAnim="@animator/slide_close_enter"
-            app:exitAnim="@animator/slide_close_exit" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
         <argument
             android:name="itemPassTwo"
             app:argType="string" />
         <action
             android:id="@+id/action_createPasswordTwoFragment_callback"
             app:destination="@id/changePasswordFragment"
-            app:enterAnim="@animator/slide_close_enter"
-            app:exitAnim="@animator/slide_close_exit" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>
