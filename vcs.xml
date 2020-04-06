@@ -18,6 +18,14 @@
           <option name="url" value="https://github.com/Dimowner/AudioRecorder.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/Digitalchemy/IdealWeightFlutter.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="http://github.com" />
+          <option name="userName" value="AndreyKa986" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\letum\Documents\AndroidStudioProjects" />
