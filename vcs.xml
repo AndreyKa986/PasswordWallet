@@ -26,6 +26,10 @@
           <option name="url" value="http://github.com" />
           <option name="userName" value="AndreyKa986" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/Digitalchemy/PeriodCalendarFlutter.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\letum\Documents\AndroidStudioProjects" />
