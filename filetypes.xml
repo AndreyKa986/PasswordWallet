@@ -1,5 +1,5 @@
 <application>
-  <component name="FileTypeManager" version="17">
+  <component name="FileTypeManager" version="18">
     <extensionMap>
       <mapping pattern="AdsPlugin" type="Kotlin" />
       <mapping ext="gradle.kts" type="Kotlin" />
@@ -7,7 +7,8 @@
       <mapping pattern="ktlint" type="PLAIN_TEXT" />
       <mapping pattern=".analysis_options" type="PLAIN_TEXT" />
       <mapping ext="jks" type="PLAIN_TEXT" />
-      <removed_mapping pattern=".analysis_options" approved="true" type="YAML" />
+      <removed_mapping ext="apk" approved="true" type="ARCHIVE" />
+      <removed_mapping ext="psd" approved="true" type="Image" />
       <removed_mapping pattern=".analysis_options" approved="true" type="YAML" />
     </extensionMap>
   </component>
